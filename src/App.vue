@@ -2,7 +2,7 @@
   <div class="bg-[#fafcf5]">
     <Header class="fixed z-50 w-[100%]" />
     <router-view />
-    <!-- <Footer /> -->
+    <Footer />
   </div>
 </template>
 <script setup lang="ts">

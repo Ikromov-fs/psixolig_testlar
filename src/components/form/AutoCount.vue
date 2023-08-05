@@ -2,7 +2,7 @@
   <vue3-autocounter
     ref="counter"
     :startAmount="0"
-    :duration="3"
+    :duration="5"
     prefix=""
     suffix=""
     separator=""
