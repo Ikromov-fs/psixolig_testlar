@@ -16,3 +16,93 @@ body {
   position: relative;
   min-height: 100vh;
 }
+
+.container {
+  inset: 0;
+  margin: 0px auto;
+  max-width: 1280px !important;
+}
+
+@media (max-width: 1210px) {
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media (max-width: 1024px) {
+  .container {
+    max-width: 1024px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 768px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    max-width: 100% !important;
+  }
+}
+
+.line-clamp-1 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 1;
+}
+.line-clamp-2 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3;
+}
+.line-clamp-4 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 4;
+}
+.line-clamp-5 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 5;
+}
+.line-clamp-6 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 6;
+}
+.line-clamp-7 {
+  word-break: break-word !important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 7;
+}
+
+.text-stroke {
+  text-transform: uppercase;
+  user-select: none;
+  font-weight: 800;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #c4c4c499;
+}
