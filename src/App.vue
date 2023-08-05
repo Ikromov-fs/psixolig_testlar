@@ -1,7 +1,9 @@
 <template>
-  <div class="bg-[#fafcf5]">
-    <Header class="fixed z-50 w-[100%]" />
-    <router-view />
+  <div class="bg-[#fafcf5] flex flex-col justify-between min-h-[100vh] h-full overflow-hidden">
+   <div>
+       <Header class="fixed z-50 w-[100%]" />
+       <router-view />
+   </div>
     <Footer />
   </div>
 </template>
