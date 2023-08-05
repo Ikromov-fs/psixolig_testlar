@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#1F2E35] py-5">
-    <div class="container mx-auto grid sx:grid-cols-1  mmd:grid-cols-4 text-white">
+    <div class="container mx-auto grid sx:grid-cols-1 ss:grid-cols-2 text-center gap-5  mmd:grid-cols-4 text-white">
       <ul>
         <li>Sayt iconkasi</li>
       </ul>

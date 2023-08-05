@@ -1,11 +1,11 @@
 <template>
-  <div class="pt-[90px]">
+  <div class="mt-[90px]">
     <Slider />
     <Tests />
-    <Winnered />
+    <Winnered id="winnered" />
     <Partner />
-    <About />
-    <Contact />
+    <About id="about" />
+    <Contact id="contact"/>
   </div>
 </template>
 <script setup lang="ts">

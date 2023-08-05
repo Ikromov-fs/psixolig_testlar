@@ -13,11 +13,17 @@
           <router-link to="/test-page">Testlar</router-link>
         </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">Yutuqlar</li>
+        <li class="cursor-pointer relative navItem">
+          <a href="#winnered">Yutuqlar</a>
+        </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">Biz haqimizda</li>
+        <li class="cursor-pointer relative navItem">
+          <a href="#about">Biz haqimizda</a>
+        </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">Kontakt</li>
+        <li class="cursor-pointer relative navItem">
+          <a href="#contact">Kontakt</a>
+        </li>
         <li>|</li>
         <li
           @click="isLoginOpen = true"

@@ -31,7 +31,7 @@ export default defineComponent({
           perPage: 1,
         },
         428: {
-          perPage: 2,
+          perPage: 1,
         },
         768: {
           perPage: 3,
