@@ -43,15 +43,15 @@ const props = defineProps({
   className: String,
   fields: {
     type: Number,
-    default: 4,
+    default: 3,
   },
   fieldWidth: {
     type: Number,
-    default: 56,
+    default: 36,
   },
   fieldHeight: {
     type: Number,
-    default: 56,
+    default: 36,
   },
   disabled: {
     type: Boolean,

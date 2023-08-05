@@ -18,7 +18,7 @@
 </template>
 <script setup>
 const props = defineProps({ to: String, color: String, disabled: Boolean });
-const color1 = props.color || "#002E69";
+const color1 = props.color || "#02897A";
 const isTo = props.to ? true : false;
 </script>
 

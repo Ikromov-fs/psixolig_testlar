@@ -1,13 +1,11 @@
 <template>
-  <Header />
-  <div class="container mx-auto">
-    <!-- <div class="flex gap-4">
-      <router-link to="/" class="cursor-pointer">Home</router-link>
-      <router-link to="/about" class="cursor-pointer">About</router-link>
-    </div> -->
+  <div class="bg-[#fafcf5]">
+    <Header class="fixed z-50 w-[100%]" />
     <router-view />
+    <!-- <Footer /> -->
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import Header from "@/components/header/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
 </script>
