@@ -8,15 +8,15 @@
           <span class="text-[#fdf001]">Hamkorlar</span>
         </div>
         <div
-          class="grid sx:grid-cols-1 ss:grid-cols-2 lg:!grid-cols-3 xxl:!grid-cols-5 relative"
+          class="grid sx:grid-cols-1 ss:grid-cols-2 lg:!grid-cols-3 xxl:!grid-cols-4 gap-5 relative"
         >
           <div
             v-for="item in dataTests"
             :key="item?.id"
-            class="w-[290px] flex flex-col items-center mx-auto px-3 py-10 bg-[#00000014] mt-10 box-w rounded-md cursor-pointer"
+            class="flex flex-col items-center px-3 py-10 bg-[#00000014] mt-10 box-w rounded-md cursor-pointer"
           >
             <img :src="item?.image" alt="image" class="w-[50px]" />
-            <h1 class="text-[20px] text-white flex justify-center py-2">
+            <h1 class="text-[20px] text-white">
               {{ item?.title }}
             </h1>
           </div>
