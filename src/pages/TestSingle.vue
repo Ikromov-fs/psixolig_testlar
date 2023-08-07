@@ -1,6 +1,6 @@
 <template>
   <div class=" container ">
-      <div class="mt-28">
+      <div class="mt-2">
 
           <div class="grid grid-cols-1 sm:grid-cols-2  gap-4 sm:gap-8 relative">
               <div

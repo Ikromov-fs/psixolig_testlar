@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-20 mt-28">
+    <div class="pb-20 mt-2">
         <div data-aos="fade-up">
             <div class="container mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 relative">
