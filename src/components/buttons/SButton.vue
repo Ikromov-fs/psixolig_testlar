@@ -105,8 +105,9 @@ const textStyle = computed(() => {
 
 .s-button:disabled,
 .s-button:disabled:hover {
-  background: #f0f5fa !important;
+  background: #264653 !important;
   color: #c2cfe0 !important;
+    opacity: 0.7;
 }
 
 .s-button:disabled h1,

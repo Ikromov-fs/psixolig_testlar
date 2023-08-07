@@ -1,6 +1,6 @@
 <template>
 <!--    <pre>{{route}}</pre>-->
-    <div  class="flex justify-center items-center border w-4 h-4 p-4 cursor-pointer border-[#1F2E35] transition duration-300 rounded-[2px] hover:bg-[#264653] hover:text-white" :class="[item?.isSolve ? 'solved' :'',route.query.id == item?.id ? 'active' :'']" @click="changeRoute(item?.id)">
+    <div  class="flex justify-center items-center border w-5 h-5 p-4 cursor-pointer border-[#1F2E35] transition duration-300 rounded-[2px] hover:bg-[#264653] hover:text-white" :class="[item?.isSolve ? 'solved' :'',route.query.id == item?.id ? 'active' :'']" @click="changeRoute(item?.id)">
         {{ index }}
     </div>
 </template>
