@@ -2,10 +2,50 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { defineComponent } from "vue";
+
+const data = [
+  {
+    image:
+      "https://media.licdn.com/dms/image/D4D03AQGOq3IJmSa5Wg/profile-displayphoto-shrink_800_800/0/1669657302377?e=1697068800&v=beta&t=gAu0KbjPQWFZAP8-89kVC9OoUAWudp2qsUIDUy8vKzM",
+    name: "Shohruh Soatov",
+    job: "Algaritm academy asoschisi",
+    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
+    id: 1,
+  },
+  {
+    image: "https://avatars.githubusercontent.com/u/115967219?v=4",
+    name: "Nodir Ikromov",
+    job: "Front end developer",
+    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
+    id: 2,
+  },
+  {
+    image: "https://avatars.githubusercontent.com/u/94363665?v=4",
+    name: "Valisher Botirov",
+    job: "Front end developer",
+    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
+    id: 2,
+  },
+  {
+    image: "https://avatars.githubusercontent.com/u/115967219?v=4",
+    name: "Nodir Ikromov",
+    job: "Front end developer",
+    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
+    id: 2,
+  },
+  {
+    image: "https://avatars.githubusercontent.com/u/94363665?v=4",
+    name: "Valisher Botirov",
+    job: "Front end developer",
+    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
+    id: 2,
+  },
+];
 export default defineComponent({
   components: {
     Splide,
     SplideSlide,
+    data,
   },
   props: {
     slider: {
@@ -30,8 +70,8 @@ export default defineComponent({
         320: {
           perPage: 1,
         },
-        428: {
-          perPage: 1,
+        550: {
+          perPage: 2,
         },
         768: {
           perPage: 3,
@@ -39,11 +79,14 @@ export default defineComponent({
         1024: {
           perPage: 4,
         },
+        1500: {
+          perPage: 5,
+        },
       },
       perMove: 1,
       focus: "center",
     };
-    return { options, props };
+    return { options, props, data };
   },
 });
 </script>
@@ -54,25 +97,32 @@ export default defineComponent({
       <span class="text-[#333]">|</span>
       <span>Yutuqlar</span>
     </div>
-    <div class="container mx-auto">
+    <h1 class="flex justify-center mb-10 font-sans font-[600] text-[20px]">
+      Bizning aktiv o'quvchilarimiz !
+    </h1>
+    <div>
       <Splide :options="options" aria-label="My Favorite Images">
         <SplideSlide
-          v-for="item in 4"
+          v-for="item in data"
           :key="item?.id"
           class="bg-[#fff] rounded-md p-3"
         >
-          <img
-            src="https://www.illuminatingfaith.com/wp-content/uploads/2021/07/Coming-Persecution-of-Christians-In-America.jpg"
-            alt="image"
-            class="w-[60px] rounded-[50%] mx-auto block"
-          />
-          <h2 class="flex justify-center my-3 font-sans font-[600]">
-            Nodir Ikromov
-          </h2>
-          <p>
-            The Republic of Azerbaijan’s Religion Law and Administrative Code
-            amendments of 2021 and 2022; how will this further suppress
-          </p>
+          <div class="text-center">
+            <img
+              :src="item?.image"
+              alt="image"
+              class="w-[120px] rounded-[50%] mx-auto block"
+            />
+            <h2 class="flex justify-center my-3 text-xl font-sans font-[600]">
+              {{ item?.name }}
+            </h2>
+            <div class="flex flex-col text-[18px] font-sans">
+              {{ item?.job }}
+            </div>
+            <p class="font-sans text-base">
+              {{ item?.text }}
+            </p>
+          </div>
         </SplideSlide>
       </Splide>
     </div>
