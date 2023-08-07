@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto py-10">
+  <div data-aos="zoom-in-up" class="container mx-auto py-10">
     <div class="flex justify-center gap-1 text-lg my-10">
-      <span class="text-[#333]">06</span>
+      <span class="text-[#333]">07</span>
       <span class="text-[#333]">|</span>
       <span>Kontakt</span>
     </div>

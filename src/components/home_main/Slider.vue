@@ -48,7 +48,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="py-10" id="01">
+  <div class="py-10">
     <div class="container mx-auto">
       <Splide :options="options" aria-label="My Favorite Images">
         <SplideSlide v-for="item in 3" :key="item?.id" class="rounded-md overflow-hidden">

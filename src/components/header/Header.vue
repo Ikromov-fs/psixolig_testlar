@@ -13,15 +13,24 @@
           <router-link to="/tests">Testlar</router-link>
         </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">
+        <li
+          @click="() => router.push('/')"
+          class="cursor-pointer relative navItem"
+        >
           <a href="#winnered">Yutuqlar</a>
         </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">
+        <li
+          @click="() => router.push('/')"
+          class="cursor-pointer relative navItem"
+        >
           <a href="#about">Biz haqimizda</a>
         </li>
         <li>|</li>
-        <li class="cursor-pointer relative navItem">
+        <li
+          @click="() => router.push('/')"
+          class="cursor-pointer relative navItem"
+        >
           <a href="#contact">Kontakt</a>
         </li>
         <li>|</li>
@@ -43,19 +52,21 @@
       <!-- Burger -->
       <div @click="isOpenBurger" class="mmd:hidden block">
         <i :class="isBurger ? '' : 'fa-solid fa-bars text-2xl'"></i>
-        <i :class="isBurger ? 'fa-solid fa-xmark text-2xl' : ''"></i>
       </div>
     </div>
     <div
       :class="
         isBurger
-          ? 'opacity-100 duration-200 scale-100'
+          ? 'opacity-100 duration-200 scale-100 fixed bg-[#1F2E35] top-0 min-w-[100%]'
           : 'hidden opacity-0 duration-200 scale-75'
       "
     >
       <ul
-        class="flex flex-col h-[100vh] gap-5 pt-20 items-center text-white sx:text-base mmd:text-[15px] text-[13px]"
+        class="flex flex-col min-h-[100vh] relative gap-5 pt-20 items-center text-white sx:text-base mmd:text-[15px] text-[13px]"
       >
+        <li @click="isOpenBurger" class="absolute right-7 top-7">
+          <i :class="isBurger ? 'fa-solid fa-xmark text-2xl' : ''"></i>
+        </li>
         <li class="cursor-pointer relative navItem">Yangiliklar</li>
         <li class="cursor-pointer relative navItem">Top testlar</li>
         <li class="cursor-pointer relative navItem">Yutuqlar</li>
@@ -81,6 +92,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 // Register
 import Register from "../modals/Register.vue";

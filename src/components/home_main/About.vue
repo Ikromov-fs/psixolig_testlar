@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto pb-10">
     <div class="flex justify-center gap-1 text-lg my-10">
       <span class="text-[#333]">05</span>
       <span class="text-[#333]">|</span>
