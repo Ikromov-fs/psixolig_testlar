@@ -67,12 +67,22 @@
         <li @click="isOpenBurger" class="absolute right-7 top-7">
           <i :class="isBurger ? 'fa-solid fa-xmark text-2xl' : ''"></i>
         </li>
-        <li class="cursor-pointer relative navItem">Yangiliklar</li>
-        <li class="cursor-pointer relative navItem">Top testlar</li>
-        <li class="cursor-pointer relative navItem">Yutuqlar</li>
-        <li class="cursor-pointer relative navItem">Biz haqimizda</li>
-        <li class="cursor-pointer relative navItem">Kontakt</li>
+        <li class="cursor-pointer relative navItem">
+          <router-link to="/tests"
+            ><span @click="goRouter">Testlar</span></router-link
+          >
+        </li>
+        <li @click="goRouter" class="cursor-pointer relative navItem">
+          <a href="#winnered">Yutuqlar</a>
+        </li>
+        <li @click="goRouter" class="cursor-pointer relative navItem">
+          <a href="#about">Biz haqimizda</a>
+        </li>
+        <li @click="goRouter" class="cursor-pointer relative navItem">
+          <a href="#contact">Kontakt</a>
+        </li>
         <li
+          @click="isLoginOpen = true"
           class="cursor-pointer relative border-solid border-white rounded-md px-5 py-2 border-[1px] mt-20"
         >
           Login
@@ -107,6 +117,13 @@ const isLoginOpen = ref(false);
 const isBurger = ref(false);
 function isOpenBurger() {
   isBurger.value = !isBurger.value;
+}
+
+function goRouter() {
+  router.push("/");
+  setTimeout(() => {
+    isBurger.value = false;
+  }, 10);
 }
 </script>
 <style scoped>

@@ -11,9 +11,9 @@
           <div
             v-for="item in dataTests"
             :key="item?.id"
-            class="flex items-center gap-3 px-10 h-full bg-[#fff] p-2 mt-10 box-w rounded-md cursor-pointer"
+            class="relative flex items-center text-left px-10 h-full bg-[#fff] p-2 mt-10 box-w rounded-md cursor-pointer"
           >
-            <i :class="item?.icon" class="text-[30px]"></i>
+            <i class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"></i>
             <h1 class="text-[18px]">{{ item?.title }}</h1>
           </div>
         </div>
@@ -26,41 +26,33 @@
 import { ref } from "vue";
 const dataTests = ref([
   {
-    icon: "fa-solid fa-restroom",
     title: "Ota-onalar uchun",
     id: 1,
   },
   {
-    icon: "fa-solid fa-person-dress",
     title: "Ayollar uchun",
   },
   {
-    icon: "fa-solid fa-medal",
     title: "Sportchilar uchun",
     id: 3,
   },
   {
-    icon: "fa-solid fa-computer",
     title: "Dasturchilar uchun",
     id: 4,
   },
   {
-    icon: "fa-solid fa-computer",
     title: "Dasturchilar uchun",
     id: 4,
   },
   {
-    icon: "fa-solid fa-computer",
     title: "Dasturchilar uchun",
     id: 4,
   },
   {
-    icon: "fa-solid fa-computer",
     title: "Dasturchilar uchun",
     id: 4,
   },
   {
-    icon: "fa-solid fa-person-chalkboard",
     title: "Pedagogik qobilyatini aniqlash",
     id: 4,
   },
