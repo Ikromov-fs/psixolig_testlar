@@ -10,7 +10,7 @@
         class="hidden gap-5 items-center mmd:text-[15px] text-[13px] mmd:flex"
       >
         <li class="cursor-pointer relative navItem">
-          <router-link to="/test-page">Testlar</router-link>
+          <router-link to="/tests">Testlar</router-link>
         </li>
         <li>|</li>
         <li
