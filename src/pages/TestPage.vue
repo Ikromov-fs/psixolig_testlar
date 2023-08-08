@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-20 mt-28">
+    <div class="pb-20 mt-2">
         <div data-aos="fade-up">
             <div class="container mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 relative">
@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import {ref} from "vue";
+
 const dataTests = ref([
     {
         icon: "fa-solid fa-restroom",
@@ -28,7 +29,7 @@ const dataTests = ref([
     {
         icon: "fa-solid fa-person-dress",
         title: "Ayollar uchun",
-        id:2
+        id: 2
     },
     {
         icon: "fa-solid fa-medal",
@@ -68,6 +69,7 @@ const dataTests = ref([
     box-shadow: 0 0 15px #f0f0f0;
     transform: scale(0.98);
 }
+
 .box-w:hover {
     box-shadow: 0 0 20px #f0f0f0;
     transition: all 0.2s linear;
