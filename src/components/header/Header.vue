@@ -57,8 +57,8 @@
     <div
       :class="
         isBurger
-          ? 'opacity-100 duration-200 scale-100 fixed bg-[#1F2E35] top-0 min-w-[100%]'
-          : 'hidden opacity-0 duration-200 scale-75'
+          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#1F2E35]'
+          : 'fixed top-0 left-0 z-50 w-[100%] h-full transition-all duration-500 transform -translate-x-full shadow-lg'
       "
     >
       <ul
