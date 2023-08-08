@@ -12,16 +12,29 @@
                             <div class="flex flex-col gap-2">
                                 <img v-if="testQuestions?.imageID" :src="testQuestions?.imageID" alt="test images"
                                      class="max-h-[130px] object-contain w-full">
-                                <p v-if="testQuestions?.title">{{testQuestions?.title }}.</p>
+                                <p v-if="testQuestions?.title">{{ testQuestions?.title }}.</p>
                             </div>
                         </div>
-                         <!--  single choice section-->
+                        <!--  single choice section-->
                         <div class="mt-3 flex flex-col gap-3" v-if="testQuestions.testType == 'SINGLE_CHOICE'">
-                            <div class="w-full py-3 px-2 border cursor-pointer relative" v-for="(item,index) in testQuestions.answerCreateDTOList">
+                            <div class="w-full py-3 px-2 border cursor-pointer relative"
+                                 v-for="(item,index) in testQuestions.answerCreateDTOList">
                                 <label :for="`test${index+1}`" class="absolute w-full h-full cursor-pointer"></label>
                                 <div class="flex gap-3">
-                                    <pre>{{testQuestions.correct}} cor</pre>
-                                    <TypeRadio :input-id="`test${index+1}`"  :value="item.id" v-model="testQuestions.correct"/>
+                                    <TypeRadio :input-id="`test${index+1}`" :value="item.id"
+                                               v-model="testQuestions.correctAnswers[0]"/>
+                                    <img v-if="item?.imageID" :src="item?.imageID" alt="test images"
+                                         class="w-[70px] h-[70px] object-cover">
+                                    <p v-if="item?.text">{{ item?.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex flex-col gap-3" v-if="testQuestions.testType == 'MULTIPLE_CHOICE'">
+                            <div class="w-full py-3 px-2 border cursor-pointer relative"
+                                 v-for="(item,index) in testQuestions.answerCreateDTOList">
+                                <label :for="`test${index+1}`" class="absolute w-full h-full cursor-pointer"></label>
+                                <div class="flex gap-3">
+                                    <TypeCheckbox :input-id="`test${index+1}`" @changeVal="e=>item.val = e"/>
                                     <img v-if="item?.imageID" :src="item?.imageID" alt="test images"
                                          class="w-[70px] h-[70px] object-cover">
                                     <p v-if="item?.text">{{ item?.text }}</p>
@@ -56,6 +69,7 @@ import SButton from "@/components/buttons/SButton.vue";
 import {reactive, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import TypeRadio from "@/components/input/TypeRadio.vue";
+import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -134,40 +148,86 @@ const testIndex = [
 ]
 
 const testQuestions = reactive(
-        {
-            id:1,
-            testType:"SINGLE_CHOICE",
-            title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-            imageID:"https://picsum.photos/id/237/536/354",
-            correct:2,
-            answerCreateDTOList:[
-                {
-                    id:1,
-                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                    imageID:"",
-                },
-                {
-                    id:2,
-                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                    imageID:"https://picsum.photos/id/237/536/354",
-                },
-                {
-                    id:3,
-                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                    imageID:"",
-                },
-                {
-                    id:4,
-                    text:"",
-                    imageID:"https://picsum.photos/id/237/536/354",
-                }
-            ]
-        }
+    // {
+    //     id:1,
+    //     testType:"SINGLE_CHOICE",
+    //     title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+    //     imageID:"https://picsum.photos/id/237/536/354",
+    //     correct:2,
+    //     answerCreateDTOList:[
+    //         {
+    //             id:1,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"",
+    //         },
+    //         {
+    //             id:2,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"https://picsum.photos/id/237/536/354",
+    //         },
+    //         {
+    //             id:3,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"",
+    //         },
+    //         {
+    //             id:4,
+    //             text:"",
+    //             imageID:"https://picsum.photos/id/237/536/354",
+    //         }
+    //     ]
+    // }
+    {
+        id: 1,
+        testType: "MULTIPLE_CHOICE",
+        title: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+        imageID: "https://picsum.photos/id/237/536/354",
+        correctAnswers: [1, 3],
+        answerCreateDTOList: [
+            {
+                id: 1,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "",
+                val: false
+            },
+            {
+                id: 2,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "https://picsum.photos/id/237/536/354",
+                val: false
+            },
+            {
+                id: 3,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "",
+                val: false
+            },
+            {
+                id: 4,
+                text: "",
+                imageID: "https://picsum.photos/id/237/536/354",
+                val: false
+            }
+        ]
+    }
 )
 
 
-function finishTest(){
-    console.log(testQuestions,"finish the test")
+function finishTest() {
+    if (testQuestions.testType == "MULTIPLE_CHOICE") {
+        let correctArr = []
+        testQuestions.answerCreateDTOList.forEach((el)=>{
+            if(el.val){
+                correctArr.push(el.id)
+            }
+        })
+        testQuestions.correctAnswers = correctArr
+        console.log(testQuestions, "MULTIPLE CHOICE")
+    }
+    if (testQuestions.testType == "SINGLE_CHOICE") {
+        console.log(testQuestions, "SINGLE CHOICE")
+    }
+
 }
 </script>
 
