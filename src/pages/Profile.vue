@@ -1,6 +1,6 @@
 <template>
-  <div class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20">
-    <div class="flex sx:justify-center mmd:justify-start">
+  <div data-aos="zoom-in-up" class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20">
+    <div  class="flex sx:justify-center mmd:justify-start">
       <div class="absolute right-4 top-5 btn">
         <ButtonFill class="bg-[red]">
           Chiqish
