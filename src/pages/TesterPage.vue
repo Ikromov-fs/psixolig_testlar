@@ -9,41 +9,22 @@
                 <div class="border md:col-span-8 flex flex-col justify-between p-4">
                     <div>
                         <div class="flex gap-2">
-<!--                            <p class="font-medium text-xl">{{ activeTest }})</p>-->
                             <div class="flex flex-col gap-2">
-                                <img src="https://picsum.photos/id/237/536/354" alt="test images" class="max-h-[130px] object-contain w-full">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.</p>
+                                <img v-if="testQuestions?.imageID" :src="testQuestions?.imageID" alt="test images"
+                                     class="max-h-[130px] object-contain w-full">
+                                <p v-if="testQuestions?.title">{{testQuestions?.title }}.</p>
                             </div>
                         </div>
-                        <div class="mt-3 flex flex-col gap-3">
-                            <div class="w-full py-3 px-2 border cursor-pointer relative">
-                                <label for="test" class="absolute w-full h-full cursor-pointer"></label>
-                                <div class="flex gap-2">
-                                    <input type="radio" name="radio" value="1" id="test" >
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, sed!</p>
-                                </div>
-                            </div>
-                            <div class="w-full py-3 px-2 border cursor-pointer relative">
-                                <label for="test2" class="absolute w-full h-full cursor-pointer"></label>
-                                <div class="flex gap-2">
-                                    <input type="radio" name="radio" value="1" id="test2" >
-                                    <img src="https://picsum.photos/id/237/536/354" alt="test images" class="w-[70px] h-[70px] object-cover">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, sed!</p>
-                                </div>
-                            </div>
-                            <div class="w-full py-3 px-2 border cursor-pointer relative">
-                                <label for="test3" class="absolute w-full h-full cursor-pointer"></label>
-                                <div class="flex gap-2">
-                                    <input type="radio" name="radio" value="1" id="test3" >
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, sed!</p>
-                                </div>
-                            </div>
-                            <div class="w-full py-3 px-2 border cursor-pointer relative">
-                                <label for="test4" class="absolute w-full h-full cursor-pointer"></label>
-                                <div class="flex gap-2">
-                                    <input type="radio" name="radio" value="1" id="test4" >
-                                    <img src="https://picsum.photos/id/237/536/354" alt="test images" class="w-[70px] h-[70px] object-cover">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, sed!</p>
+                         <!--  single choice section-->
+                        <div class="mt-3 flex flex-col gap-3" v-if="testQuestions.testType == 'SINGLE_CHOICE'">
+                            <div class="w-full py-3 px-2 border cursor-pointer relative" v-for="(item,index) in testQuestions.answerCreateDTOList">
+                                <label :for="`test${index+1}`" class="absolute w-full h-full cursor-pointer"></label>
+                                <div class="flex gap-3">
+                                    <pre>{{testQuestions.correct}} cor</pre>
+                                    <TypeRadio :input-id="`test${index+1}`"  :value="item.id" v-model="testQuestions.correct"/>
+                                    <img v-if="item?.imageID" :src="item?.imageID" alt="test images"
+                                         class="w-[70px] h-[70px] object-cover">
+                                    <p v-if="item?.text">{{ item?.text }}</p>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +45,7 @@
                 </div>
             </div>
             <div class="flex justify-end my-3 mb-6">
-            <SButton variant="danger">Testni yakunlash</SButton>
+                <SButton variant="danger" @click="finishTest">Testni yakunlash</SButton>
             </div>
         </div>
     </div>
@@ -72,8 +53,9 @@
 <script setup lang="ts">
 import TestIndex from "@/components/card/TestIndex.vue";
 import SButton from "@/components/buttons/SButton.vue";
-import {ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import TypeRadio from "@/components/input/TypeRadio.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -150,5 +132,42 @@ const testIndex = [
         isSolve: false
     }
 ]
+
+const testQuestions = reactive(
+        {
+            id:1,
+            testType:"SINGLE_CHOICE",
+            title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+            imageID:"https://picsum.photos/id/237/536/354",
+            correct:2,
+            answerCreateDTOList:[
+                {
+                    id:1,
+                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                    imageID:"",
+                },
+                {
+                    id:2,
+                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                    imageID:"https://picsum.photos/id/237/536/354",
+                },
+                {
+                    id:3,
+                    text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                    imageID:"",
+                },
+                {
+                    id:4,
+                    text:"",
+                    imageID:"https://picsum.photos/id/237/536/354",
+                }
+            ]
+        }
+)
+
+
+function finishTest(){
+    console.log(testQuestions,"finish the test")
+}
 </script>
 
