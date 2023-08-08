@@ -34,7 +34,11 @@
           <a href="#contact">Kontakt</a>
         </li>
         <li>|</li>
+        <li @click="router.push('/profile')" class="relative navItem">
+          <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
+        </li>
         <li
+          v-if="false"
           @click="isLoginOpen = true"
           class="cursor-pointer relative border-solid border-white hover:border-[#fdf001] rounded-md px-5 py-2 border-[1px]"
         >
@@ -42,6 +46,7 @@
         </li>
         <li>|</li>
         <li
+          v-if="false"
           @click="isRegister = true"
           class="cursor-pointer relative border-solid border-white hover:border-[#fdf001] rounded-md pr-4 pl-2 py-2 border-[1px] registr"
         >

@@ -20,7 +20,12 @@ const routes = [
     path:"/tester",
     name:"Tester",
     component:(()=> import("@/pages/TesterPage.vue"))
-  }
+  },
+  {
+    path:"/profile",
+    name:"Profile",
+    component:(()=> import("@/pages/Profile.vue"))
+  },
 ];
 
 const router = createRouter({

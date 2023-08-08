@@ -1,0 +1,127 @@
+<template>
+  <div class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20">
+    <div class="flex sx:justify-center mmd:justify-start">
+      <div class="absolute right-4 top-5 btn">
+        <ButtonFill class="bg-[red]">
+          Chiqish
+          <i
+            class="fa-solid fa-arrow-right-from-bracket rotate-[180deg] mx-2"
+          ></i>
+        </ButtonFill>
+      </div>
+      <div
+        class="flex flex-col sx:justify-center mmd:justify-start text-center"
+      >
+        <img :src="profileImage" alt="profile image" class="cursor-pointer" />
+        <h1 class="font-[500] text-[19px]">Ikromov Nodir Shomurod o'g'li</h1>
+        <div class="text-left mt-5">
+          <p class="opacity-[0.5]">Email</p>
+          <h1 class="mt-2">nodirikromov10@gmail.com</h1>
+        </div>
+        <div class="text-left mt-5">
+          <p class="opacity-[0.5]">Tel nomer</p>
+          <h1 class="mt-2">99-105-92-01</h1>
+        </div>
+        <div class="flex justify-between text-left mt-5">
+          <div>
+            <p class="opacity-[0.5]">Jinsi</p>
+            <h1 class="mt-2">Erkak</h1>
+          </div>
+          <div>
+            <p class="opacity-[0.5]">Yoshi</p>
+            <h1 class="mt-2">20</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sx:mt-20 mmd:mt-0">
+      <h1 class="flex justify-center text-[22px] font-[500] mb-5">
+        Sotib olgan testlarim !
+      </h1>
+      <div class="grid grid-cols-1 mb-3 gap-3 relative">
+        <div
+          v-for="item in testList"
+          :key="item?.id"
+          @click="startTest(item.id)"
+          class="flex items-center justify-between py-5 px-10 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer"
+        >
+          <div class="flex items-center gap-3">
+            <!-- <i class="fa-solid fa-circle-question text-2xl"></i> -->
+            <h1 class="text-[18px]">{{ item?.name }}</h1>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-signal"></i>
+            <p>{{ item.status }} %</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useRoute, useRouter } from "vue-router";
+import profileImage from "../assets/svg/profil.svg";
+import ButtonFill from "../components/buttons/SButton.vue";
+const route = useRoute();
+const router = useRouter();
+
+const testList = [
+  {
+    id: 1,
+    name: "Birinchi test",
+    status: 50,
+  },
+  {
+    id: 2,
+    name: "Ikkinchi test",
+    status: 80,
+  },
+  {
+    id: 3,
+    name: "Uchunchi test",
+    status: 20,
+  },
+  {
+    id: 4,
+    name: "To'rtinchi test",
+    status: 50,
+  },
+  {
+    id: 5,
+    name: "Beshinchi test",
+    status: 50,
+  },
+  {
+    id: 6,
+    name: "Oltinchi test",
+    status: 30,
+  },
+];
+
+function startTest(id: number) {
+  console.log(id);
+  router.push(`/tester?id=${id}`);
+}
+</script>
+
+<style scoped>
+.box-w {
+  transition: all 0.2s linear;
+  box-shadow: 0px 0px 15px #fff;
+  transform: scale(0.98);
+}
+
+.box-w:hover {
+  box-shadow: 0px 0px 20px #fff;
+  transition: all 0.2s linear;
+  transform: scale(0.99);
+}
+.btn i{
+  transition: all 0.2s linear;
+}
+.btn:hover i {
+  transform: translateX(-7px);
+  transition: all 0.2s linear;
+}
+</style>
