@@ -17,8 +17,8 @@
           type="string"
         />
         <FormInput
-          v-model="inputRegisterData.phone"
-          :error="$v.phone.$error"
+          v-model="inputRegisterData.phoneNumber"
+          :error="$v.phoneNumber.$error"
           type="string"
           placeholder="00 000-00-00"
           label="Tel nomer"
@@ -33,6 +33,41 @@
           label="Parol"
           class="my-4"
         />
+        <FormInput
+          v-model="inputRegisterData.confirmPassword"
+          type="password"
+          placeholder="parolni takrorlash"
+          :error="$v.confirmPassword.$error"
+          label="Parolni takrorlash"
+          class="my-4"
+        />
+        <div>
+          <FormInput
+            v-model="inputRegisterData.birthDate"
+            :error="$v.birthDate.$error"
+            type="string"
+            placeholder="yil-oy-kun"
+            v-maska="'####-##-##'"
+            label="Tug'ilgan sana"
+            class="my-4"
+          />
+          <div class="flex gap-10">
+            <FormInput
+              type="radio"
+              label="Erkak"
+              class="mb-4 w-[50px] cursor-pointer"
+              name="gender"
+              :v-model="true"
+            />
+            <FormInput
+              type="radio"
+              class="mb-4 w-[50px] cursor-pointer"
+              label="Ayol"
+              name="gender"
+              :v-model="false"
+            />
+          </div>
+        </div>
         <div @click="submitBtn">
           <ButtonFillVue>
             <button class="py-2">Jo'natish</button>
@@ -70,22 +105,31 @@ import { minLength, maxLength, required } from "@vuelidate/validators";
 
 const inputRegisterData = reactive({
   fullName: "",
-  phone: "",
+  phoneNumber: "",
   password: "",
+  confirmPassword: "",
+  gender: true,
+  birthDate: "",
 });
 
 const rules = computed(() => {
   return {
     fullName: { required, minLength: minLength(4), maxLength: maxLength(50) },
-    password: { required, minLength: minLength(6), maxLength: maxLength(6) },
-    phone: { required },
+    password: { required, minLength: minLength(6) },
+    confirmPassword: {
+      required,
+      minLength: minLength(6),
+    },
+    birthDate: { required },
+    phoneNumber: { required },
+    gender: { required },
   };
 });
 
 const $v = useVuelidate(rules, inputRegisterData);
 
 const submitBtn = async () => {
-  console.log(inputRegisterData);
+  console.log(inputRegisterData.gender);
   $v.value.$validate();
   if (!$v.value.$error) {
     try {
@@ -94,8 +138,11 @@ const submitBtn = async () => {
       console.log(error);
     } finally {
       (inputRegisterData.fullName = ""),
-        (inputRegisterData.phone = ""),
         (inputRegisterData.password = ""),
+        (inputRegisterData.confirmPassword = ""),
+        (inputRegisterData.phoneNumber = ""),
+        (inputRegisterData.gender = true),
+        (inputRegisterData.birthDate = ""),
         $v.value.$reset();
     }
   }

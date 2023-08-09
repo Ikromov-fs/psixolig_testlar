@@ -28,6 +28,7 @@
           readonly,
           autocomplete,
           id,
+          name,
         }"
         :class="[
           inputClass,
@@ -70,6 +71,7 @@ export interface Props {
   readonly?: boolean;
   customClass?: string;
   label?: string;
+  name?: string;
 }
 
 const emit = defineEmits<{
