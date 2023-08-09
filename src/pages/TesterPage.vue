@@ -35,7 +35,7 @@
                                  v-for="(item,index) in testQuestions.answerCreateDTOList">
                                 <label :for="`test${index+1}`" class="absolute w-full h-full cursor-pointer"></label>
                                 <div class="flex gap-3">
-                                    <TypeCheckbox :input-id="`test${index+1}`" @changeVal="e=>item.val = e"/>
+                                    <TypeCheckbox :input-id="`test${index+1}`" @changeVal="e=>item.val = e" :value="item.val"/>
                                     <img v-if="item?.imageID" :src="item?.imageID" alt="test images"
                                          class="w-[70px] h-[70px] object-cover">
                                     <p v-if="item?.text">{{ item?.text }}</p>
@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import TestIndex from "@/components/card/TestIndex.vue";
 import SButton from "@/components/buttons/SButton.vue";
-import {reactive, ref, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import TypeRadio from "@/components/input/TypeRadio.vue";
 import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
@@ -156,80 +156,80 @@ const testIndex = [
 ]
 
 const testQuestions = reactive(
-    {
-        id:1,
-        testType:"SINGLE_CHOICE",
-        title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-        imageID:"https://picsum.photos/id/237/536/354",
-        correctAnswers:[],
-        answerCreateDTOList:[
-            {
-                id:1,
-                text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                imageID:"",
-            },
-            {
-                id:2,
-                text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                imageID:"https://picsum.photos/id/237/536/354",
-            },
-            {
-                id:3,
-                text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-                imageID:"",
-            },
-            {
-                id:4,
-                text:"",
-                imageID:"https://picsum.photos/id/237/536/354",
-            }
-        ]
-    }
     // {
-    //     id: 1,
-    //     testType: "MULTIPLE_CHOICE",
-    //     title: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-    //     imageID: "https://picsum.photos/id/237/536/354",
-    //     correctAnswers: [1, 3],
-    //     answerCreateDTOList: [
+    //     id:1,
+    //     testType:"SINGLE_CHOICE",
+    //     title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+    //     imageID:"https://picsum.photos/id/237/536/354",
+    //     correctAnswers:[3],
+    //     answerCreateDTOList:[
     //         {
-    //             id: 1,
-    //             text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-    //             imageID: "",
-    //             val: false
+    //             id:1,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"",
     //         },
     //         {
-    //             id: 2,
-    //             text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-    //             imageID: "https://picsum.photos/id/237/536/354",
-    //             val: false
+    //             id:2,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"https://picsum.photos/id/237/536/354",
     //         },
     //         {
-    //             id: 3,
-    //             text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-    //             imageID: "",
-    //             val: false
+    //             id:3,
+    //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+    //             imageID:"",
     //         },
     //         {
-    //             id: 4,
-    //             text: "",
-    //             imageID: "https://picsum.photos/id/237/536/354",
-    //             val: false
+    //             id:4,
+    //             text:"",
+    //             imageID:"https://picsum.photos/id/237/536/354",
     //         }
     //     ]
     // }
+    {
+        id: 1,
+        testType: "MULTIPLE_CHOICE",
+        title: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+        imageID: "https://picsum.photos/id/237/536/354",
+        correctAnswers: [1, 3],
+        answerCreateDTOList: [
+            {
+                id: 1,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "",
+                val: true
+            },
+            {
+                id: 2,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "https://picsum.photos/id/237/536/354",
+                val: false
+            },
+            {
+                id: 3,
+                text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+                imageID: "",
+                val: false
+            },
+            {
+                id: 4,
+                text: "",
+                imageID: "https://picsum.photos/id/237/536/354",
+                val: false
+            }
+        ]
+    }
 )
 
 
 function finishTest() {
     if (testQuestions.testType == "MULTIPLE_CHOICE") {
-        let correctArr = []
+        let changeArr = []
         testQuestions.answerCreateDTOList.forEach((el)=>{
             if(el.val){
-                correctArr.push(el.id)
+                changeArr.push(el.id)
             }
         })
-        testQuestions.correctAnswers = correctArr
+        testQuestions.changeAnsver = changeArr
         console.log(testQuestions, "MULTIPLE CHOICE")
     }
     if (testQuestions.testType == "SINGLE_CHOICE") {
@@ -239,5 +239,16 @@ function finishTest() {
         console.log(testQuestions, "WRITE    CHOICE")
     }
 }
+
+onMounted(()=>{
+    if (testQuestions.testType == "MULTIPLE_CHOICE") {
+        testQuestions.correctAnswers.forEach((el)=>{
+            console.log(el)
+             const obj = testQuestions.answerCreateDTOList.find((item)=> item.id === el)
+            obj.val = true
+        })
+        console.log(testQuestions)
+    }
+})
 </script>
 
