@@ -52,20 +52,14 @@
             class="my-4"
           />
           <div class="flex gap-10">
-            <FormInput
-              type="radio"
-              label="Erkak"
-              class="mb-4 w-[50px] cursor-pointer"
-              name="gender"
-              :v-model="true"
-            />
-            <FormInput
-              type="radio"
-              class="mb-4 w-[50px] cursor-pointer"
-              label="Ayol"
-              name="gender"
-              :v-model="false"
-            />
+            <label class="flex items-center gap-2">
+              <p>Erkak</p>
+              <TypeRadio value="true" v-model="inputRegisterData.gender" />
+            </label>
+            <label class="flex items-center gap-2">
+              <p>Ayol</p>
+              <TypeRadio value="false" v-model="inputRegisterData.gender" />
+            </label>
           </div>
         </div>
         <div @click="submitBtn">
@@ -98,6 +92,7 @@ import FormInput from "../form/FormInput.vue";
 import Timer from "../form/Timer.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 import CodeInput from "../form/CodeInput.vue";
+import TypeRadio from "../input/TypeRadio.vue";
 
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
@@ -108,7 +103,7 @@ const inputRegisterData = reactive({
   phoneNumber: "",
   password: "",
   confirmPassword: "",
-  gender: true,
+  gender: "true",
   birthDate: "",
 });
 
@@ -128,8 +123,10 @@ const rules = computed(() => {
 
 const $v = useVuelidate(rules, inputRegisterData);
 
+const gender = ref("true");
+
 const submitBtn = async () => {
-  console.log(inputRegisterData.gender);
+  console.log(inputRegisterData);
   $v.value.$validate();
   if (!$v.value.$error) {
     try {
@@ -141,7 +138,7 @@ const submitBtn = async () => {
         (inputRegisterData.password = ""),
         (inputRegisterData.confirmPassword = ""),
         (inputRegisterData.phoneNumber = ""),
-        (inputRegisterData.gender = true),
+        (inputRegisterData.gender = "true"),
         (inputRegisterData.birthDate = ""),
         $v.value.$reset();
     }
