@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
   interface Props{
-      inputId:string,
+      inputId?:string,
       value:number|string,
       modelValue:number|string|null
   }
