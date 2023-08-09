@@ -7,6 +7,7 @@
                 :id="inputId"
                 name="check-radio"
                 :value="value"
+                v-model="correctValue"
                 @change="getInputValue"
                 type="radio"
                 class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border  border-[#1F2E35] text-blue-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-10 before:w-10 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
@@ -25,13 +26,17 @@
 </template>
 
 <script setup lang="ts">
+  import {ref} from "vue";
+
   interface Props{
       inputId:string,
       value:number|string,
       modelValue:number|string|null
   }
 
-  defineProps<Props>()
+  const props = defineProps<Props>()
+
+  const correctValue = ref(props.modelValue)
 
   const emit = defineEmits(['update:modelValue'])
 

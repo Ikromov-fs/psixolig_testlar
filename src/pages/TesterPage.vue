@@ -161,7 +161,7 @@ const testQuestions = reactive(
         testType:"SINGLE_CHOICE",
         title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
         imageID:"https://picsum.photos/id/237/536/354",
-        correctAnswers:[2],
+        correctAnswers:[],
         answerCreateDTOList:[
             {
                 id:1,
