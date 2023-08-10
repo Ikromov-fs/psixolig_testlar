@@ -93,7 +93,9 @@ import Timer from "../form/Timer.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
+import { useRegister } from "@/store/register.js";
 
+const authRegisterStore = useRegister();
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required } from "@vuelidate/validators";
@@ -123,13 +125,29 @@ const rules = computed(() => {
 
 const $v = useVuelidate(rules, inputRegisterData);
 
-const gender = ref("true");
+// const gender = ref("true");
 
 const submitBtn = async () => {
   console.log(inputRegisterData);
   $v.value.$validate();
   if (!$v.value.$error) {
     try {
+      const phone =
+        "+998" +
+        inputRegisterData.phoneNumber
+          .replaceAll("-", "")
+          .replace("(", "")
+          .replace(") ", "");
+      const userOptions = {
+        phoneNumber: phone,
+        fullName: inputRegisterData.fullName,
+        password: inputRegisterData.password,
+        confirmPassword: inputRegisterData.confirmPassword,
+        gender: inputRegisterData.gender,
+        birthDate: inputRegisterData.birthDate,
+      };
+      const user = await authRegisterStore.useRegister(userOptions);
+      console.log(user);
       // function read
     } catch (error) {
       console.log(error);
