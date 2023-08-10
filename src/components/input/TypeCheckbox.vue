@@ -33,21 +33,26 @@
 </template>
 
 <script setup lang="ts">
-    import {ref} from "vue";
+    import {ref,watch} from "vue";
 
     interface Props{
         inputId:string,
+        value:boolean
     }
 
-    defineProps<Props>()
+ const props = defineProps<Props>()
 
     const emit = defineEmits(['changeVal'])
 
-    const inputVal = ref(false)
+    const inputVal = ref(props.value)
 
     function getInputValue(e:any){
-        console.log(inputVal.value,"input val")
         emit('changeVal',inputVal.value)
     }
 
+    watch(() => props.value,
+        (newVal) => {
+            inputVal.value = newVal
+        }
+    )
 </script>
