@@ -19,5 +19,13 @@ export const useRegister = defineStore("user", {
         toast.error("Xatolik mavjud !");
       }
     },
+    async codeInput(options) {
+      try {
+        const code = await axios.post("/auth/activate", options);
+        console.log(code);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

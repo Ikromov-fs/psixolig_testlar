@@ -34,11 +34,14 @@
           <a href="#contact">Kontakt</a>
         </li>
         <li>|</li>
-        <li v-if="false" @click="router.push('/profile')" class="relative navItem">
+        <li
+          v-if="false"
+          @click="router.push('/profile')"
+          class="relative navItem"
+        >
           <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
         </li>
         <li
-          
           @click="isLoginOpen = true"
           class="cursor-pointer relative border-solid border-white hover:border-[#fdf001] rounded-md px-5 py-2 border-[1px]"
         >
@@ -108,6 +111,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
+
 
 // Register
 import Register from "../modals/Register.vue";

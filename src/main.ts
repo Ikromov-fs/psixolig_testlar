@@ -4,6 +4,7 @@ import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 import App from "./App.vue";
 import "@/styles/index.css";

@@ -22,7 +22,7 @@
           type="string"
           placeholder="00 000-00-00"
           label="Tel nomer"
-          v-maska="'(##) ###-##-##'"
+          v-maska="'(##)-###-##-##'"
           class="mt-4"
         />
         <FormInput
@@ -62,21 +62,25 @@
             </label>
           </div>
         </div>
-        <div @click="submitBtn">
+        <div v-if="!openCodeInput" @click="submitBtn">
           <ButtonFillVue>
             <button class="py-2">Jo'natish</button>
           </ButtonFillVue>
         </div>
-        <div class="text-center">
+        <div v-if="openCodeInput" class="text-center">
           <CodeInput
+            @change="(e:any) => (codeSend = e)"
+
             :required="true"
             :fields="6"
             :fieldWidth="40"
             :fieldHeight="40"
           />
           <Timer @endTime="resendCode = true" class="mt-3 text-xl" />
-          <ButtonFillVue v-if="!resendCode">
-            <button class="py-2">Tasdiqlash</button>
+          <ButtonFillVue @click="confirmation" v-if="!resendCode">
+            <button class="py-2">
+              Tasdiqlash
+            </button>
           </ButtonFillVue>
           <div v-if="resendCode">
             <a href="#">Qayta kod yuborish !</a>
@@ -94,7 +98,11 @@ import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
 import { useRegister } from "@/store/register.js";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
+const openCodeInput = ref(false);
+const codeSend = ref("");
 const authRegisterStore = useRegister();
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
@@ -148,9 +156,10 @@ const submitBtn = async () => {
       };
       const user = await authRegisterStore.useRegister(userOptions);
       console.log(user);
-      // function read
+      openCodeInput.value = true;
     } catch (error) {
       console.log(error);
+      toast.error("Xatolik mavjud !");
     } finally {
       (inputRegisterData.fullName = ""),
         (inputRegisterData.password = ""),
@@ -162,6 +171,26 @@ const submitBtn = async () => {
     }
   }
 };
+
+async function confirmation(e: any) {
+  e.preventDefault();
+  try {
+    const phone =
+      "+998" +
+      inputRegisterData.phoneNumber
+        .replaceAll("-", "")
+        .replace("(", "")
+        .replace(") ", "");
+    const options = {
+      phoneNumber: phone,
+      code: codeSend.value,
+    };
+    const codeData = authRegisterStore.codeInput(options);
+    console.log(codeData);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // timer
 const resendCode = ref(false);
