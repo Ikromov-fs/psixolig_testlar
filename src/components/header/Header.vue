@@ -110,13 +110,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuth } from "@/store/auth.js";
-const store = useAuth();
+// import { useAuth } from "@/store/auth.js";
+// const store = useAuth();
 const router = useRouter();
+const token = ref();
+function tokenGet() {
+  token.value = localStorage.getItem("token") || false;
+}
+onMounted(() => {
+  tokenGet();
+});
 
-let token = localStorage.getItem("token")
+defineExpose({ tokenGet });
 
 // Register
 import Register from "../modals/Register.vue";

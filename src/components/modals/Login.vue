@@ -31,7 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 // Validatsiya form Inputs
@@ -57,28 +57,22 @@ const roles = computed(() => {
 const $Vlogin = useVuelidate(roles, dataLogin);
 
 // set with Back end
-
 const submitLoginBtn = async () => {
   $Vlogin.value.$validate();
   if (!$Vlogin.value.$error) {
     try {
       const phone =
         "+998" +
-        dataLogin.phone
-          .replaceAll("-", "")
-          .replace("(", "")
-          .replace(") ", "");
+        dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
       const options = {
         phoneNumber: phone,
         password: dataLogin.password,
       };
       const user = await store.useLoginToken(options);
       console.log(user);
-      emit('openLoginModal')
-      toast.success("Siz ro'yxatdan o'tdingiz !");
+      emit("openLoginModal");
     } catch (error) {
       console.log(error);
-      toast.error("Xatolik mavjud !")
     } finally {
       (dataLogin.password = ""), (dataLogin.phone = "");
       $Vlogin.value.$reset();

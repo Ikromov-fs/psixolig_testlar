@@ -39,8 +39,10 @@ export const useAuth = defineStore("user", {
         localStorage.setItem("token", token.data.accessToken);
         localStorage.setItem("refreshToken", token.data.refreshToken);
         this.islogin = true;
+        toast.success("Ro'yxatdan o'tdingiz !");
       } catch (error) {
         console.log(error);
+        toast.error("Xatolik mavjud !");
       }
     },
 

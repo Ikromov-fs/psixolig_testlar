@@ -21,7 +21,6 @@
     </div>
   </div>
 </template>
-<i class=""></i>
 <script setup lang="ts">
 import { ref } from "vue";
 const dataTests = ref([
