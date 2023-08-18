@@ -4,6 +4,7 @@
             class="relative flex cursor-pointer items-center rounded-full "
             :for="inputId"
             data-ripple-dark="true"
+
     >
 
         <input
@@ -55,4 +56,6 @@
             inputVal.value = newVal
         }
     )
+
+
 </script>

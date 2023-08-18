@@ -28,12 +28,12 @@ import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 const route = useRoute();
 const router = useRouter();
-const id = route.fullPath.split("/");
+const id = route.params.id;
 
 const testChild = ref();
 async function getAllCategoryChild() {
   try {
-    const childCategory = await axios.get(`test/allByCategoryId/${id[2]}`);
+    const childCategory = await axios.get(`test/allByCategoryId/${id}`);
     testChild.value = childCategory.data;
   } catch (error) {
     console.log(error);

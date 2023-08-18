@@ -90,6 +90,7 @@
               </div>
             </div>
           </div>
+            <pre>{{route.query.id}}</pre>
           <div class="flex gap-3 justify-end mt-5">
             <SButton
               variant="dark"
@@ -132,6 +133,7 @@ import { useRoute, useRouter } from "vue-router";
 import TypeRadio from "@/components/input/TypeRadio.vue";
 import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
 import FormInput from "@/components/form/FormInput.vue";
+import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
@@ -295,6 +297,18 @@ function finishTest() {
   }
 }
 
+// solve test
+
+
+const index = ref(1)
+function solveTest(){
+    axios.get(`question/get-quiz?test-id=${route.query.id}&index=${index.value}`).then((res)=>{
+        console.log(res)
+    }).catch((err)=>{
+        console.log(err)
+    })
+}
+
 onMounted(() => {
   if (testQuestions.testType == "MULTIPLE_CHOICE") {
     testQuestions.correctAnswers.forEach((el) => {
@@ -307,4 +321,6 @@ onMounted(() => {
     console.log(testQuestions);
   }
 });
+
+solveTest()
 </script>
