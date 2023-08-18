@@ -183,9 +183,9 @@ async function confirmation(e: any) {
       console.log(token);
     }, 100);
     resendCode.value = false;
-
     setTimeout(() => {
       emit("isOpenRegister");
+      authStore.getToken();
     }, 800);
   } catch (error) {
     console.log(error);

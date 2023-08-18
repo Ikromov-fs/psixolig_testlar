@@ -6,7 +6,7 @@ const toast = useToast();
 export const useAuth = defineStore("user", {
   state: () => ({
     userData: undefined,
-    islogin: false,
+    isToken: false,
   }),
   actions: {
     // register
@@ -44,7 +44,14 @@ export const useAuth = defineStore("user", {
         toast.error("Xatolik mavjud !");
       }
     },
-
+    getToken() {
+      let token = localStorage.getItem("token") || false;
+      if (token) {
+        this.isToken = true;
+      } else {
+        this.isToken = false;
+      }
+    },
     logOut() {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
