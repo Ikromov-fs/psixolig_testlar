@@ -70,6 +70,7 @@ const submitLoginBtn = async () => {
       };
       const user = await store.useLoginToken(options);
       console.log(user);
+      store.getToken();
       emit("openLoginModal");
     } catch (error) {
       console.log(error);

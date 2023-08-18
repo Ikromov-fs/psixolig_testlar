@@ -35,14 +35,14 @@
         </li>
         <li>|</li>
         <li
-          v-if="token"
+          v-if="store.isToken"
           @click="router.push('/profile')"
           class="relative navItem"
         >
           <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
         </li>
         <li
-          v-if="!token"
+          v-if="!store.isToken"
           @click="isLoginOpen = true"
           class="cursor-pointer relative border-solid border-white hover:border-[#fdf001] rounded-md px-5 py-2 border-[1px]"
         >
@@ -50,7 +50,7 @@
         </li>
         <li>|</li>
         <li
-          v-if="!token"
+          v-if="!store.isToken"
           @click="isRegister = true"
           class="cursor-pointer relative border-solid border-white hover:border-[#fdf001] rounded-md pr-4 pl-2 py-2 border-[1px] registr"
         >
@@ -112,18 +112,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-// import { useAuth } from "@/store/auth.js";
-// const store = useAuth();
+import { useAuth } from "@/store/auth.js";
+const store = useAuth();
 const router = useRouter();
-const token = ref();
-function tokenGet() {
-  token.value = localStorage.getItem("token") || false;
-}
-onMounted(() => {
-  tokenGet();
-});
 
-defineExpose({ tokenGet });
 
 // Register
 import Register from "../modals/Register.vue";
@@ -145,6 +137,9 @@ function goRouter() {
     isBurger.value = false;
   }, 10);
 }
+onMounted(() => {
+  store.getToken()
+});
 </script>
 <style scoped>
 .navItem::after {

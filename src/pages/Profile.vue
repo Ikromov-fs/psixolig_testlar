@@ -63,10 +63,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
+import { useToast } from "vue-toastification";
+const toast = useToast()
 const store = useAuth();
 const router = useRouter();
 
@@ -109,6 +111,8 @@ function startTest(id: number) {
 }
 function exit() {
   store.logOut();
+  store.getToken();
+  toast.error("Tizimdan chiqsingiz !")
   router.push("/");
 }
 </script>
