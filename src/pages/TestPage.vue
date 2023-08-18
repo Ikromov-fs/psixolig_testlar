@@ -29,7 +29,6 @@ async function getTests() {
   try {
     const tests = await axios.get("category/get/all");
     dataTests.value = tests.data;
-    console.log(tests);
   } catch (error) {
     console.log(error);
   }

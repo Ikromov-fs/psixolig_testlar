@@ -24,7 +24,6 @@ export const useAuth = defineStore("user", {
     async codeInput(options) {
       try {
         const code = await axios.post("/auth/activate", options);
-        console.log(code);
         toast.success("Ro'yxatdan o'tdingiz !");
       } catch (error) {
         console.log(error);

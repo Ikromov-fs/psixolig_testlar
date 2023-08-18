@@ -14,7 +14,7 @@
           </div>
           <div class="flex items-center gap-3">
             <i class="fa-solid fa-signal"></i>
-            <p>{{ item.status }} %</p>
+            <p>{{ item?.solvedCount }} %</p>
           </div>
         </div>
       </div>
