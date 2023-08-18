@@ -1,7 +1,10 @@
 <template>
-  <div data-aos="zoom-in-up" class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20">
-    <div  class="flex sx:justify-center mmd:justify-start">
-      <div class="absolute right-4 top-5 btn">
+  <div
+    data-aos="zoom-in-up"
+    class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20"
+  >
+    <div class="flex sx:justify-center mmd:justify-start">
+      <div @click="exit" class="absolute right-4 top-5 btn">
         <ButtonFill class="bg-[red]">
           Chiqish
           <i
@@ -63,7 +66,8 @@
 import { useRoute, useRouter } from "vue-router";
 import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
-const route = useRoute();
+import { useAuth } from "@/store/auth.js";
+const store = useAuth();
 const router = useRouter();
 
 const testList = [
@@ -103,6 +107,10 @@ function startTest(id: number) {
   console.log(id);
   router.push(`/tester?id=${id}`);
 }
+function exit() {
+  store.logOut();
+  router.push("/");
+}
 </script>
 
 <style scoped>
@@ -117,7 +125,7 @@ function startTest(id: number) {
   transition: all 0.2s linear;
   transform: scale(0.99);
 }
-.btn i{
+.btn i {
   transition: all 0.2s linear;
 }
 .btn:hover i {

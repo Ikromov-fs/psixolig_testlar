@@ -6,7 +6,7 @@
   <div
     class="fixed z-[#99999] sx:w-[90%] mmd:w-[50%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#fafcf2] text-[#333] p-5 rounded-md"
   >
-    <div class="">
+    <div>
       <h1 class="flex justify-center text-xl font-[500]">Register</h1>
       <div class="mt-7">
         <FormInput
@@ -22,7 +22,7 @@
           type="string"
           placeholder="00 000-00-00"
           label="Tel nomer"
-          v-maska="'(##)-###-##-##'"
+          v-maska="'(##) ###-##-##'"
           class="mt-4"
         />
         <FormInput
@@ -70,18 +70,17 @@
         <div v-if="openCodeInput" class="text-center">
           <CodeInput
             @change="(e:any) => (codeSend = e)"
-
             :required="true"
             :fields="6"
             :fieldWidth="40"
             :fieldHeight="40"
           />
           <Timer @endTime="resendCode = true" class="mt-3 text-xl" />
-          <ButtonFillVue @click="confirmation" v-if="!resendCode">
-            <button class="py-2">
-              Tasdiqlash
-            </button>
-          </ButtonFillVue>
+          <div @click="confirmation">
+            <ButtonFillVue v-if="!resendCode">
+              <button class="py-2">Tasdiqlash</button>
+            </ButtonFillVue>
+          </div>
           <div v-if="resendCode">
             <a href="#">Qayta kod yuborish !</a>
           </div>
@@ -97,13 +96,11 @@ import Timer from "../form/Timer.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
-import { useRegister } from "@/store/register.js";
-import { useToast } from "vue-toastification";
+import { useAuth } from "@/store/auth.js";
 
-const toast = useToast();
-const openCodeInput = ref(false);
 const codeSend = ref("");
-const authRegisterStore = useRegister();
+const authStore = useAuth();
+const openCodeInput = ref(false);
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required } from "@vuelidate/validators";
@@ -120,10 +117,10 @@ const inputRegisterData = reactive({
 const rules = computed(() => {
   return {
     fullName: { required, minLength: minLength(4), maxLength: maxLength(50) },
-    password: { required, minLength: minLength(6) },
+    password: { required, minLength: minLength(8) },
     confirmPassword: {
       required,
-      minLength: minLength(6),
+      minLength: minLength(8),
     },
     birthDate: { required },
     phoneNumber: { required },
@@ -133,10 +130,7 @@ const rules = computed(() => {
 
 const $v = useVuelidate(rules, inputRegisterData);
 
-// const gender = ref("true");
-
 const submitBtn = async () => {
-  console.log(inputRegisterData);
   $v.value.$validate();
   if (!$v.value.$error) {
     try {
@@ -154,24 +148,18 @@ const submitBtn = async () => {
         gender: inputRegisterData.gender,
         birthDate: inputRegisterData.birthDate,
       };
-      const user = await authRegisterStore.useRegister(userOptions);
+      const user = await authStore.useRegister(userOptions);
       console.log(user);
       openCodeInput.value = true;
     } catch (error) {
       console.log(error);
-      toast.error("Xatolik mavjud !");
     } finally {
-      (inputRegisterData.fullName = ""),
-        (inputRegisterData.password = ""),
-        (inputRegisterData.confirmPassword = ""),
-        (inputRegisterData.phoneNumber = ""),
-        (inputRegisterData.gender = "true"),
-        (inputRegisterData.birthDate = ""),
-        $v.value.$reset();
+      $v.value.$reset();
     }
   }
 };
 
+// code input
 async function confirmation(e: any) {
   e.preventDefault();
   try {
@@ -185,15 +173,27 @@ async function confirmation(e: any) {
       phoneNumber: phone,
       code: codeSend.value,
     };
-    const codeData = authRegisterStore.codeInput(options);
-    console.log(codeData);
+    const tokenGet = {
+      phoneNumber: phone,
+      password: inputRegisterData.password,
+    };
+    const codeData = await authStore.codeInput(options);
+    setTimeout(() => {
+      const token = authStore.useLoginToken(tokenGet);
+      console.log(token);
+    }, 100);
+    resendCode.value = false;
+
+    setTimeout(() => {
+      emit("isOpenRegister");
+    }, 800);
   } catch (error) {
     console.log(error);
   }
 }
-
 // timer
 const resendCode = ref(false);
+
 const emit = defineEmits(["isOpenRegister"]);
 </script>
 <style scoped></style>

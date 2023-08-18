@@ -12,7 +12,7 @@
       :error="$Vlogin.phone.$error"
       type="string"
       placeholder="00 000 00 00"
-      v-maska="'(##)-###-##-##'"
+      v-maska="'(##) ###-##-##'"
       label="Tel nomer"
     />
     <FormInput
@@ -31,13 +31,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { reactive, computed } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
-
 // Validatsiya form Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, maxLength } from "@vuelidate/validators";
+
+import { useToast } from "vue-toastification";
+const toast = useToast();
+
+import { useAuth } from "@/store/auth.js";
+const store = useAuth();
+
 const dataLogin = reactive({
   phone: "",
   password: "",
@@ -45,7 +51,7 @@ const dataLogin = reactive({
 const roles = computed(() => {
   return {
     phone: { required },
-    password: { required, minLength: minLength(6), maxLength: maxLength(6) },
+    password: { required, minLength: minLength(8) },
   };
 });
 const $Vlogin = useVuelidate(roles, dataLogin);
@@ -56,9 +62,23 @@ const submitLoginBtn = async () => {
   $Vlogin.value.$validate();
   if (!$Vlogin.value.$error) {
     try {
-      // function
+      const phone =
+        "+998" +
+        dataLogin.phone
+          .replaceAll("-", "")
+          .replace("(", "")
+          .replace(") ", "");
+      const options = {
+        phoneNumber: phone,
+        password: dataLogin.password,
+      };
+      const user = await store.useLoginToken(options);
+      console.log(user);
+      emit('openLoginModal')
+      toast.success("Siz ro'yxatdan o'tdingiz !");
     } catch (error) {
       console.log(error);
+      toast.error("Xatolik mavjud !")
     } finally {
       (dataLogin.password = ""), (dataLogin.phone = "");
       $Vlogin.value.$reset();
