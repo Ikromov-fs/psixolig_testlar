@@ -75,7 +75,11 @@
             :fieldWidth="40"
             :fieldHeight="40"
           />
-          <Timer @endTime="resendCode = true" class="mt-3 text-xl" />
+          <Timer
+            @endTime="resendCode = true"
+            ref="codeNext"
+            class="mt-3 text-xl"
+          />
           <div @click="confirmation">
             <ButtonFillVue v-if="!resendCode">
               <button class="py-2">Tasdiqlash</button>
@@ -99,8 +103,8 @@ import TypeRadio from "../input/TypeRadio.vue";
 import { useAuth } from "@/store/auth.js";
 import axios from "axios";
 const codeSend = ref("");
+const codeNext = ref();
 const authStore = useAuth();
-const openCodeInput = ref(false);
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required } from "@vuelidate/validators";
@@ -127,7 +131,7 @@ const rules = computed(() => {
     gender: { required },
   };
 });
-
+const resendCode = ref(false);
 const $v = useVuelidate(rules, inputRegisterData);
 
 const submitBtn = async () => {
@@ -196,22 +200,7 @@ function prevModal() {
   authStore.isLoginData();
 }
 
-// async function resedCode() {
-//   try {
-//     const phone =
-//       "+998" +
-//       inputRegisterData.phoneNumber
-//         .replaceAll("-", "")
-//         .replace("(", "")
-//         .replace(") ", "");
-//     const nextCode = await axios.post("/auth/code/resend", phone);
-//     console.log(nextCode);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-function resedCode() {
+async function resedCode() {
   try {
     const phoneNumber =
       "+998" +
@@ -219,14 +208,17 @@ function resedCode() {
         .replaceAll("-", "")
         .replace("(", "")
         .replace(") ", "");
-    const nextCode = axios.post("/auth/code/resend", { phoneNumber });
-    console.log(nextCode);
+    const nextCode = await axios.post("/auth/code/resend", { phoneNumber });
+    if (nextCode) {
+      resendCode.value = false;
+      codeNext.value.expFunction();
+    }
   } catch (error) {
-    console.log(error);
+    if (error) {
+      resendCode.value = true;
+    }
   }
 }
-// timer
-const resendCode = ref(false);
 
 const emit = defineEmits(["isOpenRegister"]);
 </script>
