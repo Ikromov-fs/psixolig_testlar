@@ -33,7 +33,7 @@ const id = route.params.id;
 const testChild = ref();
 async function getAllCategoryChild() {
   try {
-    const childCategory = await axios.get(`test/allByCategoryId/${id}`);
+    const childCategory = await axios.get(`test/get/all-by-category-id/${id}`);
     testChild.value = childCategory.data;
   } catch (error) {
     console.log(error);
