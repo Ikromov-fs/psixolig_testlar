@@ -24,7 +24,7 @@ function timrFunc() {
       clearInterval(time);
       emit("endTime", true);
     }
-  }, 1000);
+  }, 100);
 }
 
 function expFunction() {
