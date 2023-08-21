@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="emit('isOpenRegister')"
+    @click="prevModal"
     class="fixed z-[#99999] inset-0 bg-[#00000014] backdrop-blur-[11.5px]"
   ></div>
   <div
@@ -62,12 +62,12 @@
             </label>
           </div>
         </div>
-        <div v-if="!openCodeInput" @click="submitBtn">
+        <div v-if="!authStore?.isLogin" @click="submitBtn">
           <ButtonFillVue>
             <button class="py-2">Jo'natish</button>
           </ButtonFillVue>
         </div>
-        <div v-if="openCodeInput" class="text-center">
+        <div v-if="authStore?.isLogin" class="text-center">
           <CodeInput
             @change="(e:any) => (codeSend = e)"
             :required="true"
@@ -75,13 +75,17 @@
             :fieldWidth="40"
             :fieldHeight="40"
           />
-          <Timer @endTime="resendCode = true" class="mt-3 text-xl" />
+          <Timer
+            @endTime="resendCode = true"
+            ref="codeNext"
+            class="mt-3 text-xl"
+          />
           <div @click="confirmation">
             <ButtonFillVue v-if="!resendCode">
               <button class="py-2">Tasdiqlash</button>
             </ButtonFillVue>
           </div>
-          <div v-if="resendCode">
+          <div @click="resedCode" v-if="resendCode">
             <a href="#">Qayta kod yuborish !</a>
           </div>
         </div>
@@ -97,10 +101,10 @@ import ButtonFillVue from "../buttons/ButtonFillVue.vue";
 import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
 import { useAuth } from "@/store/auth.js";
-
+import axios from "axios";
 const codeSend = ref("");
+const codeNext = ref();
 const authStore = useAuth();
-const openCodeInput = ref(false);
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required } from "@vuelidate/validators";
@@ -127,7 +131,7 @@ const rules = computed(() => {
     gender: { required },
   };
 });
-
+const resendCode = ref(false);
 const $v = useVuelidate(rules, inputRegisterData);
 
 const submitBtn = async () => {
@@ -150,7 +154,6 @@ const submitBtn = async () => {
       };
       const user = await authStore.useRegister(userOptions);
       console.log(user);
-      openCodeInput.value = true;
     } catch (error) {
       console.log(error);
     } finally {
@@ -185,14 +188,37 @@ async function confirmation(e: any) {
     resendCode.value = false;
     setTimeout(() => {
       emit("isOpenRegister");
+      authStore.isLoginData();
       authStore.getToken();
     }, 800);
   } catch (error) {
     console.log(error);
   }
 }
-// timer
-const resendCode = ref(false);
+function prevModal() {
+  emit("isOpenRegister");
+  authStore.isLoginData();
+}
+
+async function resedCode() {
+  try {
+    const phoneNumber =
+      "+998" +
+      inputRegisterData.phoneNumber
+        .replaceAll("-", "")
+        .replace("(", "")
+        .replace(") ", "");
+    const nextCode = await axios.post("/auth/code/resend", { phoneNumber });
+    if (nextCode) {
+      resendCode.value = false;
+      codeNext.value.expFunction();
+    }
+  } catch (error) {
+    if (error) {
+      resendCode.value = true;
+    }
+  }
+}
 
 const emit = defineEmits(["isOpenRegister"]);
 </script>

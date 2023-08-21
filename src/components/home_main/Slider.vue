@@ -2,20 +2,31 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { defineComponent } from "vue";
+import axios from "axios";
+
+// async function getNews() {
+//   try {
+//     const news = await axios.get("news/get-all")
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 const data = [
   {
-    image:"https://i.ytimg.com/vi/YaCiB6JZG9w/maxresdefault.jpg",
-    id:1
+    image: "https://i.ytimg.com/vi/YaCiB6JZG9w/maxresdefault.jpg",
+    id: 1,
   },
   {
-    image:"https://cyberleninka.ru/article/n/psixologiya-va-inson/og",
-    id:2
+    image: "https://cyberleninka.ru/article/n/psixologiya-va-inson/og",
+    id: 2,
   },
   {
-    image:"https://0701.static.prezi.com/preview/v2/eejgyo57k5qosc5xejjbesswp36jc3sachvcdoaizecfr3dnitcq_3_0.png",
-    id:3
+    image:
+      "https://0701.static.prezi.com/preview/v2/eejgyo57k5qosc5xejjbesswp36jc3sachvcdoaizecfr3dnitcq_3_0.png",
+    id: 3,
   },
-]
+];
 export default defineComponent({
   components: {
     Splide,

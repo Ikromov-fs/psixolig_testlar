@@ -7,6 +7,7 @@ export const useAuth = defineStore("user", {
   state: () => ({
     userData: undefined,
     isToken: false,
+    isLogin: false,
   }),
   actions: {
     // register
@@ -14,8 +15,10 @@ export const useAuth = defineStore("user", {
       try {
         const user = await axios.post("/auth/register", options);
         this.userData = user.data;
+        this.isLogin = true;
       } catch (error) {
         console.log(error);
+        this.isLogin = false;
         toast.error("Xatolik mavjud !");
       }
     },
@@ -51,6 +54,9 @@ export const useAuth = defineStore("user", {
       } else {
         this.isToken = false;
       }
+    },
+    isLoginData() {
+      this.isLogin = false;
     },
     logOut() {
       localStorage.removeItem("token");
