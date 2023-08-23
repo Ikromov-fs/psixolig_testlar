@@ -8,25 +8,25 @@
     <div class="grid sx:grid-cols-1 mmd:grid-cols-2 items-center">
       <div class="border-solid border-[1px] border-[#333] p-5 rounded-md">
         <FormInput
-          v-model="dataContact.fulName"
-          :error="$v.fulName.$error"
+          v-model="dataContact.fullName"
+          :error="$v.fullName.$error"
           type="string"
           label="F.I.Sh"
           placeholder="F.I.Sh"
           class="mt-3"
         />
         <FormInput
-          v-model="dataContact.phone"
-          :error="$v.phone.$error"
+          v-model="dataContact.phoneNumber"
+          :error="$v.phoneNumber.$error"
           type="string"
           label="Tel nomer"
           placeholder="tel nomer"
-          v-maska="'(##)-###-##-##'"
+          v-maska="'(##) ###-##-##'"
           class="mt-3"
         />
         <FormInput
-          v-model="dataContact.description"
-          :error="$v.description.$error"
+          v-model="dataContact.comment"
+          :error="$v.comment.$error"
           type="string"
           label="Tavsifi"
           placeholder="tavsifi"
@@ -51,37 +51,60 @@ import ButtonTemp from "../buttons/ButtonFillVue.vue";
 import contact from "../../assets/svg/contact.svg";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+import { tokens } from "maska";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
+import axios from "@/plugins/axios.js";
+const router = useRouter();
+const toast = useToast();
+const token = localStorage.getItem("token");
 
 const dataContact = reactive({
-  fulName: "",
-  phone: "",
-  description: "",
+  fullName: "",
+  phoneNumber: "",
+  comment: "",
 });
 
 const rules = computed(() => {
   return {
-    fulName: { required },
-    phone: { required, minLength: minLength(12) },
-    description: { required },
+    fullName: { required },
+    phoneNumber: { required, minLength: minLength(12) },
+    comment: { required },
   };
 });
 
 const $v = useVuelidate(rules, dataContact);
 
 // set with Back end
-
 const contactBtn = async () => {
-  $v.value.$validate()
+  $v.value.$validate();
   if (!$v.value.$error) {
-    try {
-      // function
-    } catch (error) {
-      console.log(error);
-    } finally {
-      (dataContact.description = ""),
-        (dataContact.phone = ""),
-        (dataContact.fulName = "");
-      $v.value.$reset();
+    if (token) {
+      try {
+        const phone =
+          "+998" +
+          dataContact.phoneNumber
+            .replaceAll("-", "")
+            .replace("(", "")
+            .replace(") ", "");
+        const dataForCantact = {
+          fullName: dataContact.fullName,
+          phoneNumber: phone,
+          comment: dataContact.comment,
+        };
+        const setAdmin = axios.post("/suggestions/create", dataForCantact);
+        console.log(setAdmin);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        (dataContact.comment = ""),
+          (dataContact.phoneNumber = ""),
+          (dataContact.fullName = "");
+        $v.value.$reset();
+      }
+    } else {
+      router.push("/");
+      toast.error("Jo'natishdan oldin ro'yhatdan o'ting !");
     }
   }
 };
