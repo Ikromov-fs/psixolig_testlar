@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="mt-2">
+        <pre>{{testQuestions}}</pre>
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
         <h2 class="font-medium text-xl">Category name / Birinchi test</h2>
@@ -11,22 +12,22 @@
             <div class="flex gap-2">
               <div class="flex flex-col gap-2">
                 <img
-                  v-if="testQuestions?.imageID"
-                  :src="testQuestions?.imageID"
+                  v-if="testQuestions?.questionDTO?.image"
+                  :src="testQuestions?.questionDTO?.image.url"
                   alt="test images"
                   class="max-h-[130px] object-contain w-full"
                 />
-                <p v-if="testQuestions?.title">{{ testQuestions?.title }}.</p>
+                <p v-if="testQuestions?.questionDTO?.title">{{ testQuestions?.questionDTO?.title }}.</p>
               </div>
             </div>
             <!--  single choice section-->
             <div
               class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions.testType == 'SINGLE_CHOICE'"
+              v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
             >
               <div
                 class="w-full py-3 px-2 border cursor-pointer relative"
-                v-for="(item, index) in testQuestions.answerCreateDTOList"
+                v-for="(item, index) in testQuestions?.questionDTO?.answerDTOList"
               >
                 <label
                   :for="`test${index + 1}`"
@@ -36,11 +37,11 @@
                   <TypeRadio
                     :input-id="`test${index + 1}`"
                     :value="item.id"
-                    v-model="testQuestions.correctAnswers[0]"
+                    v-model="testQuestions.answers[0]"
                   />
                   <img
-                    v-if="item?.imageID"
-                    :src="item?.imageID"
+                    v-if="item?.image"
+                    :src="item?.image?.url"
                     alt="test images"
                     class="w-[70px] h-[70px] object-cover"
                   />
@@ -51,11 +52,11 @@
             <!--  multiple choice section-->
             <div
               class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions.testType == 'MULTIPLE_CHOICE'"
+              v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
             >
               <div
                 class="w-full py-3 px-2 border cursor-pointer relative"
-                v-for="(item, index) in testQuestions.answerCreateDTOList"
+                v-for="(item, index) in testQuestions?.questionDTO?.answerDTOList"
               >
                 <label
                   :for="`test${index + 1}`"
@@ -68,8 +69,8 @@
                     :value="item.val"
                   />
                   <img
-                    v-if="item?.imageID"
-                    :src="item?.imageID"
+                    v-if="item?.image?.url"
+                    :src="item?.image?.url"
                     alt="test images"
                     class="w-[70px] h-[70px] object-cover"
                   />
@@ -90,7 +91,6 @@
               </div>
             </div>
           </div>
-            <pre>{{route.query.id}}</pre>
           <div class="flex gap-3 justify-end mt-5">
             <SButton
               variant="dark"
@@ -137,15 +137,27 @@ import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
-const activeTest = ref(route.query.id);
+const activeTest = ref(route.query.index);
 const totalTest = ref(10);
 const prevDisabled = ref(false);
 const nextDisabled = ref(false);
 
+const testIndex = ref([])
+
+function fetchTestQuestionAll(){
+    axios.get(`progress/questionsResults/${route.query.id}`).then((res)=>{
+        console.log(res)
+        testIndex.value = res.data
+        totalTest.value = res.data.length
+    }).catch((err)=>{
+        console.log(err)
+    })
+}
+
 function fetchPrevQuestion(id: number) {
   if (id > 1) {
     id--;
-    router.replace(`/tester?id=${id}`);
+    router.replace(`/tester?id=${route.query.id}&index=${id}`);
   } else {
     prevDisabled.value = true;
   }
@@ -153,66 +165,28 @@ function fetchPrevQuestion(id: number) {
 
 function fetchNextQuestion(id: number) {
   if (id < totalTest.value) {
+      setAnswerTest()
     id++;
-    router.replace(`/tester?id=${id}`);
+    router.replace(`/tester?id=${route.query.id}&index=${id}`);
   } else {
     nextDisabled.value = true;
   }
 }
 
 watch(
-  () => route.query.id,
+  () => route.query.index,
   (newVal) => {
     activeTest.value = newVal;
+    const testIndex = Number(newVal)
+    solveTest(testIndex)
     prevDisabled.value = false;
     nextDisabled.value = false;
   }
 );
 
-const testIndex = [
-  {
-    id: 1,
-    isSolve: false,
-  },
-  {
-    id: 2,
-    isSolve: false,
-  },
-  {
-    id: 3,
-    isSolve: false,
-  },
-  {
-    id: 4,
-    isSolve: false,
-  },
-  {
-    id: 5,
-    isSolve: false,
-  },
-  {
-    id: 6,
-    isSolve: false,
-  },
-  {
-    id: 7,
-    isSolve: false,
-  },
-  {
-    id: 8,
-    isSolve: false,
-  },
-  {
-    id: 9,
-    isSolve: true,
-  },
-  {
-    id: 10,
-    isSolve: false,
-  },
-];
 
-const testQuestions = reactive(
+
+// const testQuestions = reactive(
   // {
   //     id:1,
   //     testType:"SINGLE_CHOICE",
@@ -242,41 +216,61 @@ const testQuestions = reactive(
   //         }
   //     ]
   // }
-  {
-    id: 1,
-    testType: "MULTIPLE_CHOICE",
-    title:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-    imageID: "https://picsum.photos/id/237/536/354",
-    correctAnswers: [1, 3],
-    answerCreateDTOList: [
-      {
-        id: 1,
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-        imageID: "",
-        val: true,
-      },
-      {
-        id: 2,
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-        imageID: "https://picsum.photos/id/237/536/354",
-        val: false,
-      },
-      {
-        id: 3,
-        text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-        imageID: "",
-        val: false,
-      },
-      {
-        id: 4,
-        text: "",
-        imageID: "https://picsum.photos/id/237/536/354",
-        val: false,
-      },
-    ],
-  }
-);
+  //   multiple_chhoice
+  // {
+  //   id: 1,
+  //   testType: "MULTIPLE_CHOICE",
+  //   title:
+  //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
+  //   imageID: "https://picsum.photos/id/237/536/354",
+  //   correctAnswers: [1, 3],
+  //   answerCreateDTOList: [
+  //     {
+  //       id: 1,
+  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+  //       imageID: "",
+  //       val: true,
+  //     },
+  //     {
+  //       id: 2,
+  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+  //       imageID: "https://picsum.photos/id/237/536/354",
+  //       val: false,
+  //     },
+  //     {
+  //       id: 3,
+  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
+  //       imageID: "",
+  //       val: false,
+  //     },
+  //     {
+  //       id: 4,
+  //       text: "",
+  //       imageID: "https://picsum.photos/id/237/536/354",
+  //       val: false,
+  //     },
+  //   ],
+  // }
+// );
+
+
+const testQuestions = ref([])
+
+function setAnswerTest(){
+    const answer = {
+        questionID:testQuestions.value.questionDTO?.id,
+        answers : [+testQuestions.value.answers],
+        blankAnswer:null
+    }
+
+    axios.post('progress/set-answer',answer).then((res)=>{
+        console.log(res)
+    }).catch((err)=>{
+        console.log(err)
+    })
+
+    console.log(answer,"result")
+}
 
 function finishTest() {
   if (testQuestions.testType == "MULTIPLE_CHOICE") {
@@ -301,26 +295,33 @@ function finishTest() {
 
 
 const index = ref(1)
-function solveTest(){
-    axios.get(`question/get-quiz?test-id=${route.query.id}&index=${index.value}`).then((res)=>{
+function solveTest(index:number){
+    axios.get(`question/get-quiz?test-id=${route.query.id}&index=${index}`).then((res)=>{
         console.log(res)
+        testQuestions.value = res.data
     }).catch((err)=>{
         console.log(err)
     })
 }
 
+function isCheckMultipleQuestion(){
+    if (testQuestions.testType == "MULTIPLE_CHOICE") {
+        testQuestions.correctAnswers.forEach((el) => {
+            const obj = testQuestions.answerCreateDTOList.find(
+                (item) => item.id === el
+            );
+            obj.val = true;
+        });
+    }
+}
+
+
+
 onMounted(() => {
-  if (testQuestions.testType == "MULTIPLE_CHOICE") {
-    testQuestions.correctAnswers.forEach((el) => {
-      console.log(el);
-      const obj = testQuestions.answerCreateDTOList.find(
-        (item) => item.id === el
-      );
-      obj.val = true;
-    });
-    console.log(testQuestions);
-  }
+    isCheckMultipleQuestion()
+    solveTest(index.value)
+    fetchTestQuestionAll()
 });
 
-solveTest()
+
 </script>
