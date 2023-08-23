@@ -107,7 +107,7 @@ const codeNext = ref();
 const authStore = useAuth();
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
-import { minLength, maxLength, required } from "@vuelidate/validators";
+import { minLength, maxLength, required, sameAs } from "@vuelidate/validators";
 
 const inputRegisterData = reactive({
   fullName: "",
@@ -124,6 +124,7 @@ const rules = computed(() => {
     password: { required, minLength: minLength(8) },
     confirmPassword: {
       required,
+      sameAs: sameAs(inputRegisterData.password),
       minLength: minLength(8),
     },
     birthDate: { required },

@@ -116,7 +116,6 @@ import { useAuth } from "@/store/auth.js";
 const store = useAuth();
 const router = useRouter();
 
-
 // Register
 import Register from "../modals/Register.vue";
 const isRegister = ref(false);
@@ -138,7 +137,7 @@ function goRouter() {
   }, 10);
 }
 onMounted(() => {
-  store.getToken()
+  store.getToken();
 });
 </script>
 <style scoped>
