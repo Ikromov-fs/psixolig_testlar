@@ -5,9 +5,8 @@ import { useToast } from "vue-toastification";
 const toast = useToast();
 export const useAuth = defineStore("user", {
   state: () => ({
-    userData: undefined,
+    userData: [],
     isToken: false,
-    isLogin: false,
   }),
   actions: {
     // register

@@ -93,7 +93,7 @@ const contactBtn = async () => {
           comment: dataContact.comment,
         };
         const setAdmin = axios.post("/suggestions/create", dataForCantact);
-        console.log(setAdmin);
+        toast.success("Xabar yuborildi !");
       } catch (error) {
         console.log(error);
       } finally {
@@ -103,8 +103,13 @@ const contactBtn = async () => {
         $v.value.$reset();
       }
     } else {
+      $v.value.$reset();
       router.push("/");
       toast.error("Jo'natishdan oldin ro'yhatdan o'ting !");
+      (dataContact.comment = ""),
+        (dataContact.phoneNumber = ""),
+        (dataContact.fullName = "");
+        
     }
   }
 };

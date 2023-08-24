@@ -7,7 +7,7 @@
     </div>
     <div>
       <p
-        class="flex sx:text-xl justify-center mmd:text-[35px] font-sans font-[600]"
+        class="flex sx:text-xl justify-center mmd:text-[35px] font-[600]"
       >
         Biz emas - natijalarimiz gapirsin !
       </p>
@@ -26,11 +26,11 @@
       </div>
       <div data-aos="zoom-in-down" class="sx:my-5">
         <AutoCount :endAmount="endAmount2" :suffix="'+'" />
-        <p class="text-[17px]">Bitirgan o'quvchilar soni</p>
+        <p class="text-[17px]">Saytdan foydalanadiganlar soni</p>
       </div>
     </div>
-    <p class="sx:px-0 mmd:px-10 font-sans text-[16px] sx:mt-5 mmd:mt-20">
-      <span class="text-[20px] font-sans font-[600]"
+    <p class="sx:px-0 mmd:px-10 text-[16px] sx:mt-5 mmd:mt-20">
+      <span class="text-[20px] font-[600]"
         >XATB "Orient Finans" Amaliyot Boshqarmasi (OPERU) -
       </span>
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam

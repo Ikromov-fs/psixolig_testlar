@@ -4,10 +4,16 @@
     class="fixed z-[#99999] inset-0 bg-[#00000014] backdrop-blur-[11.5px]"
   ></div>
   <div
-    class="fixed z-[#99999] sx:w-[90%] mmd:w-[50%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#fafcf2] text-[#333] p-5 rounded-md"
+    class="reactive fixed z-[#99999] sx:w-[90%] mmd:w-[50%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#fafcf2] text-[#333] p-5 rounded-md"
   >
     <div>
       <h1 class="flex justify-center text-xl font-[500]">Register</h1>
+      <!-- <img
+        v-if="true"
+        :src="loadingImg"
+        alt="loading"
+        class="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      /> -->
       <div class="mt-7">
         <FormInput
           v-model="inputRegisterData.fullName"
@@ -102,8 +108,10 @@ import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
 import { useAuth } from "@/store/auth.js";
 import axios from "axios";
+import loadingImg from "@/assets/svg/loading.svg";
 const codeSend = ref("");
 const codeNext = ref();
+const loading = ref(false);
 const authStore = useAuth();
 // Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";

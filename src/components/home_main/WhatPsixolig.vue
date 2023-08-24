@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-[#1F2E35]">
+  <div class="bg-[#02897A]">
     <div data-aos="zoom-in-up" class="container py-10">
       <div class="flex justify-center gap-1 text-lg">
         <span class="text-[#fff]">06</span>
         <span class="text-[#fff]">|</span>
         <span class="text-[#fdf001]">Psixologiya nima?</span>
       </div>
-      <div class="text-[#f1f1f1] font-sans">
+      <div class="text-[#f1f1f1]">
         <div class="mmd:text-[19px] mt-7">
           <p>
             Psixologiya — inson faoliyati va hayvonlar xatti-harakati jarayonida

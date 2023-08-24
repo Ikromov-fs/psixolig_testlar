@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#1F2E35] py-5">
+  <div class="bg-[#02897A] py-5">
     <div class="container grid sx:grid-cols-1 ss:grid-cols-2 mmd:grid-cols-4 sx:text-center gap-5 mmd:text-left text-white">
       <ul>
         <li class="">Sayt iconkasi</li>
@@ -35,4 +35,8 @@
   </div>
 </template>
 <script setup></script>
-<style scoped></style>
+<style scoped>
+.ok{
+  color: rgb(14, 14, 14)
+}
+</style>

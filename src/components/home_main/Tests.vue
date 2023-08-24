@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#1F2E35] pb-20 pt-10">
+  <div class="bg-[#02897A] pb-20 pt-10">
     <div data-aos="fade-up">
       <div class="container mx-auto">
         <div class="flex justify-center gap-1 text-lg">

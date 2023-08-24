@@ -97,7 +97,7 @@ export default defineComponent({
       <span class="text-[#333]">|</span>
       <span>Yutuqlar</span>
     </div>
-    <h1 class="flex justify-center mb-10 font-sans font-[600] text-[20px]">
+    <h1 class="flex justify-center mb-10 font-[600] text-[20px]">
       Bizning aktiv o'quvchilarimiz !
     </h1>
     <div>
@@ -113,13 +113,13 @@ export default defineComponent({
               alt="image"
               class="w-[120px] rounded-[50%] mx-auto block"
             />
-            <h2 class="flex justify-center my-3 text-xl font-sans font-[600]">
+            <h2 class="flex justify-center my-3 text-xl  font-[600]">
               {{ item?.name }}
             </h2>
-            <div class="flex flex-col text-[18px] font-sans">
+            <div class="flex flex-col text-[18px]">
               {{ item?.job }}
             </div>
-            <p class="font-sans text-base">
+            <p class="text-base">
               {{ item?.text }}
             </p>
           </div>

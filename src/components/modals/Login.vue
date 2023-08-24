@@ -6,7 +6,7 @@
   <div
     class="fixed z-[#99999] bg-[#fafcf2] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sx:w-[90%] p-8 rounded-md mmd:w-[40%]"
   >
-    <h1 class="text-[20px] font-sans flex justify-center font-[500]">Login</h1>
+    <h1 class="text-[20px] flex justify-center font-[500]">Login</h1>
     <FormInput
       v-model="dataLogin.phone"
       :error="$Vlogin.phone.$error"

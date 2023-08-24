@@ -16,7 +16,7 @@
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
         <img :src="profileImage" alt="profile image" class="cursor-pointer" />
-        <h1 class="font-[500] text-[19px]">Ikromov Nodir Shomurod o'g'li</h1>
+        <h1 class="font-[500] text-[19px]">Nodir Ikromov</h1>
         <div class="text-left mt-5">
           <p class="opacity-[0.5]">Email</p>
           <h1 class="mt-2">nodirikromov10@gmail.com</h1>
@@ -68,9 +68,11 @@ import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
 import { useToast } from "vue-toastification";
-const toast = useToast()
+const toast = useToast();
 const store = useAuth();
 const router = useRouter();
+
+console.log(store);
 
 const testList = [
   {
@@ -112,7 +114,7 @@ function startTest(id: number) {
 function exit() {
   store.logOut();
   store.getToken();
-  toast.error("Tizimdan chiqsingiz !")
+  toast.error("Tizimdan chiqsingiz !");
   router.push("/");
 }
 </script>

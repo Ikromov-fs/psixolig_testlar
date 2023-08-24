@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-[#1F2E35]">
+  <div class="bg-[#02897A]">
     <div data-aos="zoom-in-up">
       <div class="container mx-auto py-10">
-        <div class="flex justify-center gap-1 text-lg">
+        <div class="flex justify-center gap-1 text-lg ">
           <span class="text-[#fff]">04</span>
           <span class="text-[#fff]">|</span>
           <span class="text-[#fdf001]">Hamkorlar</span>
