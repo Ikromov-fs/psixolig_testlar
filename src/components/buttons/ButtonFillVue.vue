@@ -11,14 +11,14 @@
   <RouterLink
     v-if="isTo"
     :to="to"
-    class="buttonFillStyle text-[#F4F6F9] duration-300 hover:bg-transparent border px-4 rounded-lg flex items-center justify-center cursor-pointer"
+    class="buttonFillStyle text-[#fff] duration-300 hover:bg-transparent border px-4 rounded-lg flex items-center justify-center cursor-pointer"
   >
     <slot></slot>
   </RouterLink>
 </template>
 <script setup>
 const props = defineProps({ to: String, color: String, disabled: Boolean });
-const color1 = props.color || "#02897A";
+const color1 = props.color || "#085344";
 const isTo = props.to ? true : false;
 </script>
 

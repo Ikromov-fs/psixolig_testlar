@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#02897A]">
+  <div class="bg-[#085344]">
     <div data-aos="zoom-in-up">
       <div class="container mx-auto py-10">
         <div class="flex justify-center gap-1 text-lg ">

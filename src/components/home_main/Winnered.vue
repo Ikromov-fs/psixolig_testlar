@@ -1,8 +1,7 @@
-<script>
+<script lang="ts">
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { defineComponent } from "vue";
-
 const data = [
   {
     image:
@@ -105,7 +104,7 @@ export default defineComponent({
         <SplideSlide
           v-for="item in data"
           :key="item?.id"
-          class="bg-[#fff] rounded-md p-3"
+          class="bg-[#fff] rounded-[20px] p-3 border-solid border-[1px]"
         >
           <div class="text-center">
             <img
@@ -113,7 +112,7 @@ export default defineComponent({
               alt="image"
               class="w-[120px] rounded-[50%] mx-auto block"
             />
-            <h2 class="flex justify-center my-3 text-xl  font-[600]">
+            <h2 class="flex justify-center my-3 text-xl font-[600]">
               {{ item?.name }}
             </h2>
             <div class="flex flex-col text-[18px]">

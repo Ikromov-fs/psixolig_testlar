@@ -4,7 +4,7 @@
     class="fixed z-[#999999] backdrop-blur-[11.5px] inset-0"
   ></div>
   <div
-    class="fixed z-[#99999] bg-[#fafcf2] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sx:w-[90%] p-8 rounded-md mmd:w-[40%]"
+    class="fixed z-[#99999] bg-[#fff] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sx:w-[90%] p-8 rounded-md mmd:w-[40%]"
   >
     <h1 class="text-[20px] flex justify-center font-[500]">Login</h1>
     <FormInput
@@ -24,7 +24,7 @@
       class="mt-3"
     />
     <div class="mt-5" @click="submitLoginBtn">
-      <ButtonFillVue>
+      <ButtonFillVue color="#d56603">
         <button class="py-2">Jo'natish</button>
       </ButtonFillVue>
     </div>
