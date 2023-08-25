@@ -69,7 +69,7 @@
           </div>
         </div>
         <div v-if="!authStore?.isLogin" @click="submitBtn">
-          <ButtonFillVue>
+          <ButtonFillVue color="#d56603">
             <button class="py-2">Jo'natish</button>
           </ButtonFillVue>
         </div>
@@ -87,7 +87,7 @@
             class="mt-3 text-xl"
           />
           <div @click="confirmation">
-            <ButtonFillVue v-if="!resendCode">
+            <ButtonFillVue color="#d56603" v-if="!resendCode">
               <button class="py-2">Tasdiqlash</button>
             </ButtonFillVue>
           </div>

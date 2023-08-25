@@ -1,19 +1,28 @@
 <template>
-  <div class="bg-[#02897A] py-5">
-    <div class="container grid sx:grid-cols-1 ss:grid-cols-2 mmd:grid-cols-4 sx:text-center gap-5 mmd:text-left text-white">
+  <div class="bg-[#363636] py-5 mmd:pb-10">
+    <div
+      class="container grid sx:grid-cols-1 ss:grid-cols-2 mmd:grid-cols-4 sx:text-center gap-5 mmd:text-left text-white font-[600]"
+    >
       <ul>
-        <li class="">Sayt iconkasi</li>
+        <li>
+          <img :src="logo" alt="iconka sayt" class="sx:mx-auto mmd:m-0 max-w-[100px]" />
+        </li>
       </ul>
       <ul class="flex flex-col gap-1">
         <li class="text-[19px]">Bizni kuzating !</li>
         <li class="cursor-pointer hover:text-[#fdf001]">
-          <i class="fa-brands fa-telegram mr-2"></i> Telegiram
+          <i class="fa-brands fa-telegram mr-2"></i>
+          <a href="https://t.me/psixolog_rozaliya">Telegram</a>
         </li>
         <li class="cursor-pointer hover:text-[#fdf001]">
-          <i class="fa-brands fa-instagram mr-2"></i> Instagiram
+          <i class="fa-brands fa-instagram mr-2"></i>
+          <a href="https://www.instagram.com/psixolog_rozaliya/">Instagiram</a>
         </li>
         <li class="cursor-pointer hover:text-[#fdf001]">
-          <i class="fa-brands fa-youtube mr-2"></i> Youtube
+          <i class="fa-brands fa-youtube mr-2"></i>
+          <a href="https://www.youtube.com/@PsixologRozaliyaGabdulhakova"
+            >Youtube</a
+          >
         </li>
       </ul>
       <ul class="flex flex-col gap-1">
@@ -25,18 +34,23 @@
       <ul class="flex flex-col gap-1">
         <li class="text-[19px]">Bog'lanish</li>
         <li class="hover:text-[#fdf001] cursor-pointer">
-          <i class="fa-solid fa-phone mr-2"></i>(99)-105-92-01
+          <i class="fa-solid fa-phone mr-2 text-[18px]"></i>(90) 333-41-41
         </li>
         <li class="hover:text-[#fdf001] cursor-pointer">
-          <i class="fa-solid fa-at mr-2"></i> nodirikromov10@gmail.com
+          <i class="fa-solid fa-headset mr-2 text-[18px]"></i>
+          <a href="https://t.me/psixolog_rozaliya_admin">
+            psixolog_rozaliya admini</a
+          >
         </li>
       </ul>
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import logo from "@/assets/image/psix-logo.png";
+</script>
 <style scoped>
-.ok{
-  color: rgb(14, 14, 14)
+.ok {
+  color: rgb(14, 14, 14);
 }
 </style>

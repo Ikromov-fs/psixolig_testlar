@@ -114,7 +114,7 @@ function startTest(id: number) {
 function exit() {
   store.logOut();
   store.getToken();
-  toast.error("Tizimdan chiqsingiz !");
+  toast.success("Tizimdan chiqsingiz !");
   router.push("/");
 }
 </script>

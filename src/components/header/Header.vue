@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-[#02897A]">
+  <div class="bg-[#363636] rounded-bl-[20px] rounded-br-[20px]">
     <div
       class="container mx-auto text-white flex justify-between items-center py-8"
     >
       <div class="cursor-pointer">
-        <router-link to="/">Psixolig Test</router-link>
+        <router-link to="/"><img :src="logo" alt="logo" class="max-w-[40px] object-cover" /></router-link>
       </div>
       <ul
         class="hidden gap-5 items-center mmd:text-[15px] text-[13px] mmd:flex"
@@ -113,6 +113,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "@/store/auth.js";
+import logo from "@/assets/image/psix-logo.png";
 const store = useAuth();
 const router = useRouter();
 

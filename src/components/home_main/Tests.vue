@@ -1,19 +1,21 @@
 <template>
-  <div class="bg-[#02897A] pb-20 pt-10">
+  <div class="bg-[#f6c899] pb-20 pt-10 rounded-tl-[50px] rounded-br-[50px]">
     <div data-aos="fade-up">
       <div class="container mx-auto">
-        <div class="flex justify-center gap-1 text-lg">
+        <div class="flex justify-center font-[500] gap-1 text-lg">
           <span class="text-[#fff]">02</span>
           <span class="text-[#fff]">|</span>
-          <span class="text-[#fdf001]">Top testlar</span>
+          <span class="text-[#000]">Top testlar</span>
         </div>
         <div class="grid mmd:grid-cols-3 gap-10 relative">
           <div
             v-for="item in dataTests"
             :key="item?.id"
-            class="relative flex items-center text-left px-10 h-full bg-[#fff] p-2 mt-10 box-w rounded-md cursor-pointer"
+            class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] p-2 mt-10 box-w rounded-bl-[18px] rounded-tr-[18px] rounded-[2px] cursor-pointer "
           >
-            <i class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"></i>
+            <i
+              class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"
+            ></i>
             <h1 class="text-[18px]">{{ item?.title }}</h1>
           </div>
         </div>
@@ -67,5 +69,6 @@ const dataTests = ref([
   box-shadow: 0px 0px 20px #333;
   transition: all 0.2s linear;
   transform: scale(0.99);
+  background: #fff;
 }
 </style>
