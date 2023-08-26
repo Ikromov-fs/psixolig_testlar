@@ -61,7 +61,6 @@ export const useAuth = defineStore("user", {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
-      config.headers["Authorization"] = ``;
       this.islogin = false;
     },
   },
