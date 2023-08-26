@@ -1,12 +1,12 @@
 <template>
   <div data-aos="zoom-in-up" class="container mx-auto py-10">
-    <div class="flex justify-center gap-1 text-lg my-10">
+    <div class="flex justify-center gap-1 text-lg sx:my-5 mmd:my-8  ">
       <span class="text-[#333]">07</span>
       <span class="text-[#333]">|</span>
       <span>Kontakt</span>
     </div>
-    <div class="grid sx:grid-cols-1 mmd:grid-cols-2 items-center">
-      <div class="border-solid border-[1px] border-[#333] p-5 rounded-md">
+    <div class="grid sx:grid-cols-1 mmd:grid-cols-2 items-center relative">
+      <div class="border-solid border-[2px] p-5 rounded-md bg-[#fff]">
         <FormInput
           v-model="dataContact.fullName"
           :error="$v.fullName.$error"
@@ -49,9 +49,8 @@ import { computed, reactive } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonTemp from "../buttons/ButtonFillVue.vue";
 import contact from "../../assets/svg/contact.svg";
-import { useVuelidate } from "@vuelidate/core";
+import { useVuelidate } from "@vuelidate/core"; 
 import { required, minLength } from "@vuelidate/validators";
-import { tokens } from "maska";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 import axios from "@/plugins/axios.js";
@@ -109,7 +108,6 @@ const contactBtn = async () => {
       (dataContact.comment = ""),
         (dataContact.phoneNumber = ""),
         (dataContact.fullName = "");
-        
     }
   }
 };

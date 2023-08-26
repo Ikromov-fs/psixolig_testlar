@@ -1,23 +1,24 @@
 <template>
-  <div class="container mx-auto pb-10">
-    <div class="flex justify-center gap-1 text-lg my-10">
+  <div class="container mx-auto">
+    <div class="flex justify-center gap-1 text-lg sx:my-5 mmd:my-10">
       <span class="text-[#333]">05</span>
       <span class="text-[#333]">|</span>
       <span>Biz haqimizda</span>
     </div>
-    <div>
-      <p class="flex sx:text-xl justify-center mmd:text-[35px] font-[600]">
-        Biz emas - natijalarimiz gapirsin !
-      </p>
-    </div>
-    <div class="flex flex-col items-center">
+    <p
+      class="flex sx:text-[19px] text-center justify-center mmd:text-[35px] font-[600]"
+    >
+      Biz emas - natijalarimiz gapirsin !
+    </p>
+    <div class="flex flex-col items-center relative">
+      <img :src="style" alt="style" class="absolute right-1 bottom-0 hidden" />
       <img
         :src="imageOpa"
         alt="image muallif"
-        class="w-[155px] rounded-[50%] mt-10"
+        class="w-[155px] rounded-[50%] sx:mt-5 mmd:mt-10"
       />
       <p class="my-2">Rozaliya Gabdulhakova</p>
-      <ul class="border-solid border-[2px] rounded-md sx:px-2 mmd:px-10 py-5">
+      <ul class="border-solid border-[2px] rounded-md bg-[#fff] sx:px-2 mmd:px-10 py-5">
         <li
           v-for="item in data"
           :key="item?.id"
@@ -49,6 +50,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import imageOpa from "@/assets/image/opa.jpg";
+import style from "@/assets/image/style4.png";
 const endAmount = ref(1200);
 const endAmount1 = ref(120);
 const endAmount2 = ref(510);

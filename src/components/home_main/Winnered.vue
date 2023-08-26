@@ -90,13 +90,13 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="py-20">
-    <div class="flex justify-center gap-1 text-lg mb-10">
+  <div class="sx:py-10 mmd:py-20 bg-[#fff5ee]">
+    <div class="flex justify-center gap-1 text-lg sx:mb-5 mmd:mb-10">
       <span class="text-[#333]">03</span>
       <span class="text-[#333]">|</span>
       <span>Yutuqlar</span>
     </div>
-    <h1 class="flex justify-center mb-10 font-[600] text-[20px]">
+    <h1 class="flex justify-center sx:mb-4 mmd:mb-10 font-[600] text-[20px]">
       Bizning aktiv o'quvchilarimiz !
     </h1>
     <div>
@@ -104,7 +104,7 @@ export default defineComponent({
         <SplideSlide
           v-for="item in data"
           :key="item?.id"
-          class="bg-[#fff] rounded-[20px] p-3 border-solid border-[1px]"
+          class="bg-[#fff] rounded-[20px] p-3 "
         >
           <div class="text-center">
             <img
@@ -118,7 +118,7 @@ export default defineComponent({
             <div class="flex flex-col text-[18px]">
               {{ item?.job }}
             </div>
-            <p class="text-base">
+            <p class="sx:text-[14px] mmd:text-base">
               {{ item?.text }}
             </p>
           </div>
@@ -127,4 +127,5 @@ export default defineComponent({
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+</style>
