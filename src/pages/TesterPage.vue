@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="mt-2">
+    <div class="mt-2" v-if="!statusTest">
         <pre>{{testQuestions}}</pre>
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
@@ -65,8 +65,8 @@
                 <div class="flex gap-3">
                   <TypeCheckbox
                     :input-id="`test${index + 1}`"
-                    @changeVal="(e) => (item.val = e)"
-                    :value="item.val"
+                    @changeVal="(e) => (item.correct = e)"
+                    :value="item.correct"
                   />
                   <img
                     v-if="item?.image?.url"
@@ -81,12 +81,13 @@
             <!--  write choice section-->
             <div
               class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions.testType == 'WRITE_CHOICE'"
+              v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
             >
               <div class="w-full py-3 px-2 border cursor-pointer relative">
                 <FormInput
                   label="Javobingizni yozing"
                   placeholder="Javobingizni kiriting..."
+                  v-model="testQuestions.blankAnswer"
                 />
               </div>
             </div>
@@ -123,6 +124,15 @@
         <SButton variant="danger" @click="finishTest">Testni yakunlash</SButton>
       </div>
     </div>
+      <div v-else class="w-full h-[70vh] flex justify-center items-center">
+          <div class="text-center">
+              <p class="font-medium text-2xl">Testni yakunladingiz!</p>
+              <p class="my-4 font-semibold text-3xl mb-6">55 %</p>
+              <ButtonFillVue>
+                  <router-link class="py-3 font-medium" to="/tests">Testlar bo'limiga qaytish</router-link>
+              </ButtonFillVue>
+          </div>
+      </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -134,6 +144,7 @@ import TypeRadio from "@/components/input/TypeRadio.vue";
 import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
 import FormInput from "@/components/form/FormInput.vue";
 import axios from "axios";
+import ButtonFillVue from "@/components/buttons/ButtonFillVue.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -144,8 +155,8 @@ const nextDisabled = ref(false);
 
 const testIndex = ref([])
 
-function fetchTestQuestionAll(){
-    axios.get(`progress/questionsResults/${route.query.id}`).then((res)=>{
+async function fetchTestQuestionAll(){
+    axios.get(`process/questionsResults/${route.query.id}`).then((res)=>{
         console.log(res)
         testIndex.value = res.data
         totalTest.value = res.data.length
@@ -158,6 +169,7 @@ function fetchPrevQuestion(id: number) {
   if (id > 1) {
     id--;
     router.replace(`/tester?id=${route.query.id}&index=${id}`);
+      // setAnswerTest()
   } else {
     prevDisabled.value = true;
   }
@@ -165,9 +177,9 @@ function fetchPrevQuestion(id: number) {
 
 function fetchNextQuestion(id: number) {
   if (id < totalTest.value) {
-      setAnswerTest()
     id++;
     router.replace(`/tester?id=${route.query.id}&index=${id}`);
+      // setAnswerTest()
   } else {
     nextDisabled.value = true;
   }
@@ -178,7 +190,12 @@ watch(
   (newVal) => {
     activeTest.value = newVal;
     const testIndex = Number(newVal)
-    solveTest(testIndex)
+     setAnswerTest().then((res)=>{
+      solveTest(testIndex).then((res)=>{
+        fetchTestQuestionAll()
+      })
+     })
+
     prevDisabled.value = false;
     nextDisabled.value = false;
   }
@@ -186,140 +203,86 @@ watch(
 
 
 
-// const testQuestions = reactive(
-  // {
-  //     id:1,
-  //     testType:"SINGLE_CHOICE",
-  //     title:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-  //     imageID:"https://picsum.photos/id/237/536/354",
-  //     correctAnswers:[3],
-  //     answerCreateDTOList:[
-  //         {
-  //             id:1,
-  //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //             imageID:"",
-  //         },
-  //         {
-  //             id:2,
-  //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //             imageID:"https://picsum.photos/id/237/536/354",
-  //         },
-  //         {
-  //             id:3,
-  //             text:"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //             imageID:"",
-  //         },
-  //         {
-  //             id:4,
-  //             text:"",
-  //             imageID:"https://picsum.photos/id/237/536/354",
-  //         }
-  //     ]
-  // }
-  //   multiple_chhoice
-  // {
-  //   id: 1,
-  //   testType: "MULTIPLE_CHOICE",
-  //   title:
-  //     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magnam nam qui reiciendis tempore tenetur totam! Corporis, est voluptatum. Beatae distinctio enim facere itaque, nobis officiis porro.",
-  //   imageID: "https://picsum.photos/id/237/536/354",
-  //   correctAnswers: [1, 3],
-  //   answerCreateDTOList: [
-  //     {
-  //       id: 1,
-  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //       imageID: "",
-  //       val: true,
-  //     },
-  //     {
-  //       id: 2,
-  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //       imageID: "https://picsum.photos/id/237/536/354",
-  //       val: false,
-  //     },
-  //     {
-  //       id: 3,
-  //       text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eos explicabo labore magna",
-  //       imageID: "",
-  //       val: false,
-  //     },
-  //     {
-  //       id: 4,
-  //       text: "",
-  //       imageID: "https://picsum.photos/id/237/536/354",
-  //       val: false,
-  //     },
-  //   ],
-  // }
-// );
-
-
 const testQuestions = ref([])
 
-function setAnswerTest(){
-    const answer = {
-        questionID:testQuestions.value.questionDTO?.id,
-        answers : [+testQuestions.value.answers],
-        blankAnswer:null
-    }
 
-    axios.post('progress/set-answer',answer).then((res)=>{
+function fetchAxios(obj){
+    axios.post('process/set-answer',obj).then((res)=>{
         console.log(res)
     }).catch((err)=>{
         console.log(err)
+    }).finally(()=>{
+        obj.blankAnswer = null
+        obj.answer = []
     })
+}
+async function setAnswerTest(){
+    const obj = {
+        questionID:testQuestions.value.questionDTO?.id,
+        blankAnswer:null,
+        answers : <boolean[]> []
+    }
 
-    console.log(answer,"result")
+    if(testQuestions.value?.questionDTO?.testType == 'CHECKBOX'){
+        obj.answers = [+testQuestions.value.answers]
+        fetchAxios(obj)
+    }
+    else if(testQuestions.value?.questionDTO?.testType == 'MULTIPLE_CHOICE'){
+        let changeArr =<boolean[]>[];
+        testQuestions.value?.questionDTO?.answerDTOList.forEach((el) => {
+            if (el.correct) {
+                changeArr.push(el.id);
+            }
+        });
+        obj.answers = changeArr;
+        fetchAxios(obj)
+    }
+
+    else if(testQuestions.value?.questionDTO?.testType == 'CLOSE_QUESTIONS'){
+        obj.blankAnswer = testQuestions.value?.blankAnswer
+        fetchAxios(obj)
+    }
+
+
 }
 
-function finishTest() {
-  if (testQuestions.testType == "MULTIPLE_CHOICE") {
-    let changeArr = [];
-    testQuestions.answerCreateDTOList.forEach((el) => {
-      if (el.val) {
-        changeArr.push(el.id);
-      }
-    });
-    testQuestions.changeAnsver = changeArr;
-    console.log(testQuestions, "MULTIPLE CHOICE");
-  }
-  if (testQuestions.testType == "SINGLE_CHOICE") {
-    console.log(testQuestions, "SINGLE CHOICE");
-  }
-  if (testQuestions.testType == "WRITE_CHOICE") {
-    console.log(testQuestions, "WRITE    CHOICE");
-  }
-}
+
 
 // solve test
 
 
-const index = ref(1)
-function solveTest(index:number){
+const index = ref(route.query.index)
+async function solveTest(index:number){
     axios.get(`question/get-quiz?test-id=${route.query.id}&index=${index}`).then((res)=>{
-        console.log(res)
         testQuestions.value = res.data
+          // if(res.data.questionDTO.testType == "CHECKBOX"){
+          //     if(testQuestions.value.answers.length == 0){
+          //         testQuestions.value.answers = null
+          //     }
+          //     else{
+          //         testQuestions.value.answers = testQuestions.value.answers[0]
+          //     }
+          // }
+
+
     }).catch((err)=>{
         console.log(err)
     })
 }
 
-function isCheckMultipleQuestion(){
-    if (testQuestions.testType == "MULTIPLE_CHOICE") {
-        testQuestions.correctAnswers.forEach((el) => {
-            const obj = testQuestions.answerCreateDTOList.find(
-                (item) => item.id === el
-            );
-            obj.val = true;
-        });
-    }
+
+const statusTest = ref(false)
+function finishTest() {
+  axios.post(`process/finish-test?testId=${route.query.id}`).then((res)=>{
+      console.log(res)
+      statusTest.value = true
+  }).catch((err)=>{
+      console.log(err)
+  })
 }
 
-
-
 onMounted(() => {
-    isCheckMultipleQuestion()
-    solveTest(index.value)
+    solveTest(Number(index.value))
     fetchTestQuestionAll()
 });
 
