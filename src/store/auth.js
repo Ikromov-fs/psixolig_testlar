@@ -52,7 +52,7 @@ export const useAuth = defineStore("user", {
         this.isToken = true;
       } else {
         this.isToken = false;
-      }
+      } 
     },
     isLoginData() {
       this.isLogin = false;
