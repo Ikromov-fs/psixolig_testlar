@@ -43,12 +43,13 @@
 
  const props = defineProps<Props>()
 
-    const emit = defineEmits(['changeVal'])
+    const emit = defineEmits(['changeVal','isChange'])
 
     const inputVal = ref(props.value)
 
     function getInputValue(e:any){
         emit('changeVal',inputVal.value)
+        emit('isChange')
     }
 
     watch(() => props.value,

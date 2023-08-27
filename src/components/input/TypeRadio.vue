@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import {watch} from "vue";
 
 interface Props {
   inputId?: string;
@@ -40,10 +41,17 @@ const props = defineProps<Props>();
 
 const correctValue = ref(props.modelValue);
 
-const emit = defineEmits(["update:modelValue"]);
+watch(
+    () => props.modelValue,
+    (newVal) => {
+        correctValue.value = newVal
+    }
+);
+
+const emit = defineEmits(["update:modelValue","isChange"]);
 
 function getInputValue(e: any) {
-  console.log(e.target.value, "input value");
   emit("update:modelValue", e.target.value);
+  emit("isChange",)
 }
 </script>
