@@ -1,11 +1,21 @@
 <template>
+  <PaymeModal
+    label="Test haqida ma'lumotlar"
+    :description="idDataTest?.description"
+    :id="idDataTest?.id"
+    :price="idDataTest.price"
+    :solvedCount="idDataTest.solvedCount"
+    :title="idDataTest?.title"
+    :isOpen="openAssentModal"
+    @closeModal="(e) => (openAssentModal = e)"
+  />
   <div class="container">
     <div class="mt-2">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative">
         <div
           v-for="item in testChild"
           :key="item?.id"
-          @click="startTest(item.id)"
+          @click="testIfAssent(item?.id)"
           class="flex items-center justify-between gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
         >
           <div class="flex items-center gap-3">
@@ -13,8 +23,7 @@
             <h1 class="text-[18px]">{{ item?.title }}</h1>
           </div>
           <div class="flex items-center gap-3">
-            <i class="fa-solid fa-signal"></i>
-            <p>{{ item?.solvedCount }} %</p>
+            <p>{{ item?.price }} sum</p>
           </div>
         </div>
       </div>
@@ -23,18 +32,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import PaymeModal from "@/components/modals/PaymeModal.vue";
 import axios from "axios";
 const route = useRoute();
 const router = useRouter();
+const idDataTest = reactive({
+  description: "",
+  id: "",
+  price: "",
+  solvedCount: "",
+  title: "",
+});
 const id = route.params.id;
-
+const openAssentModal = ref(false);
 const testChild = ref();
 async function getAllCategoryChild() {
   try {
     const childCategory = await axios.get(`test/get/all-by-category-id/${id}`);
     testChild.value = childCategory.data;
+    console.log(childCategory);
   } catch (error) {
     console.log(error);
   }
@@ -44,9 +62,28 @@ onMounted(() => {
   getAllCategoryChild();
 });
 
-function startTest(id: number) {
-  console.log(id);
-  router.push(`/tester?id=${id}&index=1`);
+// function startTest(id: number) {
+//   console.log(id);
+//   router.push(`/tester?id=${id}&index=1`);
+// }
+async function testIfAssent(id: Number) {
+  try {
+    
+  } catch (error) {
+    console.log(error);
+  }
+  openAssentModal.value = true;
+  try {
+    const dataTest = await axios.get(`/test/get/${id}`);
+    idDataTest.description = dataTest.data.description;
+    idDataTest.price = dataTest.data.price;
+    idDataTest.solvedCount = dataTest.data.solvedCount;
+    idDataTest.title = dataTest.data.title;
+    idDataTest.id = dataTest.data.id;
+    console.log(dataTest);
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
 

@@ -16,19 +16,19 @@
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
         <img :src="profileImage" alt="profile image" class="cursor-pointer" />
-        <h1 class="font-[500] text-[19px]">Nodir Ikromov</h1>
+        <!-- <h1 class="font-[500] text-[19px]">{{ userData.fullName }}</h1> -->
         <div class="text-left mt-5">
           <p class="opacity-[0.5]">Email</p>
           <h1 class="mt-2">nodirikromov10@gmail.com</h1>
         </div>
         <div class="text-left mt-5">
           <p class="opacity-[0.5]">Tel nomer</p>
-          <h1 class="mt-2">99-105-92-01</h1>
+          <!-- <h1 class="mt-2">{{ userData.username }}</h1> -->
         </div>
         <div class="flex justify-between text-left mt-5">
           <div>
             <p class="opacity-[0.5]">Jinsi</p>
-            <h1 class="mt-2">Erkak</h1>
+            <!-- <h1 class="mt-2">{{ userData.gender }}</h1> -->
           </div>
           <div>
             <p class="opacity-[0.5]">Yoshi</p>
@@ -63,16 +63,17 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
 import { useToast } from "vue-toastification";
+import axios from "axios";
 const toast = useToast();
 const store = useAuth();
 const router = useRouter();
-
-console.log(store);
+const userData = ref();
 
 const testList = [
   {
@@ -117,6 +118,19 @@ function exit() {
   toast.success("Tizimdan chiqsingiz !");
   router.push("/");
 }
+
+// async function getUserData() {
+//   try {
+//     const user = await axios.get(`/user/current`);
+//     console.log(user);
+//     userData.value = user.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+// onMounted(() => {
+//   getUserData();
+// });
 </script>
 
 <style scoped>
