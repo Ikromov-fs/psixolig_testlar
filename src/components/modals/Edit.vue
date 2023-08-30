@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="emit('openLoginModal')"
+    @click="emit('openEditModal')"
     class="fixed z-[#999999] backdrop-blur-[11.5px] inset-0"
   ></div>
   <div
@@ -69,7 +69,7 @@ const submitLoginBtn = async () => {
       };
       const user = await store.useLoginToken(options);
       store.getToken();
-      emit("openLoginModal");
+      emit("openEditModal");
     } catch (error) {
       console.log(error);
     } finally {
@@ -79,6 +79,6 @@ const submitLoginBtn = async () => {
   }
 };
 
-const emit = defineEmits(["openLoginModal"]);
+const emit = defineEmits(["openEditModal"]);
 </script>
 <style scoped></style>

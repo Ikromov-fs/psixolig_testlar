@@ -16,23 +16,28 @@
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
         <img :src="profileImage" alt="profile image" class="cursor-pointer" />
-        <!-- <h1 class="font-[500] text-[19px]">{{ userData.fullName }}</h1> -->
-        <div class="text-left mt-5">
-          <p class="opacity-[0.5]">Email</p>
-          <h1 class="mt-2">nodirikromov10@gmail.com</h1>
+        <h1 class="font-[500] text-[19px] mt-5">
+          {{ profileStore?.userData?.fullName }}
+        </h1>
+        <div class="text-left mt-5 relative">
+          <p class="opacity-[0.5]">Telefon nomer:</p>
+          <h1 class="mt-2">{{ profileStore?.userData?.username }}</h1>
+          <div @click="editModal = true">
+            <i
+              class="fa-solid fa-pen cursor-pointer text-[blue] absolute right-1 top-2/3"
+            ></i>
+          </div>
         </div>
-        <div class="text-left mt-5">
-          <p class="opacity-[0.5]">Tel nomer</p>
-          <!-- <h1 class="mt-2">{{ userData.username }}</h1> -->
-        </div>
-        <div class="flex justify-between text-left mt-5">
+        <div class="flex gap-20 text-left mt-5">
           <div>
-            <p class="opacity-[0.5]">Jinsi</p>
-            <!-- <h1 class="mt-2">{{ userData.gender }}</h1> -->
+            <p class="opacity-[0.5]">Jinsi:</p>
+            <h1 class="mt-2">
+              {{ profileStore?.userData?.gender ? `Erkak` : `Ayol` }}
+            </h1>
           </div>
           <div>
-            <p class="opacity-[0.5]">Yoshi</p>
-            <h1 class="mt-2">20</h1>
+            <p class="opacity-[0.5]">Tug'ilgan sana:</p>
+            <h1 class="mt-2">{{ profileStore?.userData?.birthDate }}</h1>
           </div>
         </div>
       </div>
@@ -60,6 +65,12 @@
       </div>
     </div>
   </div>
+    <Edit
+      @openEditModal="editModal = false"
+      v-if="editModal"
+      
+      class="z-50 relative"
+    />
 </template>
 
 <script setup lang="ts">
@@ -68,12 +79,15 @@ import { useRouter } from "vue-router";
 import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
+import { useProfile } from "@/store/profile.js";
 import { useToast } from "vue-toastification";
-import axios from "axios";
+import Edit from "@/components/modals/Edit.vue";
+// import axios from "axios";
+const editModal = ref(false);
 const toast = useToast();
 const store = useAuth();
+const profileStore = useProfile();
 const router = useRouter();
-const userData = ref();
 
 const testList = [
   {
@@ -118,19 +132,9 @@ function exit() {
   toast.success("Tizimdan chiqsingiz !");
   router.push("/");
 }
-
-// async function getUserData() {
-//   try {
-//     const user = await axios.get(`/user/current`);
-//     console.log(user);
-//     userData.value = user.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// onMounted(() => {
-//   getUserData();
-// });
+onMounted(() => {
+  profileStore.profileData();
+});
 </script>
 
 <style scoped>

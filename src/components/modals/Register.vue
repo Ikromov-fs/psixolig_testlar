@@ -162,7 +162,6 @@ const submitBtn = async () => {
         birthDate: inputRegisterData.birthDate,
       };
       const user = await authStore.useRegister(userOptions);
-      console.log(user);
     } catch (error) {
       console.log(error);
     } finally {

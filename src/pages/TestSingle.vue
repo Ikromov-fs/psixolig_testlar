@@ -35,9 +35,13 @@
 import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PaymeModal from "@/components/modals/PaymeModal.vue";
+import { useToast } from "vue-toastification";
+import { useProfile } from "@/store/profile.js";
 import axios from "axios";
+const store = useProfile();
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
 const idDataTest = reactive({
   description: "",
   id: "",
@@ -67,12 +71,24 @@ onMounted(() => {
 //   router.push(`/tester?id=${id}&index=1`);
 // }
 async function testIfAssent(id: Number) {
-  try {
-    
-  } catch (error) {
-    console.log(error);
+  const token = localStorage.getItem("token");
+  store.profileData();
+  const phone = localStorage.getItem("phone");
+  if (token) {
+    try {
+      const data = {
+        phoneNumber: phone,
+        testId: `${id}`,
+      };
+      const isMoney = await axios.post(`/payments/merchant/is-sotvogan`, data);
+      console.log('ok');
+      openAssentModal.value = true;
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    toast.error("Ro'yhatdan o'ting !");
   }
-  openAssentModal.value = true;
   try {
     const dataTest = await axios.get(`/test/get/${id}`);
     idDataTest.description = dataTest.data.description;
@@ -80,7 +96,6 @@ async function testIfAssent(id: Number) {
     idDataTest.solvedCount = dataTest.data.solvedCount;
     idDataTest.title = dataTest.data.title;
     idDataTest.id = dataTest.data.id;
-    console.log(dataTest);
   } catch (error) {
     console.log(error);
   }
