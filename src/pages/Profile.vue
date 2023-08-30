@@ -17,11 +17,11 @@
       >
         <img :src="profileImage" alt="profile image" class="cursor-pointer" />
         <h1 class="font-[500] text-[19px] mt-5">
-          {{ profileStore?.userData?.fullName }}
+          {{ data?.fullName }}
         </h1>
         <div class="text-left mt-5 relative">
           <p class="opacity-[0.5]">Telefon nomer:</p>
-          <h1 class="mt-2">{{ profileStore?.userData?.username }}</h1>
+          <h1 class="mt-2">{{ data?.username }}</h1>
           <div @click="editModal = true">
             <i
               class="fa-solid fa-pen cursor-pointer text-[blue] absolute right-1 top-2/3"
@@ -31,13 +31,11 @@
         <div class="flex gap-20 text-left mt-5">
           <div>
             <p class="opacity-[0.5]">Jinsi:</p>
-            <h1 class="mt-2">
-              {{ profileStore?.userData?.gender ? `Erkak` : `Ayol` }}
-            </h1>
+            <h1 class="mt-2">{{ data?.gender ? `Erkak` : `Ayol` }}</h1>
           </div>
           <div>
             <p class="opacity-[0.5]">Tug'ilgan sana:</p>
-            <h1 class="mt-2">{{ profileStore?.userData?.birthDate }}</h1>
+            <h1 class="mt-2">{{ data?.birthDate }}</h1>
           </div>
         </div>
       </div>
@@ -50,7 +48,7 @@
         <div
           v-for="item in testList"
           :key="item?.id"
-          @click="startTest(item.id)"
+          @click="startTest(item?.id)"
           class="flex items-center justify-between py-5 px-10 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer"
         >
           <div class="flex items-center gap-3">
@@ -59,18 +57,17 @@
           </div>
           <div class="flex items-center gap-3">
             <i class="fa-solid fa-signal"></i>
-            <p>{{ item.status }} %</p>
+            <p>{{ item?.status }} %</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-    <Edit
-      @openEditModal="editModal = false"
-      v-if="editModal"
-      
-      class="z-50 relative"
-    />
+  <Edit
+    @openEditModal="editModal = false"
+    v-if="editModal"
+    class="z-50 relative"
+  />
 </template>
 
 <script setup lang="ts">
@@ -79,16 +76,29 @@ import { useRouter } from "vue-router";
 import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
-import { useProfile } from "@/store/profile.js";
 import { useToast } from "vue-toastification";
 import Edit from "@/components/modals/Edit.vue";
-// import axios from "axios";
+import axios from "@/plugins/axios.js";
 const editModal = ref(false);
 const toast = useToast();
 const store = useAuth();
-const profileStore = useProfile();
 const router = useRouter();
 
+const data = ref();
+async function get() {
+  try {
+    const getData = await axios.get(`/user/current`);
+    data.value = getData.data;
+    console.log(getData);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(() => {
+  get();
+  // store.getProfile();
+});
 const testList = [
   {
     id: 1,
@@ -132,9 +142,6 @@ function exit() {
   toast.success("Tizimdan chiqsingiz !");
   router.push("/");
 }
-onMounted(() => {
-  profileStore.profileData();
-});
 </script>
 
 <style scoped>

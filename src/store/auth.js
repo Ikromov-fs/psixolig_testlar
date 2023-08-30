@@ -6,6 +6,7 @@ const toast = useToast();
 export const useAuth = defineStore("user", {
   state: () => ({
     userData: [],
+    profileData: [],
     isToken: false,
   }),
   actions: {
@@ -39,11 +40,21 @@ export const useAuth = defineStore("user", {
         const token = await axios.post("/auth/access/token", options);
         localStorage.setItem("token", token.data.accessToken);
         localStorage.setItem("refreshToken", token.data.refreshToken);
+        localStorage.setItem("phone", options.phoneNumber)
         this.islogin = true;
         toast.success("Ro'yxatdan o'tdingiz !");
       } catch (error) {
         console.log(error);
         toast.error("Xatolik mavjud !");
+      }
+    },
+
+    async getProfile() {
+      try {
+        const getdataProfile = await axios.get(`/user/current`);
+        this.profileData = getdataProfile.data;
+      } catch (error) {
+        console.log(error);
       }
     },
     getToken() {
@@ -52,7 +63,7 @@ export const useAuth = defineStore("user", {
         this.isToken = true;
       } else {
         this.isToken = false;
-      } 
+      }
     },
     isLoginData() {
       this.isLogin = false;

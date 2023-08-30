@@ -68,6 +68,9 @@ const submitLoginBtn = async () => {
         password: dataLogin.password,
       };
       const user = await store.useLoginToken(options);
+      if (user) {
+        localStorage.setItem("phone", phone);
+      }
       store.getToken();
       emit("openLoginModal");
     } catch (error) {

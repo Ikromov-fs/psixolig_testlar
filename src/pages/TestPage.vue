@@ -8,7 +8,7 @@
           <router-link
             v-for="item in dataTests"
             :key="item?.ID"
-            :to="`tests/${item.ID}`"
+            :to="`tests/${item?.ID}`"
             class="flex items-center justify-center gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
           >
             <h1 class="text-[18px]">{{ item?.name }}</h1>
@@ -22,18 +22,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
-
 // get metod tests
 const dataTests = ref();
 async function getTests() {
   try {
     const tests = await axios.get("category/get/all");
     dataTests.value = tests.data;
+    console.log(tests);
+    
   } catch (error) {
     console.log(error);
   }
 }
-
 onMounted(() => {
   getTests();
 });

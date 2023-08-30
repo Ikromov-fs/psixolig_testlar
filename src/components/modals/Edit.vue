@@ -6,55 +6,76 @@
   <div
     class="fixed z-[#99999] bg-[#fff] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sx:w-[90%] p-8 rounded-md mmd:w-[40%]"
   >
-    <h1 class="text-[20px] flex justify-center font-[500]">Login</h1>
+    <h1 class="text-[20px] flex justify-center mb-10 font-[500]">
+      Telefon nomerni o'zgartirish !
+    </h1>
     <FormInput
-      v-model="dataLogin.phone"
-      :error="$Vlogin.phone.$error"
+      v-model="dataLogin.newPhoneNumber"
+      :error="$Vlogin.newPhoneNumber.$error"
       type="string"
       placeholder="00 000 00 00"
       v-maska="'(##) ###-##-##'"
-      label="Tel nomer"
+      label="Yangi tel nomerni kiriting"
     />
     <FormInput
       v-model="dataLogin.password"
       :error="$Vlogin.password.$error"
       type="password"
-      placeholder="parol"
+      placeholder="Parol"
       label="Parol"
-      class="mt-3"
+      class="mt-5"
     />
-    <div class="mt-5" @click="submitLoginBtn">
+    <div v-if="!codeNext" class="mt-5" @click="submitLoginBtn">
       <ButtonFillVue color="#d56603">
         <button class="py-2">Jo'natish</button>
       </ButtonFillVue>
     </div>
+    <div v-if="codeNext" class="mt-10 text-center ">
+      <CodeInput
+        @change="(e:any) => (codeSend = e)"
+        :required="true"
+        :fields="6"
+        :fieldWidth="40"
+        :fieldHeight="40"
+      />
+      <Timer @endTime="resendCode = true" ref="timer" class="mt-3 text-xl" />
+      <div @click="code">
+        <ButtonFillVue color="#d56603">
+          <button class="py-2">Tasdiqlash</button>
+        </ButtonFillVue>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, computed, ref } from "vue";
+import { reactive, computed, ref, onMounted } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
-// Validatsiya form Inputs
+import CodeInput from "@/components/form/CodeInput.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, maxLength } from "@vuelidate/validators";
-
 import { useToast } from "vue-toastification";
+import Timer from "../form/Timer.vue";
+import axios from "@/plugins/axios.js";
 const toast = useToast();
 
 import { useAuth } from "@/store/auth.js";
 const store = useAuth();
+const resendCode = ref(false);
+const codeNext = ref(false);
+const timer = ref();
+const codeSend = ref("");
 const dataLogin = reactive({
-  phone: "",
+  newPhoneNumber: "",
   password: "",
 });
 const roles = computed(() => {
   return {
-    phone: { required },
-    password: { required, minLength: minLength(8) },
+    newPhoneNumber: { required },
+    password: { required },
   };
 });
 const $Vlogin = useVuelidate(roles, dataLogin);
-
 // set with Back end
 const submitLoginBtn = async () => {
   $Vlogin.value.$validate();
@@ -62,22 +83,50 @@ const submitLoginBtn = async () => {
     try {
       const phone =
         "+998" +
-        dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
+        dataLogin.newPhoneNumber
+          .replaceAll("-", "")
+          .replace("(", "")
+          .replace(") ", "");
       const options = {
-        phoneNumber: phone,
-        password: dataLogin.password,
+        newPhoneNumber: phone,
+        oldPhoneNumber: store?.profileData?.username,
       };
-      const user = await store.useLoginToken(options);
-      store.getToken();
-      emit("openEditModal");
+      const editPhone = await axios.post(`/auth/code/change/phone`, options);
+      codeNext.value = true;
     } catch (error) {
       console.log(error);
     } finally {
-      (dataLogin.password = ""), (dataLogin.phone = "");
       $Vlogin.value.$reset();
     }
   }
 };
+
+async function code() {
+  try {
+    const phone =
+      "+998" +
+      dataLogin.newPhoneNumber
+        .replaceAll("-", "")
+        .replace("(", "")
+        .replace(") ", "");
+    const data = {
+      new_phone_number: phone,
+      old_phone_number: store?.profileData?.username,
+      password: dataLogin.password,
+      otp: codeSend.value,
+    };
+    const codeRezult = await axios.post("/user/change_phone_number", data);
+    store.getProfile();
+    emit("openEditModal");
+    toast.success("Telefon nomer almashdi !");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(() => {
+  store.getProfile();
+});
 
 const emit = defineEmits(["openEditModal"]);
 </script>

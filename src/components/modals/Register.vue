@@ -73,7 +73,7 @@
             <button class="py-2">Jo'natish</button>
           </ButtonFillVue>
         </div>
-        <div v-if="authStore?.isLogin" class="text-center">
+        <div v-if="authStore?.isLogin" class="text-center mt-5">
           <CodeInput
             @change="(e:any) => (codeSend = e)"
             :required="true"
@@ -191,8 +191,8 @@ async function confirmation(e: any) {
     const codeData = await authStore.codeInput(options);
     setTimeout(() => {
       const token = authStore.useLoginToken(tokenGet);
-      console.log(token);
     }, 100);
+    localStorage.setItem("phone", phone)
     resendCode.value = false;
     setTimeout(() => {
       emit("isOpenRegister");
@@ -218,6 +218,7 @@ async function resedCode() {
         .replace(") ", "");
     const nextCode = await axios.post("/auth/code/resend", { phoneNumber });
     if (nextCode) {
+      localStorage.setItem("phone", phoneNumber)
       resendCode.value = false;
       codeNext.value.expFunction();
     }

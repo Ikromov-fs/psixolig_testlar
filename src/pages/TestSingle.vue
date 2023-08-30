@@ -1,20 +1,15 @@
 <template>
   <PaymeModal
     label="Test haqida ma'lumotlar"
-    :description="idDataTest?.description"
-    :id="idDataTest?.id"
-    :price="idDataTest.price"
-    :solvedCount="idDataTest.solvedCount"
-    :title="idDataTest?.title"
     :isOpen="openAssentModal"
-    @closeModal="(e) => (openAssentModal = e)"
+    @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
     <div class="mt-2">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative">
         <div
           v-for="item in testChild"
-          :key="item?.id"
+          :key="item?.ID"
           @click="testIfAssent(item?.id)"
           class="flex items-center justify-between gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
         >
@@ -34,11 +29,9 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import PaymeModal from "@/components/modals/PaymeModal.vue";
+// import PaymeModal from "@/components/modals/PaymeModal.vue";
 import { useToast } from "vue-toastification";
-import { useProfile } from "@/store/profile.js";
 import axios from "axios";
-const store = useProfile();
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
@@ -50,11 +43,12 @@ const idDataTest = reactive({
   title: "",
 });
 const id = route.params.id;
+
 const openAssentModal = ref(false);
 const testChild = ref();
 async function getAllCategoryChild() {
   try {
-    const childCategory = await axios.get(`test/get/all-by-category-id/${id}`);
+    const childCategory = await axios.get(`/test/get/all-by-category-id/${id}`);
     testChild.value = childCategory.data;
     console.log(childCategory);
   } catch (error) {
@@ -72,16 +66,12 @@ onMounted(() => {
 // }
 async function testIfAssent(id: Number) {
   const token = localStorage.getItem("token");
-  store.profileData();
   const phone = localStorage.getItem("phone");
   if (token) {
     try {
-      const data = {
-        phoneNumber: phone,
-        testId: `${id}`,
-      };
-      const isMoney = await axios.post(`/payments/merchant/is-sotvogan`, data);
-      console.log('ok');
+      const isMoney = await axios.get(`/payments/merchant/is-sotvogan?phone=${phone}&test_id=${id}`);
+      console.log(isMoney);
+
       openAssentModal.value = true;
     } catch (error) {
       console.log(error);
@@ -90,12 +80,12 @@ async function testIfAssent(id: Number) {
     toast.error("Ro'yhatdan o'ting !");
   }
   try {
-    const dataTest = await axios.get(`/test/get/${id}`);
-    idDataTest.description = dataTest.data.description;
-    idDataTest.price = dataTest.data.price;
-    idDataTest.solvedCount = dataTest.data.solvedCount;
-    idDataTest.title = dataTest.data.title;
-    idDataTest.id = dataTest.data.id;
+    // const dataTest = await axios.get(`/test/get/${id}`);
+    // idDataTest.description = dataTest.data.description;
+    // idDataTest.price = dataTest.data.price;
+    // idDataTest.solvedCount = dataTest.data.solvedCount;
+    // idDataTest.title = dataTest.data.title;
+    // idDataTest.id = dataTest.data.id;
   } catch (error) {
     console.log(error);
   }

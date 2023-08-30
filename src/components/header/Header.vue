@@ -4,7 +4,9 @@
       class="container mx-auto text-white flex justify-between items-center py-8"
     >
       <div class="cursor-pointer">
-        <router-link to="/"><img :src="logo" alt="logo" class="max-w-[40px] object-cover" /></router-link>
+        <router-link to="/"
+          ><img :src="logo" alt="logo" class="max-w-[40px] object-cover"
+        /></router-link>
       </div>
       <ul
         class="hidden gap-5 items-center mmd:text-[15px] text-[13px] mmd:flex"
@@ -34,11 +36,7 @@
           <a href="#contact">Kontakt</a>
         </li>
         <li>|</li>
-        <li
-          v-if="store.isToken"
-          @click="router.push('/profile')"
-          class="relative navItem"
-        >
+        <li v-if="store.isToken" @click="getStore" class="relative navItem">
           <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
         </li>
         <li
@@ -131,6 +129,10 @@ function isOpenBurger() {
   isBurger.value = !isBurger.value;
 }
 
+function getStore() {
+  store.getProfile();
+  router.push("/profile");
+}
 function goRouter() {
   router.push("/");
   setTimeout(() => {
