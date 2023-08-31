@@ -135,7 +135,6 @@ function isOpenBurger() {
 }
 
 function getStore() {
-  store.getProfile();
   isBurger.value = false;
   router.push("/profile");
 }

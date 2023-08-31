@@ -78,7 +78,7 @@ const store = useAuth();
 const router = useRouter();
 
 const data = ref();
-async function get() {
+async function getProfile() {
   try {
     const getData = await axios.get(`/user/current`);
     data.value = getData.data;
@@ -87,10 +87,21 @@ async function get() {
   }
 }
 
+// const getProfile = () => {
+//   axios
+//     .get(`/user/current`)
+//     .then((res: any) => {
+//       data.value = res.data;
+//       console.log(res);
+//     })
+//     .catch((error: any) => {
+//       console.log(error);
+//     });
+// };
 onMounted(() => {
-  get();
-  store.getProfile();
-});
+  getProfile();
+})
+
 const testList = [
   {
     id: 1,

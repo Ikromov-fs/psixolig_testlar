@@ -29,7 +29,7 @@ import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import PaymeModal from "@/components/modals/PaymeModal.vue";
 import { useToast } from "vue-toastification";
-import axios from "axios";
+import axios from "@/plugins/axios.js";
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();

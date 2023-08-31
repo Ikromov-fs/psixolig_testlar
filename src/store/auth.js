@@ -6,7 +6,7 @@ const toast = useToast();
 export const useAuth = defineStore("user", {
   state: () => ({
     userData: [],
-    profileData: [],
+    // profileData: [],
     isToken: false,
   }),
   actions: {
@@ -49,14 +49,14 @@ export const useAuth = defineStore("user", {
       }
     },
 
-    async getProfile() {
-      try {
-        const getdataProfile = await axios.get(`/user/current`);
-        this.profileData = getdataProfile.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async getProfile() {
+    //   try {
+    //     const getdataProfile = await axios.get(`/user/current`);
+    //     this.profileData = getdataProfile.data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
     getToken() {
       let token = localStorage.getItem("token") || false;
       if (token) {
