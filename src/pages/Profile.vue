@@ -22,11 +22,11 @@
         <div class="text-left mt-5 relative">
           <p class="opacity-[0.5]">Telefon nomer:</p>
           <h1 class="mt-2">{{ data?.username }}</h1>
-          <div @click="editModal = true">
+          <!-- <div>
             <i
               class="fa-solid fa-pen cursor-pointer text-[blue] absolute right-1 top-2/3"
             ></i>
-          </div>
+          </div> -->
         </div>
         <div class="flex gap-20 text-left mt-5">
           <div>
@@ -63,11 +63,6 @@
       </div>
     </div>
   </div>
-  <Edit
-    @openEditModal="editModal = false"
-    v-if="editModal"
-    class="z-50 relative"
-  />
 </template>
 
 <script setup lang="ts">
@@ -77,9 +72,7 @@ import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
 import { useToast } from "vue-toastification";
-import Edit from "@/components/modals/Edit.vue";
 import axios from "@/plugins/axios.js";
-const editModal = ref(false);
 const toast = useToast();
 const store = useAuth();
 const router = useRouter();
@@ -89,7 +82,6 @@ async function get() {
   try {
     const getData = await axios.get(`/user/current`);
     data.value = getData.data;
-    console.log(getData);
   } catch (error) {
     console.log(error);
   }
@@ -97,7 +89,7 @@ async function get() {
 
 onMounted(() => {
   get();
-  // store.getProfile();
+  store.getProfile();
 });
 const testList = [
   {

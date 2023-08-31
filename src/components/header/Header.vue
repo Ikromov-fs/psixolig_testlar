@@ -88,13 +88,18 @@
         <li @click="goRouter" class="cursor-pointer relative navItem">
           <a href="#contact">Kontakt</a>
         </li>
+        <li v-if="store.isToken" @click="getStore" class="relative navItem">
+          <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
+        </li>
         <li
+          v-if="!store.isToken"
           @click="isLoginOpen = true"
           class="cursor-pointer relative border-solid border-white rounded-md px-5 py-2 border-[1px] mt-20"
         >
           Login
         </li>
         <li
+          v-if="!store.isToken"
           @click="isRegister = true"
           class="cursor-pointer relative border-solid border-white rounded-md pr-4 pl-2 py-2 border-[1px] registr"
         >
@@ -131,6 +136,7 @@ function isOpenBurger() {
 
 function getStore() {
   store.getProfile();
+  isBurger.value = false;
   router.push("/profile");
 }
 function goRouter() {

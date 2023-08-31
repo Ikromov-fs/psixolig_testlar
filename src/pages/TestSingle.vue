@@ -5,21 +5,19 @@
     @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
-    <div class="mt-2">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 relative">
-        <div
-          v-for="item in testChild"
-          :key="item?.ID"
-          @click="testIfAssent(item?.id)"
-          class="flex items-center justify-between gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
-        >
-          <div class="flex items-center gap-3">
-            <i class="fa-solid fa-circle-question text-2xl"></i>
-            <h1 class="text-[18px]">{{ item?.title }}</h1>
-          </div>
-          <div class="flex items-center gap-3">
-            <p>{{ item?.price }} sum</p>
-          </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-10">
+      <div
+        v-for="item in testChild"
+        :key="item?.id"
+        @click="testIfAssent(item?.id)"
+        class="flex items-center justify-between gap-3 px-10 h-full bg-[#333] text-white p-2 py-5 box-w rounded-md cursor-pointer"
+      >
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-circle-question text-2xl"></i>
+          <h1 class="sx:text-[16px] mmd:text-[18px]">{{ item?.title }}</h1>
+        </div>
+        <div class="flex items-center gap-3">
+          <p>{{ item?.price }} sum</p>
         </div>
       </div>
     </div>
@@ -69,7 +67,9 @@ async function testIfAssent(id: Number) {
   const phone = localStorage.getItem("phone");
   if (token) {
     try {
-      const isMoney = await axios.get(`/payments/merchant/is-sotvogan?phone=${phone}&test_id=${id}`);
+      const isMoney = await axios.get(
+        `/payments/merchant/is-sotvogan?phone=${phone}&test_id=${id}`
+      );
       console.log(isMoney);
 
       openAssentModal.value = true;
