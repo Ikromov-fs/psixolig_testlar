@@ -3,7 +3,9 @@
     data-aos="zoom-in-up"
     class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20"
   >
+
     <div class="flex sx:justify-center mmd:justify-start">
+
       <div @click="exit" class="absolute right-4 top-5 btn">
         <ButtonFill class="bg-[red]">
           Chiqish
@@ -21,6 +23,14 @@
         </h1>
         <div class="text-left mt-5 relative">
           <p class="opacity-[0.5]">Telefon nomer:</p>
+            <div @click="refresh" class="absolute right-4 top-5 btn">
+                <ButtonFill class="bg-[red]">
+                    TEst uchun
+                    <i
+                            class="fa-solid fa-arrow-right-from-bracket rotate-[180deg] mx-2"
+                    ></i>
+                </ButtonFill>
+            </div>
           <h1 class="mt-2">{{ data?.username }}</h1>
           <!-- <div>
             <i
@@ -85,6 +95,10 @@ async function getProfile() {
   } catch (error) {
     console.log(error);
   }
+}
+
+function refresh(){
+    store.refreshToken()
 }
 
 // const getProfile = () => {

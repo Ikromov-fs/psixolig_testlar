@@ -261,7 +261,9 @@ async function setAnswerTest() {
     }
   } else if (testQuestions.value?.questionDTO?.testType == "CLOSE_QUESTIONS") {
     obj.closeAnswer = testQuestions.value?.closeAnswer;
+    if(testQuestions.value.closeAnswer){
     fetchAxios(obj);
+    }
   }
 }
 
