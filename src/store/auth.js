@@ -51,14 +51,15 @@ export const useAuth = defineStore("user", {
 
     async refreshToken(){
       try {
-       const newToken =  axios.post('auth/refresh/token',{
+       const newToken = await  axios.post('auth/refresh/token',{
           refreshToken:localStorage.getItem('refreshToken')
         })
-        console.log(newToken.data)
         localStorage.setItem("token", newToken.data.accessToken);
       }catch (err){
         console.log(err)
+        if(err.data.statusCode === 401){
         this.logOut()
+        }
       }
     },
 
