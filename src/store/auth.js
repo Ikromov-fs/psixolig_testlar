@@ -49,14 +49,19 @@ export const useAuth = defineStore("user", {
       }
     },
 
-    // async getProfile() {
-    //   try {
-    //     const getdataProfile = await axios.get(`/user/current`);
-    //     this.profileData = getdataProfile.data;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+    async refreshToken(){
+      try {
+       const newToken =  axios.post('auth/refresh/token',{
+          refreshToken:localStorage.getItem('refreshToken')
+        })
+        console.log(newToken.data)
+        localStorage.setItem("token", newToken.data.accessToken);
+      }catch (err){
+        console.log(err)
+        this.logOut()
+      }
+    },
+
     getToken() {
       let token = localStorage.getItem("token") || false;
       if (token) {
