@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-// import PaymeModal from "@/components/modals/PaymeModal.vue";
+import PaymeModal from "@/components/modals/PaymeModal.vue";
 import { useToast } from "vue-toastification";
 import axios from "@/plugins/axios.js";
 const route = useRoute();
@@ -48,7 +48,6 @@ async function getAllCategoryChild() {
   try {
     const childCategory = await axios.get(`/test/get/all-by-category-id/${id}`);
     testChild.value = childCategory.data;
-    console.log(childCategory);
   } catch (error) {
     console.log(error);
   }
@@ -58,36 +57,36 @@ onMounted(() => {
   getAllCategoryChild();
 });
 
-// function startTest(id: number) {
-//   console.log(id);
-//   router.push(`/tester?id=${id}&index=1`);
-// }
 async function testIfAssent(id: Number) {
   const token = localStorage.getItem("token");
   const phone = localStorage.getItem("phone");
   if (token) {
     try {
-      const isMoney = await axios.get(
-        `/payments/merchant/is-sotvogan?phone=${phone}&test_id=${id}`
-      );
-      console.log(isMoney);
-
-      openAssentModal.value = true;
+      const data = {
+        testId: `${id}`,
+        phone: phone,
+      };
+      const isMoney = await axios.post(`/payment/is-sotvogan`, data);
+      if (isMoney?.data?.isSotvogan === false) {
+        openAssentModal.value = true;
+        try {
+          const dataTest = await axios.get(`/test/get/${id}`);
+          idDataTest.description = dataTest.data.description;
+          idDataTest.price = dataTest.data.price;
+          idDataTest.solvedCount = dataTest.data.solvedCount;
+          idDataTest.title = dataTest.data.title;
+          idDataTest.id = dataTest.data.id;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        router.push(`/tester?id=${id}&index=1`);
+      }
     } catch (error) {
       console.log(error);
     }
   } else {
     toast.error("Ro'yhatdan o'ting !");
-  }
-  try {
-    // const dataTest = await axios.get(`/test/get/${id}`);
-    // idDataTest.description = dataTest.data.description;
-    // idDataTest.price = dataTest.data.price;
-    // idDataTest.solvedCount = dataTest.data.solvedCount;
-    // idDataTest.title = dataTest.data.title;
-    // idDataTest.id = dataTest.data.id;
-  } catch (error) {
-    console.log(error);
   }
 }
 </script>
