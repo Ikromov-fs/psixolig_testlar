@@ -1,6 +1,11 @@
 <template>
   <PaymeModal
     label="Test haqida ma'lumotlar"
+    :price="idDataTest?.price"
+    :id="idDataTest?.id"
+    :title="idDataTest?.title"
+    :pageId="id"
+    :solvedCount="idDataTest?.solvedCount"
     :isOpen="openAssentModal"
     @closeModal="(e:any) => (openAssentModal = e)"
   />
@@ -68,8 +73,8 @@ async function testIfAssent(id: Number) {
       };
       const isMoney = await axios.post(`/payment/is-sotvogan`, data);
       if (isMoney?.data?.isSotvogan === false) {
-        openAssentModal.value = true;
         try {
+          openAssentModal.value = true;
           const dataTest = await axios.get(`/test/get/${id}`);
           idDataTest.description = dataTest.data.description;
           idDataTest.price = dataTest.data.price;

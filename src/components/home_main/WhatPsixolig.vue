@@ -4,12 +4,13 @@
       <div class="flex justify-center font-[500] gap-1 text-lg">
         <span class="text-[#d56603]">06</span>
         <span class="text-[#d56603]">|</span>
-        <span class="text-black">Psixologiya nima?</span>
+        <span class="text-black">{{ partData?.title }}</span>
       </div>
       <div class="text-black font-[500]">
         <div class="sx:text-[15px] mmd:text-[19px] mt-7">
           <p>
-            Psixologiya — inson faoliyati va hayvonlar xatti-harakati jarayonida
+          {{ partData?.content }}
+            <!-- Psixologiya — inson faoliyati va hayvonlar xatti-harakati jarayonida
             voqelikning psixik aks etishi, ruhiy jarayonlar, holatlar,
             hodisalar, hislatlar toʻgʻrisidagi fan. Psixologiyaning tadqiqot
             predmetiga sezgilar va idrok obrazlari, tafakkur va hissiyot,
@@ -42,11 +43,28 @@
             universiteti, SamDU, Fargʻona universiteti, Qarshi universiteti,
             Termiz universiteti bazalarida yoʻlga qoʻyilgan. Oʻzbekistonda
             psixologik xizmat joriy qilingan va uning tarmogʻi tobora kengayib
-            bormoqda.
+            bormoqda. -->
           </p>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import axios from "@/plugins/axios.js";
+import { onMounted, ref } from "vue";
+const partData = ref();
+
+async function getData() {
+  try {
+    const data = await axios.get(`/article/get`);
+    partData.value = data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(() => {
+  getData();
+});
+</script>
