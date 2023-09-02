@@ -3,9 +3,7 @@
     data-aos="zoom-in-up"
     class="container relative grid mmd:grid-cols-2 sx:py-[55px] mmd:py-20"
   >
-
     <div class="flex sx:justify-center mmd:justify-start">
-
       <div @click="exit" class="absolute right-4 top-5 btn">
         <ButtonFill class="bg-[red]">
           Chiqish
@@ -17,20 +15,35 @@
       <div
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
-        <img :src="profileImage" alt="profile image" class="cursor-pointer" />
-        <h1 class="font-[500] text-[19px] mt-5">
+        <div v-if="isImage">
+          <img
+            :src="data?.image?.url"
+            alt="user image"
+            class="w-[180px] h-[180px] rounded-[50%]"
+          />
+        </div>
+        <UploadImage
+          ref="removeImg"
+          @getBase64="imageValu"
+          line
+          :img="imageValues"
+          inputId="1"
+          class="w-full"
+          v-if="!isImage"
+        />
+        <h1 class="font-[500] text-[19px] text-left mt-5">
           {{ data?.fullName }}
         </h1>
         <div class="text-left mt-5 relative">
           <p class="opacity-[0.5]">Telefon nomer:</p>
-            <div @click="refresh" class="absolute right-4 top-5 btn">
-                <ButtonFill class="bg-[red]">
-                    TEst uchun
-                    <i
-                            class="fa-solid fa-arrow-right-from-bracket rotate-[180deg] mx-2"
-                    ></i>
-                </ButtonFill>
-            </div>
+          <!-- <div @click="refresh" class="absolute right-4 top-5 btn">
+            <ButtonFill class="bg-[red]">
+              TEst uchun
+              <i
+                class="fa-solid fa-arrow-right-from-bracket rotate-[180deg] mx-2"
+              ></i>
+            </ButtonFill>
+          </div> -->
           <h1 class="mt-2">{{ data?.username }}</h1>
           <!-- <div>
             <i
@@ -78,43 +91,63 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import profileImage from "../assets/svg/profil.svg";
 import ButtonFill from "../components/buttons/SButton.vue";
 import { useAuth } from "@/store/auth.js";
 import { useToast } from "vue-toastification";
 import axios from "@/plugins/axios.js";
+import UploadImage from "@/components/form/UploadImage.vue";
 const toast = useToast();
 const store = useAuth();
 const router = useRouter();
-
 const data = ref();
-async function getProfile() {
+const imageValue = ref();
+const imageValues = ref("");
+const isImage = ref(false);
+function imageValu(e: any) {
+  const formData = new FormData();
+  formData.append("file", e);
+  axios
+    .post("media/upload", formData)
+    .then((res: any) => {
+      console.log(res.data.id);
+      postImage(res.data.id);
+    })
+    .catch(() => {
+      toast.error("Rasm tanlanmadi, qayta tanlang !");
+    });
+}
+
+async function postImage(item: any) {
   try {
-    const getData = await axios.get(`/user/current`);
-    data.value = getData.data;
+    const datas = {
+      fullName: data.value.fullName,
+      gender: data.value.gender,
+      birthDate: data.value.birthDate,
+      imageId: `${item}`,
+    };
+    const image = await axios.post(`/user/update`, datas);
+    imageValue.value = image.data;
   } catch (error) {
     console.log(error);
   }
 }
-
-function refresh(){
-    store.refreshToken()
+async function getProfile() {
+  try {
+    const getData = await axios.get(`/user/current`);
+    isImage.value = true;
+    data.value = getData.data;
+    console.log(getData);
+  } catch (error) {
+    console.log(error);
+  }
 }
+// function refresh() {
+//   store.refreshToken();
+// }
 
-// const getProfile = () => {
-//   axios
-//     .get(`/user/current`)
-//     .then((res: any) => {
-//       data.value = res.data;
-//       console.log(res);
-//     })
-//     .catch((error: any) => {
-//       console.log(error);
-//     });
-// };
 onMounted(() => {
   getProfile();
-})
+});
 
 const testList = [
   {

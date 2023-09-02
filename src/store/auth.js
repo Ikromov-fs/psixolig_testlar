@@ -40,28 +40,26 @@ export const useAuth = defineStore("user", {
         const token = await axios.post("/auth/access/token", options);
         localStorage.setItem("token", token.data.accessToken);
         localStorage.setItem("refreshToken", token.data.refreshToken);
-        localStorage.setItem("phone", options.phoneNumber)
+        localStorage.setItem("phone", options.phoneNumber);
         this.islogin = true;
-        toast.success("Ro'yxatdan o'tdingiz !");
+        toast.success("Tizimga kirdingiz !");
       } catch (error) {
         console.log(error);
         toast.error("Xatolik mavjud !");
       }
     },
-
-    async refreshToken(){
+    async refreshToken() {
       try {
-       const newToken =  axios.post('auth/refresh/token',{
-          refreshToken:localStorage.getItem('refreshToken')
-        })
-        console.log(newToken.data)
-        localStorage.setItem("token", newToken.data.accessToken);
-      }catch (err){
-        console.log(err)
-        this.logOut()
+        // const newToken = axios.post("auth/refresh/token", {
+        //   refreshToken: localStorage.getItem("refreshToken"),
+        // });
+        // console.log(newToken.data);
+        // localStorage.setItem("token", newToken.data.accessToken);
+      } catch (err) {
+        // console.log(err);
+        // this.logOut();
       }
     },
-
     getToken() {
       let token = localStorage.getItem("token") || false;
       if (token) {

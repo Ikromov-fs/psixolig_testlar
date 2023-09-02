@@ -1,8 +1,16 @@
 <template>
   <div class="bg-[#085344]">
     <div data-aos="zoom-in-up">
-      <!-- <img :src="style2" alt="style" class="absolute left-20 top-1 sx:hidden mmd:block" />
-      <img :src="style6" alt="style" class="absolute right-20 bottom-0 sx:hidden mmd:block" /> -->
+      <img
+        :src="style2"
+        alt="style"
+        class="absolute left-20 top-1 sx:hidden mmd:block"
+      />
+      <img
+        :src="style6"
+        alt="style"
+        class="absolute right-20 bottom-0 sx:hidden mmd:block"
+      />
       <div class="container mx-auto py-10">
         <div class="flex justify-center gap-1 text-lg">
           <span class="text-[#fff]">04</span>
