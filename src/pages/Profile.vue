@@ -22,15 +22,16 @@
             class="w-[180px] h-[180px] rounded-[50%]"
           />
         </div>
-        <UploadImage
-          ref="removeImg"
-          @getBase64="imageValu"
-          line
-          :img="imageValues"
-          inputId="1"
-          class="w-full"
-          v-if="!isImage"
-        />
+        <div v-if="!isImage">
+          <UploadImage
+            ref="removeImg"
+            @getBase64="imageValu"
+            line
+            :img="imageValues"
+            inputId="1"
+            class="w-full"
+          />
+        </div>
         <h1 class="font-[500] text-[19px] text-left mt-5">
           {{ data?.fullName }}
         </h1>
@@ -109,8 +110,10 @@ function imageValu(e: any) {
   axios
     .post("media/upload", formData)
     .then((res: any) => {
-      console.log(res.data.id);
-      postImage(res.data.id);
+      setTimeout(() => {
+        postImage(res.data.id);
+        getProfile()
+      }, 100);
     })
     .catch(() => {
       toast.error("Rasm tanlanmadi, qayta tanlang !");
@@ -127,6 +130,8 @@ async function postImage(item: any) {
     };
     const image = await axios.post(`/user/update`, datas);
     imageValue.value = image.data;
+    getProfile()
+    isImage.value = true;
   } catch (error) {
     console.log(error);
   }
@@ -134,16 +139,16 @@ async function postImage(item: any) {
 async function getProfile() {
   try {
     const getData = await axios.get(`/user/current`);
-    isImage.value = true;
     data.value = getData.data;
-    console.log(getData);
+    if (getData?.data?.image?.id) {
+      isImage.value = true;
+    } else {
+      isImage.value = false;
+    }
   } catch (error) {
     console.log(error);
   }
 }
-// function refresh() {
-//   store.refreshToken();
-// }
 
 onMounted(() => {
   getProfile();

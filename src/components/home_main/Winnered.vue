@@ -1,45 +1,22 @@
 <script lang="ts">
+import { ref } from "vue";
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { defineComponent } from "vue";
-const data = [
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D03AQGOq3IJmSa5Wg/profile-displayphoto-shrink_800_800/0/1669657302377?e=1697068800&v=beta&t=gAu0KbjPQWFZAP8-89kVC9OoUAWudp2qsUIDUy8vKzM",
-    name: "Shohruh Soatov",
-    job: "Algaritm academy asoschisi",
-    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
-    id: 1,
-  },
-  {
-    image: "https://avatars.githubusercontent.com/u/115967219?v=4",
-    name: "Nodir Ikromov",
-    job: "Front end developer",
-    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
-    id: 2,
-  },
-  {
-    image: "https://avatars.githubusercontent.com/u/94363665?v=4",
-    name: "Valisher Botirov",
-    job: "Front end developer",
-    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
-    id: 2,
-  },
-  {
-    image: "https://avatars.githubusercontent.com/u/115967219?v=4",
-    name: "Nodir Ikromov",
-    job: "Front end developer",
-    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
-    id: 2,
-  },
-  {
-    image: "https://avatars.githubusercontent.com/u/94363665?v=4",
-    name: "Valisher Botirov",
-    job: "Front end developer",
-    text: "Men bu sayt testlarini sotib oldim va bu men uchun ishimda, oilamada va hayotimda juda katta o'zgarishlarga (albatta ijobiy) sabab bo'ldi,hammaga tavsiya beraman",
-    id: 2,
-  },
-];
+import profile from "@/assets/svg/profil.svg";
+import axios from "@/plugins/axios.js";
+
+async function getStudents() {
+  try {
+    const datas = await axios.get(`/active-students/get-all-active`);
+    console.log(datas);
+    data.value = datas.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+getStudents();
+const data = ref();
 export default defineComponent({
   components: {
     Splide,
@@ -62,8 +39,8 @@ export default defineComponent({
       updateOnMove: true,
       type: "loop",
       autoplay: true,
-      gap: "23px",
-      perPage: 4,
+      gap: "25px",
+      perPage: 1,
       mediaQuery: "min",
       breakpoints: {
         320: {
@@ -85,7 +62,7 @@ export default defineComponent({
       perMove: 1,
       focus: "center",
     };
-    return { options, props, data };
+    return { options, props, data, profile };
   },
 });
 </script>
@@ -104,23 +81,24 @@ export default defineComponent({
         <SplideSlide
           v-for="item in data"
           :key="item?.id"
-          class="bg-[#fff] rounded-[20px] p-3 "
+          class="bg-[#fff] rounded-[15px] hover:bg-[#f9b234] cursor-pointer time overflow-hidden relative"
         >
-          <div class="text-center">
+          <div class="ag-courses-item_bg"></div>
+          <div class="flex gap-5 p-5">
             <img
-              :src="item?.image"
+              :src="item?.image?.url"
               alt="image"
-              class="w-[120px] rounded-[50%] mx-auto block"
+              class="w-[100px] h-[100px] rounded-[50%] object-cover"
             />
-            <h2 class="flex justify-center my-3 text-xl font-[600]">
-              {{ item?.name }}
-            </h2>
-            <div class="flex flex-col text-[18px]">
-              {{ item?.job }}
+            <div class="flex flex-col justify-between">
+              <h2 class="flex justify-center my-3 text-xl font-[600]">
+                {{ item?.fullName }}
+              </h2>
+              <div>
+                <span>ball: </span>
+                {{ item?.score }}
+              </div>
             </div>
-            <p class="sx:text-[14px] mmd:text-base">
-              {{ item?.text }}
-            </p>
           </div>
         </SplideSlide>
       </Splide>
@@ -128,4 +106,32 @@ export default defineComponent({
   </div>
 </template>
 <style scoped>
+.ag-courses-item_bg {
+  height: 128px;
+  width: 128px;
+  background-color: #f9b234;
+  z-index: 1;
+  position: absolute;
+  top: -75px;
+  right: -75px;
+  overflow: hidden;
+  border-radius: 50%;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.time {
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.time:hover .ag-courses-item_bg {
+  z-index: 1;
+  -webkit-transition: all 0.8s ease;
+  transition-timing-function: ease-in-out;
+  
+  -o-transition: all 0.8s ease;
+  transition: all 0.8s ease;
+}
 </style>
