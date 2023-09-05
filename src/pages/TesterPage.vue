@@ -134,7 +134,8 @@
     <div v-else class="w-full h-[70vh] flex justify-center items-center">
       <div class="text-center">
         <p class="font-medium text-2xl">Testni yakunladingiz!</p>
-        <p class="my-4 font-semibold text-3xl mb-6">55 %</p>
+        <p class="my-4 font-semibold text-3xl mb-6">{{testResult}} %</p>
+        <p class="my-4 font-semibold text-3xl mb-6">{{testFeedback}} </p>
         <ButtonFillVue>
           <router-link class="py-3 font-medium" to="/tests"
             >Testlar bo'limiga qaytish</router-link
@@ -291,12 +292,15 @@ async function solveTest(index: number) {
 }
 
 const statusTest = ref(false);
-
+const testResult = ref(null)
+const testFeedback = ref("")
 function finishTest() {
   axios
     .post(`process/finish-test?testId=${route.query.id}`)
     .then((res) => {
       console.log(res);
+      testResult.value = res.data.score
+        testFeedback.value = res.data.feedback
       statusTest.value = true;
     })
     .catch((err) => {

@@ -61,20 +61,21 @@
       <h1 class="flex justify-center text-[22px] font-[500] mb-5">
         Sotib olgan testlarim !
       </h1>
+<!--        <pre>{{testList}}</pre>-->
       <div class="grid grid-cols-1 mb-3 gap-3 relative">
         <div
           v-for="item in testList"
           :key="item?.id"
-          @click="startTest(item?.id)"
+          @click="startTest(item?.test.id)"
           class="flex items-center justify-between py-5 px-10 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer"
         >
           <div class="flex items-center gap-3">
 <!--             <i class="fa-solid fa-circle-question text-2xl"></i>-->
-            <h1 class="text-[18px]">{{ item?.name }}</h1>
+            <h1 class="text-[18px]">{{ item?.test.title }}</h1>
           </div>
           <div class="flex items-center gap-3">
             <i class="fa-solid fa-signal"></i>
-            <p>{{ item?.status }} %</p>
+            <p>{{ item?.score }} %</p>
           </div>
         </div>
       </div>
@@ -143,42 +144,22 @@ async function getProfile() {
   }
 }
 
+const testList = ref([])
+function fetchTestList(){
+    axios.get('history/get-all-my-histories').then((res)=>{
+        console.log(res.data,"list test")
+        testList.value = res.data
+    }).catch((err)=>{
+        console.log(err)
+    })
+}
+
 onMounted(() => {
   getProfile();
+  fetchTestList()
 });
 
-const testList = [
-  {
-    id: 1,
-    name: "Birinchi test",
-    status: 50,
-  },
-  {
-    id: 2,
-    name: "Ikkinchi test",
-    status: 80,
-  },
-  {
-    id: 3,
-    name: "Uchunchi test",
-    status: 20,
-  },
-  {
-    id: 4,
-    name: "To'rtinchi test",
-    status: 50,
-  },
-  {
-    id: 5,
-    name: "Beshinchi test",
-    status: 50,
-  },
-  {
-    id: 6,
-    name: "Oltinchi test",
-    status: 30,
-  },
-];
+
 
 function startTest(id: number) {
   console.log(id);
