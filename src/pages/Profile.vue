@@ -37,14 +37,7 @@
         </h1>
         <div class="text-left mt-5 relative">
           <p class="opacity-[0.5]">Telefon nomer:</p>
-          <!-- <div @click="refresh" class="absolute right-4 top-5 btn">
-            <ButtonFill class="bg-[red]">
-              TEst uchun
-              <i
-                class="fa-solid fa-arrow-right-from-bracket rotate-[180deg] mx-2"
-              ></i>
-            </ButtonFill>
-          </div> -->
+
           <h1 class="mt-2">{{ data?.username }}</h1>
           <!-- <div>
             <i
@@ -76,7 +69,7 @@
           class="flex items-center justify-between py-5 px-10 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer"
         >
           <div class="flex items-center gap-3">
-            <!-- <i class="fa-solid fa-circle-question text-2xl"></i> -->
+<!--             <i class="fa-solid fa-circle-question text-2xl"></i>-->
             <h1 class="text-[18px]">{{ item?.name }}</h1>
           </div>
           <div class="flex items-center gap-3">
@@ -130,7 +123,7 @@ async function postImage(item: any) {
     };
     const image = await axios.post(`/user/update`, datas);
     imageValue.value = image.data;
-    getProfile()
+    await getProfile()
     isImage.value = true;
   } catch (error) {
     console.log(error);
@@ -202,12 +195,12 @@ function exit() {
 <style scoped>
 .box-w {
   transition: all 0.2s linear;
-  box-shadow: 0px 0px 15px #fff;
+  box-shadow: 0 0 15px #fff;
   transform: scale(0.98);
 }
 
 .box-w:hover {
-  box-shadow: 0px 0px 20px #fff;
+  box-shadow: 0 0 20px #fff;
   transition: all 0.2s linear;
   transform: scale(0.99);
 }

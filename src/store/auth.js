@@ -55,9 +55,10 @@ export const useAuth = defineStore("user", {
         })
         localStorage.setItem("token", newToken.data.accessToken);
       }catch (err){
-        console.log(err)
-        if(err.data.statusCode === 401){
+        console.log(err.response.status,"err")
+        if(err.response.status === 401 || err.response.status === 500){
         this.logOut()
+          window.location.reload()
         }
       }
     },

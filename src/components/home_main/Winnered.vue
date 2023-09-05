@@ -88,7 +88,7 @@ export default defineComponent({
             <img
               :src="item?.image?.url"
               alt="image"
-              class="w-[100px] h-[100px] rounded-[50%] object-cover"
+              class="w-[100px] h-[100px] rounded-[50%] object-cover flex-shrink-0"
             />
             <div class="flex flex-col justify-between">
               <h2 class="flex justify-center my-3 text-xl font-[600]">
