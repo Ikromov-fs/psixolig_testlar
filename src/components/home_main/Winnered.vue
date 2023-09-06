@@ -9,7 +9,6 @@ import axios from "@/plugins/axios.js";
 async function getStudents() {
   try {
     const datas = await axios.get(`/active-students/get-all-active`);
-    console.log(datas);
     data.value = datas.data;
   } catch (error) {
     console.log(error);
@@ -59,8 +58,8 @@ export default defineComponent({
           perPage: 5,
         },
       },
-      perMove: 1,
       focus: "center",
+      perMove: 1,
     };
     return { options, props, data, profile };
   },
@@ -77,7 +76,7 @@ export default defineComponent({
       Bizning aktiv o'quvchilarimiz !
     </h1>
     <div>
-      <Splide :options="options" aria-label="My Favorite Images">
+      <Splide aria-label="My Favorite Images" :options="options">
         <SplideSlide
           v-for="item in data"
           :key="item?.id"
@@ -86,12 +85,14 @@ export default defineComponent({
           <div class="ag-courses-item_bg"></div>
           <div class="flex gap-5 p-5">
             <img
-              :src="item?.image?.url"
+              :src="item?.image?.url ? item?.image?.url : profile"
               alt="image"
               class="w-[100px] h-[100px] rounded-[50%] object-cover flex-shrink-0"
             />
             <div class="flex flex-col justify-between">
-              <h2 class="flex justify-center my-3 text-xl font-[600]">
+              <h2
+                class="flex justify-center my-3 sm:pt-5 sx:text-[15px] mmd:text-[18px] font-[600]"
+              >
                 {{ item?.fullName }}
               </h2>
               <div>
@@ -122,15 +123,13 @@ export default defineComponent({
 }
 
 .time {
-  -webkit-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  transition: all 0.3s linear;
 }
 .time:hover .ag-courses-item_bg {
   z-index: 1;
   -webkit-transition: all 0.8s ease;
   transition-timing-function: ease-in-out;
-  
+
   -o-transition: all 0.8s ease;
   transition: all 0.8s ease;
 }
