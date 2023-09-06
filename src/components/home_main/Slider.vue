@@ -22,14 +22,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-
     props.slider;
+
     const options = {
       updateOnMove: true,
       type: "loop",
       autoplay: true,
       gap: "23px",
-      perPage: 4,
+      perPage: 1,
       mediaQuery: "min",
       breakpoints: {
         320: {
@@ -61,6 +61,15 @@ export default defineComponent({
       }
     onMounted(()=>{
         getNews()
+      const btn = document.querySelector('.splide__arrow--next')
+        console.log(btn)
+        // btn.addEventListener("click",function (){
+        //     alert("click")
+        // })
+        setTimeout(()=>{
+
+        btn.click()
+        },200)
     })
     return { options, props , slides };
   },
@@ -70,9 +79,10 @@ export default defineComponent({
   <div class="py-5">
     <div class="container mx-auto">
       <Splide :options="options" aria-label="My Favorite Images">
+<!--          <pre>{{slides}}</pre>-->
         <SplideSlide
           v-for="item in slides"
-          :key="item?.id"
+          :key="item.id"
           class="rounded-md overflow-hidden cursor-pointer"
         >
           <a :href="item?.link" target="_blank">
