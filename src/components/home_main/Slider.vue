@@ -1,32 +1,11 @@
 <script>
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
-import { defineComponent } from "vue";
-import axios from "axios";
+import {defineComponent, onMounted} from "vue";
+import axios from "@/plugins/axios"
 
-// async function getNews() {
-//   try {
-//     const news = await axios.get("news/get-all")
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+import {ref} from "vue"
 
-const data = [
-  {
-    image: "https://i.ytimg.com/vi/YaCiB6JZG9w/maxresdefault.jpg",
-    id: 1,
-  },
-  {
-    image: "https://cyberleninka.ru/article/n/psixologiya-va-inson/og",
-    id: 2,
-  },
-  {
-    image:
-      "https://0701.static.prezi.com/preview/v2/eejgyo57k5qosc5xejjbesswp36jc3sachvcdoaizecfr3dnitcq_3_0.png",
-    id: 3,
-  },
-];
 export default defineComponent({
   components: {
     Splide,
@@ -43,6 +22,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+
     props.slider;
     const options = {
       updateOnMove: true,
@@ -68,7 +48,21 @@ export default defineComponent({
       perMove: 1,
       focus: "center",
     };
-    return { options, props, data };
+
+    let slides = ref([])
+       function getNews() {
+           axios.get("news/get-all").then((res)=>{
+               console.log(res.data)
+               slides.value = res.data
+           })
+               .catch((err)=>{
+                   console.log(err)
+               })
+      }
+    onMounted(()=>{
+        getNews()
+    })
+    return { options, props , slides };
   },
 });
 </script>
@@ -77,17 +71,17 @@ export default defineComponent({
     <div class="container mx-auto">
       <Splide :options="options" aria-label="My Favorite Images">
         <SplideSlide
-          v-for="item in data"
+          v-for="item in slides"
           :key="item?.id"
           class="rounded-md overflow-hidden cursor-pointer"
         >
-          <div>
+          <a :href="item?.link" target="_blank">
             <img
-              :src="item?.image"
+              :src="item?.image?.url"
               alt="image"
               class="w-[100%] sx:h-[250px] ss:h-[300px] mmd:h-[500px]"
             />
-          </div>
+          </a>
         </SplideSlide>
       </Splide>
     </div>
