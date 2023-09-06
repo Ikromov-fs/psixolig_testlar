@@ -46,6 +46,7 @@ async function getTests() {
 //     toast.error("Ro'yxatdan o'ting !");
 //   }
 // }
+
 onMounted(() => {
   getTests();
 });
