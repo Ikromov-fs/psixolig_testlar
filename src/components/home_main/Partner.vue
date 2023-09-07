@@ -25,9 +25,9 @@
             :key="item?.id"
             class="flex flex-col items-center px-3 py-10 bg-[#00000014] sx:mt-5 mmd:mt-10 box-w rounded-md cursor-pointer"
           >
-            <img :src="item?.image" alt="image" class="w-[50px]" />
+            <img :src="item?.image?.url" alt="image" class="w-[50px]" />
             <h1 class="text-[20px] text-white">
-              {{ item?.title }}
+              {{ item?.name }}
             </h1>
           </div>
         </div>
@@ -36,52 +36,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import logo from "../../assets/svg/logo-white.svg";
 import style2 from "@/assets/image/style5.png";
 import style6 from "@/assets/image/style6.png";
-const dataTests = ref([
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 1,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 2,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 3,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 4,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 5,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 6,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 7,
-  },
-  {
-    image: logo,
-    title: "algartim academy",
-    id: 8,
-  },
-]);
+import axios from "@/plugins/axios.js";
+const dataTests = ref();
+async function partner() {
+  try {
+    const getPartner = await axios.get(`/partners/get-all`);
+    dataTests.value = getPartner.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+onMounted(() => {
+  partner();
+});
 </script>
 <style scoped>
 .box-w {
