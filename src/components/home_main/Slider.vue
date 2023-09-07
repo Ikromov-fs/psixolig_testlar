@@ -1,15 +1,16 @@
 <template>
-  <pre>{{ isLoading }}</pre>
   <BlockPreloader
-    v-if="isLoading"
-    class="container"
+          v-if="isLoading"
+    class="container h-[18rem] mmd:h-[30rem]"
     :loading="isLoading"
-    height="30rem"
+
     width="100%"
     border-radius="6px"
-    dark
-  />
-  <Swiper
+
+  >
+
+  </BlockPreloader>
+  <Swiper v-else
     :navigation="true"
     :lazy="true"
     :loop="true"
@@ -50,11 +51,12 @@ import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 let slides = ref([]);
 const isLoading = ref(false);
 function getNews() {
+    isLoading.value = true;
   axios
     .get("news/get-all")
     .then((res) => {
       console.log(res.data);
-      isLoading.value = true;
+
       slides.value = res.data;
     })
     .catch((err) => {
