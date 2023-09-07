@@ -56,7 +56,6 @@ import { useRouter } from "vue-router";
 import axios from "@/plugins/axios.js";
 const router = useRouter();
 const toast = useToast();
-const token = localStorage.getItem("token");
 
 const dataContact = reactive({
   fullName: "",
@@ -76,6 +75,7 @@ const $v = useVuelidate(rules, dataContact);
 
 // set with Back end
 const contactBtn = async () => {
+    const token = localStorage.getItem("token");
   $v.value.$validate();
   if (!$v.value.$error) {
     if (token) {

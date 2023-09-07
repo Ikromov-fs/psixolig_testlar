@@ -23,13 +23,13 @@
           <div
             v-for="item in dataTests"
             :key="item?.id"
-            class="py-2 bg-[#fff] sx:mt-5 mmd:mt-10 box-w rounded-md cursor-pointer"
+            class="py-2 bg-[#fff] sx:mt-5 mmd:mt-8 box-w rounded-md cursor-pointer"
           >
             <a :href="item?.link" class="flex flex-col items-center justify-center text-center">
               <img
                 :src="item?.image?.url"
                 alt="image"
-                class="w-[130px] h-[100px] object-cover"
+                class="w-[130px] h-[100px] object-contain"
               />
               <h1 class="text-[20px] text-black font-medium">
                 {{ item?.name }}
