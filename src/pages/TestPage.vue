@@ -5,14 +5,16 @@
         <div
           class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 relative"
         >
-          <router-link
+          <div
             v-for="item in dataTests"
             :key="item?.ID"
-            :to="`tests${item?.ID}`"
+            @click="goSingle(item?.ID)"
             class="flex items-center justify-center gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
           >
-            <h1 class="text-[18px]">{{ item?.name }}</h1>
-          </router-link>
+            <h1 class="text-[18px]">
+              {{ item?.name }}
+            </h1>
+          </div>
         </div>
       </div>
     </div>
@@ -21,11 +23,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "@/plugins/axios.js";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 const router = useRouter();
 const toast = useToast();
+const token = localStorage.getItem("token");
 // get metod tests
 const dataTests = ref();
 async function getTests() {
@@ -38,14 +41,13 @@ async function getTests() {
   }
 }
 
-// function goSingle(item) {
-//   const token = localStorage.getItem("token");
-//   if (token) {
-//     router.push(`tests/${item}`);
-//   } else {
-//     toast.error("Ro'yxatdan o'ting !");
-//   }
-// }
+function goSingle(item: any) {
+  if (token) {
+    router.push(`tests/${item}`);
+  } else {
+    toast.error("Testlarga o'tish uchun ro'yxatdan o'ting !");
+  }
+}
 
 onMounted(() => {
   getTests();

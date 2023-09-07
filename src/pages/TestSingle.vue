@@ -4,6 +4,7 @@
     :price="idDataTest?.price"
     :id="idDataTest?.id"
     :title="idDataTest?.title"
+    :href="idDataTest?.href"
     :pageId="id"
     :solvedCount="idDataTest?.solvedCount"
     :isOpen="openAssentModal"
@@ -22,7 +23,8 @@
           <h1 class="sx:text-[16px] mmd:text-[18px]">{{ item?.title }}</h1>
         </div>
         <div class="flex items-center gap-3">
-          <p>{{ item?.price }} sum</p>
+          <p v-if="!item?.sotvogan">{{ item?.price }} sum</p>
+          <i v-else class="fa-solid fa-check text-xl"></i>
         </div>
       </div>
     </div>
@@ -44,6 +46,7 @@ const idDataTest = reactive({
   price: "",
   solvedCount: "",
   title: "",
+  href: "",
 });
 const id = route.params.id;
 
@@ -62,36 +65,40 @@ onMounted(() => {
   getAllCategoryChild();
 });
 
-async function testIfAssent(id: Number) {
-  const token = localStorage.getItem("token");
+async function testIfAssent(idMadal: Number) {
   const phone = localStorage.getItem("phone");
-  if (token) {
-    try {
-      const data = {
-        testId: `${id}`,
-        phone: phone,
-      };
-      const isMoney = await axios.post(`/payment/is-sotvogan`, data);
-      if (isMoney?.data?.isSotvogan === false) {
-        try {
-          openAssentModal.value = true;
-          const dataTest = await axios.get(`/test/get/${id}`);
-          idDataTest.description = dataTest.data.description;
-          idDataTest.price = dataTest.data.price;
-          idDataTest.solvedCount = dataTest.data.solvedCount;
-          idDataTest.title = dataTest.data.title;
-          idDataTest.id = dataTest.data.id;
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        router.push(`/tester?id=${id}&index=1`);
+  try {
+    const data = {
+      testId: `${idMadal}`,
+      phone: phone,
+    };
+    const isMoney = await axios.post(`/payment/is-sotvogan`, data);
+    if (isMoney?.data?.isSotvogan === false) {
+      try {
+        const phone = localStorage.getItem("phone");
+        openAssentModal.value = true;
+        const dataTest = await axios.get(`/test/get/${idMadal}`);
+        idDataTest.description = dataTest.data.description;
+        idDataTest.price = dataTest.data.price;
+        idDataTest.solvedCount = dataTest.data.solvedCount;
+        idDataTest.title = dataTest.data.title;
+        idDataTest.id = dataTest.data.id;
+        const data = {
+          testId: idDataTest.id,
+          phone: `${phone}`,
+          amount: idDataTest.price,
+          callback: `http://localhost:3000/tests/${id}`,
+        };
+        const buy = await axios.post(`/payment/generate-link`, data);
+        idDataTest.href = buy.data;
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      router.push(`/tester?id=${id}&index=1`);
     }
-  } else {
-    toast.error("Ro'yhatdan o'ting !");
+  } catch (error) {
+    console.log(error);
   }
 }
 </script>

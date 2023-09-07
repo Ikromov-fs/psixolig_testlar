@@ -19,7 +19,7 @@
           <img
             :src="data?.image?.url"
             alt="user image"
-            class="w-[180px] h-[180px] rounded-[50%]"
+            class="w-[180px] h-[180px] rounded-[50%] object-cover"
           />
         </div>
         <div v-if="!isImage">

@@ -71,7 +71,7 @@ const submitLoginBtn = async () => {
       if (user) {
         localStorage.setItem("phone", phone);
       }
-      store.getToken();
+      store?.getToken();
       emit("openLoginModal");
     } catch (error) {
       console.log(error);
