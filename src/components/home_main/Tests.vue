@@ -17,10 +17,10 @@
             :key="item?.id"
             class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] sx:py-0 mmd:p-2 mt-10 box-w rounded-bl-[18px] rounded-tr-[18px] rounded-[2px] cursor-pointer"
           >
-            <!-- <i
+             <i
               class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"
-            ></i> -->
-            <h1 class="sx:text-[15px] mmd:text-[17px]">{{ item?.title }}</h1>
+            ></i>
+            <h1 class="sx:text-[15px] mmd:text-[17px] mr-8">{{ item?.title }}</h1>
           </div>
         </div>
       </div>
