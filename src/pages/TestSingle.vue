@@ -11,7 +11,10 @@
     @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8">
+      <BlockPreloader v-for="item in 8" :key="testChild" :loading="isLoading" width="100%" height="90px" border-radius="6px"></BlockPreloader>
+      </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8">
       <div
         v-for="item in testChild"
         :key="item?.id"
@@ -37,6 +40,7 @@ import { useRoute, useRouter } from "vue-router";
 import PaymeModal from "@/components/modals/PaymeModal.vue";
 import { useToast } from "vue-toastification";
 import axios from "@/plugins/axios.js";
+import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
@@ -52,12 +56,17 @@ const id = route.params.id;
 
 const openAssentModal = ref(false);
 const testChild = ref();
+const isLoading = ref(false)
 async function getAllCategoryChild() {
+    isLoading.value = true
   try {
     const childCategory = await axios.get(`/test/get/all-by-category-id/${id}`);
     testChild.value = childCategory.data;
   } catch (error) {
     console.log(error);
+  }
+  finally {
+      isLoading.value = false
   }
 }
 
