@@ -5,7 +5,7 @@
       <!--            <pre>{{ testQuestions }}</pre>-->
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
-        <h2 class="font-medium text-xl">Category name / Birinchi test</h2>
+        <h2 class="font-medium text-xl">Psixologik testlar</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 mt-5 mb-2 gap-6">
         <div class="border md:col-span-8 flex flex-col justify-between p-4">

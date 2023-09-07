@@ -14,14 +14,10 @@
           <li class="my-2">Test haqida: {{ description }}</li>
         </ul>
         <div v-if="!isBuy" class="grid grid-cols-2 gap-3 mt-4">
-          <SButton @click="buyTest" variant="info" :loading="loading">
-            Hoziroq sotib olish</SButton
-          >
-          <SButton variant="danger" @click="cancelModal"> Orqaga</SButton>
-        </div>
-        <div v-if="isBuy" class="grid grid-cols-2 gap-3 mt-4">
-          <a :href="href">
-            <SButton variant="info" :loading="loading" class="w-full">To'lov</SButton>
+          <a :href="props?.href">
+            <SButton variant="info" :loading="loading" class="w-full"
+              >Hoziroq sotib olish</SButton
+            >
           </a>
           <SButton variant="danger" @click="cancelModal"> Orqaga</SButton>
         </div>
@@ -31,14 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
-// import ButtonFillVue from "../buttons/ButtonFillVue.vue";
+import { ref, watch } from "vue";
 import SButton from "../buttons/SButton.vue";
-import { useToast } from "vue-toastification";
-import axios from "@/plugins/axios.js";
-const href = ref();
 const isBuy = ref(false);
-const toast = useToast();
 const props = defineProps({
   isOpen: Boolean,
   loading: Boolean,
@@ -49,6 +40,7 @@ const props = defineProps({
   price: String,
   solvedCount: String,
   title: String,
+  href: String,
   label: {
     type: String,
     default: "Categoriya qo`shish",
@@ -62,22 +54,6 @@ const openCondition = ref(props.isOpen);
 function cancelModal() {
   openCondition.value = false;
   emit("closeModal", openCondition.value);
-}
-async function buyTest() {
-  const phone = localStorage.getItem("phone");
-  try {
-    const data = {
-      testId: props?.id,
-      phone: `${phone}`,
-      amount: props?.price,
-      callback: `http://localhost:3000/tests/${props?.pageId}`,
-    };
-    const buy = await axios.post(`/payment/generate-link`, data);
-    href.value = buy.data;
-    isBuy.value = true;
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 watch(

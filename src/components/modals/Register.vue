@@ -192,15 +192,16 @@ async function confirmation(e: any) {
     setTimeout(() => {
       const token = authStore.useLoginToken(tokenGet);
     }, 100);
-    localStorage.setItem("phone", phone)
+    localStorage.setItem("phone", phone);
     resendCode.value = false;
     setTimeout(() => {
-      emit("isOpenRegister");
       authStore.isLoginData();
       authStore.getToken();
+      emit("isOpenRegister");
     }, 800);
   } catch (error) {
     console.log(error);
+    authStore.isLoginData();
   }
 }
 function prevModal() {
@@ -218,7 +219,7 @@ async function resedCode() {
         .replace(") ", "");
     const nextCode = await axios.post("/auth/code/resend", { phoneNumber });
     if (nextCode) {
-      localStorage.setItem("phone", phoneNumber)
+      localStorage.setItem("phone", phoneNumber);
       resendCode.value = false;
       codeNext.value.expFunction();
     }

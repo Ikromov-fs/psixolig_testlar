@@ -8,6 +8,7 @@ export const useAuth = defineStore("user", {
     userData: [],
     // profileData: [],
     isToken: false,
+    isLogin: false,
   }),
   actions: {
     // register
@@ -50,15 +51,15 @@ export const useAuth = defineStore("user", {
     },
     async refreshToken() {
       try {
-       const newToken = await  axios.post('auth/refresh/token',{
-          refreshToken:localStorage.getItem('refreshToken')
-        })
+        const newToken = await axios.post("auth/refresh/token", {
+          refreshToken: localStorage.getItem("refreshToken"),
+        });
         localStorage.setItem("token", newToken.data.accessToken);
-      }catch (err){
-        console.log(err.response.status,"err")
-        if(err.response.status === 401 || err.response.status === 500){
-        this.logOut()
-          window.location.reload()
+      } catch (err) {
+        console.log(err.response.status, "err");
+        if (err.response.status === 401 || err.response.status === 500) {
+          this.logOut();
+          window.location.reload();
         }
       }
     },
