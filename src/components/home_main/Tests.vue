@@ -1,7 +1,9 @@
 <template>
-  <div class="bg-[#f6c899] pb-20 pt-10 rounded-xl sm:rounded-none sm:rounded-tl-[50px] sm:rounded-br-[50px] mx-2">
+  <div
+    class="bg-[#f6c899] pb-20 pt-10 rounded-xl sm:rounded-none sm:rounded-tl-[50px] sm:rounded-br-[50px] mx-2"
+  >
     <div data-aos="fade-up" class="relative">
-      <img :src="style" alt="style" class="absolute top-[-50px  ]" />
+      <img :src="style" alt="style" class="absolute top-[-50px ]" />
       <img :src="style2" alt="style" class="absolute right-0 bottom-[-80px]" />
       <div class="container mx-auto">
         <div class="flex justify-center font-[500] gap-1 text-lg">
@@ -26,42 +28,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import style from "@/assets/image/style_psix.png";
 import style2 from "@/assets/image/style2.png";
-const dataTests = ref([
-  {
-    title: "Ota-onalar uchun",
-    id: 1,
-  },
-  {
-    title: "Ayollar uchun",
-  },
-  {
-    title: "Sportchilar uchun",
-    id: 3,
-  },
-  {
-    title: "Dasturchilar uchun",
-    id: 4,
-  },
-  {
-    title: "Dasturchilar uchun",
-    id: 4,
-  },
-  {
-    title: "Dasturchilar uchun",
-    id: 4,
-  },
-  {
-    title: "Dasturchilar uchun",
-    id: 4,
-  },
-  {
-    title: "Pedagogik qobilyatini aniqlash",
-    id: 4,
-  },
-]);
+import axios from "@/plugins/axios.js";
+async function topTests() {
+  try {
+    const tests = await axios.get(`/test/get/bestsellers`);
+    console.log(tests);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(() => {
+  topTests();
+});
+const dataTests = ref([]);
 </script>
 <style scoped>
 .box-w {
