@@ -134,13 +134,17 @@
     <div v-else class="w-full h-[70vh] flex justify-center items-center">
       <div class="text-center">
         <p class="font-medium text-2xl">Testni yakunladingiz!</p>
-        <p class="my-4 font-semibold text-3xl mb-6">{{testResult}} %</p>
-        <p class="my-4 font-semibold text-3xl mb-6">{{testFeedback}} </p>
-        <ButtonFillVue>
-          <router-link class="py-3 font-medium" to="/tests"
-            >Testlar bo'limiga qaytish</router-link
-          >
-        </ButtonFillVue>
+        <p class="my-4 font-semibold text-3xl mb-6">{{ testResult }} %</p>
+        <p class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px]">
+          {{ testFeedback }}
+        </p>
+        <div class="mmd:w-[50%] mx-auto">
+          <ButtonFillVue>
+            <router-link class="py-3 font-medium" to="/tests"
+              >Testlar bo'limiga qaytish</router-link
+            >
+          </ButtonFillVue>
+        </div>
       </div>
     </div>
   </div>
@@ -155,7 +159,7 @@ import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
 import FormInput from "@/components/form/FormInput.vue";
 import axios from "axios";
 import ButtonFillVue from "@/components/buttons/ButtonFillVue.vue";
-import {useToast} from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 const route = useRoute();
 const router = useRouter();
@@ -163,7 +167,7 @@ const activeTest = ref(route.query.index);
 const totalTest = ref(10);
 const prevDisabled = ref(false);
 const nextDisabled = ref(false);
-const toast = useToast()
+const toast = useToast();
 
 const testIndex = ref([]);
 
@@ -180,7 +184,7 @@ async function fetchTestQuestionAll() {
     })
     .catch((err) => {
       console.log(err);
-      toast.error("Xatolik yuz berdi!")
+      toast.error("Xatolik yuz berdi!");
     });
 }
 
@@ -265,8 +269,8 @@ async function setAnswerTest() {
     }
   } else if (testQuestions.value?.questionDTO?.testType == "CLOSE_QUESTIONS") {
     obj.closeAnswer = testQuestions.value?.closeAnswer;
-    if(testQuestions.value.closeAnswer){
-    fetchAxios(obj);
+    if (testQuestions.value.closeAnswer) {
+      fetchAxios(obj);
     }
   }
 }
@@ -295,15 +299,15 @@ async function solveTest(index: number) {
 }
 
 const statusTest = ref(false);
-const testResult = ref(null)
-const testFeedback = ref("")
+const testResult = ref(null);
+const testFeedback = ref("");
 function finishTest() {
   axios
     .post(`process/finish-test?testId=${route.query.id}`)
     .then((res) => {
       console.log(res);
-      testResult.value = res.data.score
-        testFeedback.value = res.data.feedback
+      testResult.value = res.data.score;
+      testFeedback.value = res.data.feedback;
       statusTest.value = true;
     })
     .catch((err) => {
