@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <div class="mt-2" v-if="!statusTest">
-      <!--            <pre>{{testIndex}}</pre>-->
-      <!--            <pre>{{ testQuestions }}</pre>-->
+
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
@@ -11,7 +10,8 @@
         <div class="border md:col-span-8 flex flex-col justify-between p-4">
           <div>
             <div class="flex gap-2">
-              <div class="flex flex-col gap-2">
+                <BlockPreloader v-if="isLoading" :loading="isLoading" width="100%" height="120px"/>
+              <div class="flex flex-col gap-2" v-else>
                 <img
                   v-if="testQuestions?.questionDTO?.image"
                   :src="testQuestions?.questionDTO?.image.url"
@@ -24,79 +24,90 @@
               </div>
             </div>
             <!--  single choice section-->
-            <div
-              class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
-            >
-              <div
-                class="w-full py-3 px-2 border cursor-pointer relative"
-                v-for="(item, index) in testQuestions?.questionDTO
-                  ?.answerDTOList"
-              >
-                <label
-                  :for="`test${index + 1}`"
-                  class="absolute w-full h-full cursor-pointer"
-                ></label>
-                <div class="flex gap-3">
-                  <TypeRadio
-                    :input-id="`test${index + 1}`"
-                    :value="item.id"
-                    v-model="testQuestions.answers[0]"
-                    @isChange="changeRadioInput = true"
-                  />
-                  <img
-                    v-if="item?.image"
-                    :src="item?.image?.url"
-                    alt="test images"
-                    class="w-[70px] h-[70px] object-cover"
-                  />
-                  <p v-if="item?.text">{{ item?.text }}</p>
-                </div>
+              <div class="flex flex-col gap-4 mt-4" v-if="isLoading">
+                  <BlockPreloader :loading="isLoading" v-for="i in 4" :key="i" width="100%" height="50px"/>
               </div>
+            <div v-else>
+                <div
+                        class="mt-3 flex flex-col gap-3"
+                        v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
+                >
+
+                    <div
+                            class="w-full py-3 px-2 border cursor-pointer relative"
+                            v-for="(item, index) in testQuestions?.questionDTO
+                  ?.answerDTOList"
+                    >
+                        <label
+                                :for="`test${index + 1}`"
+                                class="absolute w-full h-full cursor-pointer"
+                        ></label>
+                        <div class="flex gap-3">
+                            <TypeRadio
+                                    :input-id="`test${index + 1}`"
+                                    :value="item.id"
+                                    v-model="testQuestions.answers[0]"
+                                    @isChange="changeRadioInput = true"
+                            />
+                            <img
+                                    v-if="item?.image"
+                                    :src="item?.image?.url"
+                                    alt="test images"
+                                    class="w-[70px] h-[70px] object-cover"
+                            />
+                            <p v-if="item?.text">{{ item?.text }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--  multiple choice section-->
-            <div
-              class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
-            >
-              <div
-                class="w-full py-3 px-2 border cursor-pointer relative"
-                v-for="(item, index) in testQuestions?.questionDTO
+
+            <div v-if="!isLoading">
+                <div
+                        class="mt-3 flex flex-col gap-3"
+                        v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
+                >
+                    <div
+                            class="w-full py-3 px-2 border cursor-pointer relative"
+                            v-for="(item, index) in testQuestions?.questionDTO
                   ?.answerDTOList"
-              >
-                <label
-                  :for="`test${index + 1}`"
-                  class="absolute w-full h-full cursor-pointer"
-                ></label>
-                <div class="flex gap-3">
-                  <TypeCheckbox
-                    :input-id="`test${index + 1}`"
-                    @changeVal="(e) => (item.correct = e)"
-                    @isChange="changeCheckboxInput = true"
-                    :value="item.correct"
-                  />
-                  <img
-                    v-if="item?.image?.url"
-                    :src="item?.image?.url"
-                    alt="test images"
-                    class="w-[70px] h-[70px] object-cover"
-                  />
-                  <p v-if="item?.text">{{ item?.text }}</p>
+                    >
+                        <label
+                                :for="`test${index + 1}`"
+                                class="absolute w-full h-full cursor-pointer"
+                        ></label>
+                        <div class="flex gap-3">
+                            <TypeCheckbox
+                                    :input-id="`test${index + 1}`"
+                                    @changeVal="(e) => (item.correct = e)"
+                                    @isChange="changeCheckboxInput = true"
+                                    :value="item.correct"
+                            />
+                            <img
+                                    v-if="item?.image?.url"
+                                    :src="item?.image?.url"
+                                    alt="test images"
+                                    class="w-[70px] h-[70px] object-cover"
+                            />
+                            <p v-if="item?.text">{{ item?.text }}</p>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
             <!--  write choice section-->
-            <div
-              class="mt-3 flex flex-col gap-3"
-              v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
-            >
-              <div class="w-full py-3 px-2 border cursor-pointer relative">
-                <FormInput
-                  label="Javobingizni yozing"
-                  placeholder="Javobingizni kiriting..."
-                  v-model="testQuestions.closeAnswer"
-                />
-              </div>
+            <div v-if="!isLoading">
+                <div
+                        class="mt-3 flex flex-col gap-3"
+                        v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
+                >
+                    <div class="w-full py-3 px-2 border cursor-pointer relative">
+                        <FormInput
+                                label="Javobingizni yozing"
+                                placeholder="Javobingizni kiriting..."
+                                v-model="testQuestions.closeAnswer"
+                        />
+                    </div>
+                </div>
             </div>
           </div>
           <div class="flex gap-3 justify-end mt-5">
@@ -160,6 +171,7 @@ import FormInput from "@/components/form/FormInput.vue";
 import axios from "axios";
 import ButtonFillVue from "@/components/buttons/ButtonFillVue.vue";
 import { useToast } from "vue-toastification";
+import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -279,7 +291,11 @@ async function setAnswerTest() {
 
 const index = ref(route.query.index);
 
+const isLoading = ref(false)
+const isLoadOption = ref(false)
 async function solveTest(index: number) {
+    isLoading.value = true
+    isLoadOption.value = true
   axios
     .get(`question/get-quiz?test-id=${route.query.id}&index=${index}`)
     .then((res) => {
@@ -295,7 +311,12 @@ async function solveTest(index: number) {
     })
     .catch((err) => {
       console.log(err);
-    });
+    }).finally(()=>{
+        isLoading.value = false
+      setTimeout(()=>{
+          isLoadOption.value = false
+      },1000)
+  })
 }
 
 const statusTest = ref(false);
