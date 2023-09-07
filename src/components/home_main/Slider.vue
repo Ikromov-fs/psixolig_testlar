@@ -1,5 +1,7 @@
 
 <template>
+    <pre>{{isLoading}}</pre>
+    <BlockPreloader v-if="isLoading" class="container" :loading="isLoading" height="30rem" width="100%" border-radius="6px" dark/>
     <Swiper
             :navigation="true"
             :lazy="true"
@@ -40,16 +42,24 @@ import 'swiper/css/pagination';
 
 import {onMounted, ref} from "vue";
 import axios from "@/plugins/axios.js";
+import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 
 let slides = ref([])
+const isLoading = ref(false)
 function getNews() {
     axios.get("news/get-all").then((res)=>{
         console.log(res.data)
+        isLoading.value = true
         slides.value = res.data
     })
         .catch((err)=>{
             console.log(err)
-        })
+        }).finally(()=>{
+            setTimeout(()=>{
+
+            isLoading.value = false
+            },1000)
+    })
 }
 
 onMounted(()=>{
