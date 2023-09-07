@@ -2,6 +2,9 @@
   <div class="pb-20 mt-2">
     <div data-aos="fade-up">
       <div class="container mx-auto">
+          <div class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 mt-8" >
+              <BlockPreloader v-for="item in 9" :key="item" :loading="isLoading" width="100%" height="90px" border-radius="6px"></BlockPreloader>
+          </div>
         <div
           class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 relative"
         >
@@ -26,18 +29,25 @@ import { ref, onMounted } from "vue";
 import axios from "@/plugins/axios.js";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 const router = useRouter();
 const toast = useToast();
 const token = localStorage.getItem("token");
 // get metod tests
 const dataTests = ref();
+
+const isLoading = ref(false)
 async function getTests() {
+    isLoading.value = true
   try {
     const tests = await axios.get("category/get/all");
     dataTests.value = tests.data;
     console.log(tests);
   } catch (error) {
     console.log(error);
+  }
+  finally {
+      isLoading.value = false
   }
 }
 
