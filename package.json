@@ -22,7 +22,8 @@
     "vue-router": "^4.2.4",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-autocounter": "^1.0.6",
-    "vue3-verification-code-input": "^0.1.0"
+    "vue3-verification-code-input": "^0.1.0",
+    "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
