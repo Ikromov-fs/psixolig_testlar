@@ -95,7 +95,7 @@ async function testIfAssent(idMadal: Number) {
         console.log(error);
       }
     } else {
-      router.push(`/tester?id=${id}&index=1`);
+      router.push(`/tester?id=${idMadal}&index=1`);
     }
   } catch (error) {
     console.log(error);
