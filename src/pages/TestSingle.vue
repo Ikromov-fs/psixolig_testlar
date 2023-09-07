@@ -11,10 +11,10 @@
     @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8" v-if="isLoading">
       <BlockPreloader v-for="item in 8" :key="testChild" :loading="isLoading" width="100%" height="90px" border-radius="6px"></BlockPreloader>
       </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8" v-else>
       <div
         v-for="item in testChild"
         :key="item?.id"

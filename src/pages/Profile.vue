@@ -16,11 +16,14 @@
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
         <div v-if="isImage">
+            <BlockPreloader width="180px" height="180px" border-radius="50%" :loading="isLoadImages">
+
           <img
             :src="data?.image?.url"
             alt="user image"
             class="w-[180px] h-[180px] rounded-[50%] object-cover"
           />
+            </BlockPreloader>
         </div>
         <div v-if="!isImage">
           <UploadImage
@@ -61,8 +64,10 @@
       <h1 class="flex justify-center text-[22px] font-[500] mb-5">
         Sotib olgan testlarim !
       </h1>
-<!--        <pre>{{testList}}</pre>-->
-      <div class="grid grid-cols-1 mb-3 gap-3 relative">
+        <div class="grid grid-cols-1 mb-3 gap-3 " v-if="isLoadTest">
+        <BlockPreloader :loading="isLoadTest" v-for="item in 4" :key="item" width="100%" height="90px" border-radius="6px"/>
+        </div>
+      <div v-else class="grid grid-cols-1 mb-3 gap-3 relative">
         <div
           v-for="item in testList"
           :key="item?.id"
@@ -73,7 +78,7 @@
 <!--             <i class="fa-solid fa-circle-question text-2xl"></i>-->
             <h1 class="text-[18px]">{{ item?.test.title }}</h1>
           </div>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
             <p>{{ item?.score }} %</p>
           </div>
@@ -91,6 +96,7 @@ import { useAuth } from "@/store/auth.js";
 import { useToast } from "vue-toastification";
 import axios from "@/plugins/axios.js";
 import UploadImage from "@/components/form/UploadImage.vue";
+import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 const toast = useToast();
 const store = useAuth();
 const router = useRouter();
@@ -145,18 +151,29 @@ async function getProfile() {
 }
 
 const testList = ref([])
+const isLoadTest = ref(false)
 function fetchTestList(){
+    isLoadTest.value = true
     axios.get('history/get-all-my-histories').then((res)=>{
         console.log(res.data,"list test")
         testList.value = res.data
     }).catch((err)=>{
         console.log(err)
+    }).finally(()=>{
+        isLoadTest.value = false
     })
 }
 
+const isLoadImages = ref(false)
 onMounted(() => {
   getProfile();
   fetchTestList()
+
+    isLoadImages.value = true
+    setTimeout(()=>{
+        isLoadImages.value = false
+    },2000)
+
 });
 
 
