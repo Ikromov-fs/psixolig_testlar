@@ -19,7 +19,6 @@ export const useAuth = defineStore("user", {
         this.isLogin = true;
       } catch (error) {
         console.log(error);
-        this.isLogin = false;
         toast.error("Xatolik mavjud !");
       }
     },
@@ -29,8 +28,11 @@ export const useAuth = defineStore("user", {
       try {
         const code = await axios.post("/auth/activate", options);
         toast.success("Ro'yxatdan o'tdingiz !");
+        this.isToken = true;
+        getToken()
       } catch (error) {
         console.log(error);
+        this.isToken = false;
         toast.error("Xatolik mavjud !");
       }
     },

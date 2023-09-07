@@ -108,12 +108,9 @@ import CodeInput from "../form/CodeInput.vue";
 import TypeRadio from "../input/TypeRadio.vue";
 import { useAuth } from "@/store/auth.js";
 import axios from "axios";
-import loadingImg from "@/assets/svg/loading.svg";
 const codeSend = ref("");
 const codeNext = ref();
-const loading = ref(false);
 const authStore = useAuth();
-// Validatsiya for Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required, sameAs } from "@vuelidate/validators";
 
@@ -189,24 +186,22 @@ async function confirmation(e: any) {
       password: inputRegisterData.password,
     };
     const codeData = await authStore.codeInput(options);
-    setTimeout(() => {
-      const token = authStore.useLoginToken(tokenGet);
-    }, 100);
+    authStore.useLoginToken(tokenGet);
     localStorage.setItem("phone", phone);
     resendCode.value = false;
     setTimeout(() => {
-      authStore.isLoginData();
       authStore.getToken();
+      // authStore.isLoginData();
       emit("isOpenRegister");
     }, 800);
   } catch (error) {
     console.log(error);
-    authStore.isLoginData();
+    // authStore.isLoginData();
   }
 }
 function prevModal() {
+  // authStore.isLoginData();
   emit("isOpenRegister");
-  authStore.isLoginData();
 }
 
 async function resedCode() {
