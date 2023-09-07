@@ -107,3 +107,41 @@ body {
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px #c4c4c499;
 }
+
+
+/*swiper buttons*/
+.swiper-button-next,
+.swiper-button-prev {
+  align-items: center;
+  background: #ccc;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  height: 2em !important;
+  justify-content: center;
+  opacity: .7;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2em !important;
+  z-index: 1;
+  color: #000 !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.2rem !important;
+  font-weight: 900;
+  color: black;
+}
+
+ .swiper-pagination-bullet {
+  background-color: #363636;
+  width: 4rem;
+  height: 0.4rem;
+  border-radius: 1rem;
+}
+.swiper-pagination-bullet-active {
+  background-color: black !important;
+}

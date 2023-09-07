@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#f6c899] pb-20 pt-10 rounded-tl-[50px] rounded-br-[50px]">
+  <div class="bg-[#f6c899] pb-20 pt-10 rounded-xl sm:rounded-none sm:rounded-tl-[50px] sm:rounded-br-[50px] mx-2">
     <div data-aos="fade-up" class="relative">
       <img :src="style" alt="style" class="absolute top-[-50px  ]" />
       <img :src="style2" alt="style" class="absolute right-0 bottom-[-80px]" />

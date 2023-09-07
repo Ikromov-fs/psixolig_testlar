@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Slider />
+    <div class="my-5 px-2">
+        <Slider />
+    </div>
     <Tests />
     <Winnered id="winnered" />
     <Partner />
