@@ -155,6 +155,7 @@ import TypeCheckbox from "@/components/input/TypeCheckbox.vue";
 import FormInput from "@/components/form/FormInput.vue";
 import axios from "axios";
 import ButtonFillVue from "@/components/buttons/ButtonFillVue.vue";
+import {useToast} from "vue-toastification";
 
 const route = useRoute();
 const router = useRouter();
@@ -162,6 +163,7 @@ const activeTest = ref(route.query.index);
 const totalTest = ref(10);
 const prevDisabled = ref(false);
 const nextDisabled = ref(false);
+const toast = useToast()
 
 const testIndex = ref([]);
 
@@ -178,6 +180,7 @@ async function fetchTestQuestionAll() {
     })
     .catch((err) => {
       console.log(err);
+      toast.error("Xatolik yuz berdi!")
     });
 }
 
