@@ -17,10 +17,10 @@
             :key="item?.id"
             class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] sx:py-0 mmd:p-2 mt-10 box-w rounded-bl-[18px] rounded-tr-[18px] rounded-[2px] cursor-pointer"
           >
-            <i
+            <!-- <i
               class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"
-            ></i>
-            <h1 class="sx:text-[15px] mmd:text-[18px]">{{ item?.title }}</h1>
+            ></i> -->
+            <h1 class="sx:text-[15px] mmd:text-[17px]">{{ item?.title }}</h1>
           </div>
         </div>
       </div>
@@ -32,10 +32,11 @@ import { ref, onMounted } from "vue";
 import style from "@/assets/image/style_psix.png";
 import style2 from "@/assets/image/style2.png";
 import axios from "@/plugins/axios.js";
+const dataTests = ref();
 async function topTests() {
   try {
     const tests = await axios.get(`/test/get/bestsellers`);
-    console.log(tests);
+    dataTests.value = tests.data;
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +45,6 @@ async function topTests() {
 onMounted(() => {
   topTests();
 });
-const dataTests = ref([]);
 </script>
 <style scoped>
 .box-w {
