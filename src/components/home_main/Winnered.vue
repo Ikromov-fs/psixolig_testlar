@@ -1,10 +1,16 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from "vue";
-import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
-import { defineComponent } from "vue";
+import { onMounted, computed } from "vue";
 import profile from "@/assets/svg/profil.svg";
 import axios from "@/plugins/axios.js";
+
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Lazy, Pagination, Autoplay } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/lazy";
+import "swiper/css/pagination";
 
 async function getStudents() {
   try {
@@ -14,60 +20,24 @@ async function getStudents() {
     console.log(error);
   }
 }
-getStudents();
-const data = ref();
-export default defineComponent({
-  components: {
-    Splide,
-    SplideSlide,
-    data,
-  },
-  props: {
-    slider: {
-      type: Array,
-      default: () => [],
-    },
-    sliderTitle: {
-      type: String,
-      default: "",
-    },
-  },
-  setup(props) {
-    props.slider;
-    const options = {
-      updateOnMove: true,
-      type: "loop",
-      autoplay: true,
-      gap: "25px",
-      perPage: 1,
-      mediaQuery: "min",
-      breakpoints: {
-        320: {
-          perPage: 1,
-        },
-        550: {
-          perPage: 2,
-        },
-        768: {
-          perPage: 3,
-        },
-        1024: {
-          perPage: 4,
-        },
-        1500: {
-          perPage: 5,
-        },
-      },
-      focus: "center",
-      perMove: 1,
-    };
-    return { options, props, data, profile };
-  },
+
+const thumbsResponsiveBreakpoints = computed((): ResponsiveOptions => {
+  return {
+    320: { slidesPerView: 1, spaceBetween: 1 },
+    768: { slidesPerView: 2, spaceBetween: 2 },
+    1080: { slidesPerView: 3, spaceBetween: 3 },
+    1300: { slidesPerView: 5, spaceBetween: 5 },
+    1600: { slidesPerView: 5, spaceBetween: 5, slidesOffsetBefore: 12 },
+  };
 });
+onMounted(() => {
+  getStudents();
+});
+const data = ref();
 </script>
 <template>
-  <div class="sx:py-10 mmd:py-20 bg-[#fff5ee]">
-    <div class="flex justify-center gap-1 text-lg sx:mb-5 mmd:mb-10">
+  <div class="py-10 bg-[#fff5ee]">
+    <div class="flex justify-center gap-1 text-lg sx:mb-5">
       <span class="text-[#333]">03</span>
       <span class="text-[#333]">|</span>
       <span>Yutuqlar</span>
@@ -76,22 +46,33 @@ export default defineComponent({
       Bizning aktiv o'quvchilarimiz !
     </h1>
     <div>
-      <Splide aria-label="My Favorite Images" :options="options">
-        <SplideSlide
+      <Swiper
+        :navigation="true"
+        :lazy="true"
+        :loop="true"
+        :autoplay="true"
+        :breakpoints="thumbsResponsiveBreakpoints"
+        :loopFillGroupWithBlank="true"
+        :pagination="{ clickable: true, dynamicBullets: true }"
+        :modules="[Navigation, Lazy, Autoplay, Pagination]"
+        class="swiperCardComp"
+      >
+        <SwiperSlide
           v-for="item in data"
-          :key="item?.id"
-          class="bg-[#fff] rounded-[15px] hover:bg-[#f9b234] cursor-pointer time overflow-hidden relative"
+          :breakpoints="thumbsResponsiveBreakpoints"
+          :key="item.id"
+          class="bg-[#fff] md:mx-3 rounded-[8px] hover:bg-[#f9b234] cursor-pointer time overflow-hidden relative"
         >
           <div class="ag-courses-item_bg"></div>
-          <div class="flex gap-5 p-5">
+          <div class="flex p-5">
             <img
               :src="item?.image?.url ? item?.image?.url : profile"
               alt="image"
               class="w-[100px] h-[100px] rounded-[50%] object-cover flex-shrink-0"
             />
-            <div class="flex flex-col justify-between">
+            <div class="flex flex-col justify-between mx-3">
               <h2
-                class="flex justify-center my-3 sm:pt-5 sx:text-[15px] mmd:text-[18px] font-[600]"
+                class="flex justify-center mt-3 sm:pt-5 sx:text-[15px] mmd:text-[18px] font-[600]"
               >
                 {{ item?.fullName }}
               </h2>
@@ -101,8 +82,8 @@ export default defineComponent({
               </div>
             </div>
           </div>
-        </SplideSlide>
-      </Splide>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 </template>

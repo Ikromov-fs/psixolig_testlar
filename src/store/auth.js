@@ -47,7 +47,6 @@ export const useAuth = defineStore("user", {
       } catch (error) {
         console.log(error);
         this.isToken = false;
-        toast.error("Xatolik mavjud !");
       }
     },
     async refreshToken() {

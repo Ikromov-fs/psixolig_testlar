@@ -168,8 +168,8 @@ const submitBtn = async () => {
 };
 
 // code input
-async function confirmation() {
-  // e.preventDefault();
+async function confirmation(e:any) {
+  e.preventDefault();
   try {
     const phone =
       "+998" +
