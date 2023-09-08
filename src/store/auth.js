@@ -6,7 +6,6 @@ const toast = useToast();
 export const useAuth = defineStore("user", {
   state: () => ({
     userData: [],
-    // profileData: [],
     isToken: false,
     isLogin: false,
   }),
@@ -23,20 +22,6 @@ export const useAuth = defineStore("user", {
       }
     },
 
-    // code active
-    async codeInput(options) {
-      try {
-        const code = await axios.post("/auth/activate", options);
-        toast.success("Ro'yxatdan o'tdingiz !");
-        this.isToken = true;
-        getToken()
-      } catch (error) {
-        console.log(error);
-        this.isToken = false;
-        toast.error("Xatolik mavjud !");
-      }
-    },
-
     // Login
     async useLoginToken(options) {
       try {
@@ -44,10 +29,24 @@ export const useAuth = defineStore("user", {
         localStorage.setItem("token", token.data.accessToken);
         localStorage.setItem("refreshToken", token.data.refreshToken);
         localStorage.setItem("phone", options.phoneNumber);
-        this.islogin = true;
+        this.isToken = true;
         toast.success("Tizimga kirdingiz !");
       } catch (error) {
         console.log(error);
+        toast.error("Xatolik mavjud !");
+      }
+    },
+
+    // code active
+    async codeInput(options) {
+      try {
+        const code = await axios.post("/auth/activate", options);
+        toast.success("Ro'yxatdan o'tdingiz !");
+        this.isToken = true;
+        getToken();
+      } catch (error) {
+        console.log(error);
+        this.isToken = false;
         toast.error("Xatolik mavjud !");
       }
     },

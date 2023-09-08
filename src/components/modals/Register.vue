@@ -168,8 +168,8 @@ const submitBtn = async () => {
 };
 
 // code input
-async function confirmation(e: any) {
-  e.preventDefault();
+async function confirmation() {
+  // e.preventDefault();
   try {
     const phone =
       "+998" +
@@ -188,19 +188,18 @@ async function confirmation(e: any) {
     const codeData = await authStore.codeInput(options);
     authStore.useLoginToken(tokenGet);
     localStorage.setItem("phone", phone);
-    resendCode.value = false;
     setTimeout(() => {
       authStore.getToken();
-      // authStore.isLoginData();
+      resendCode.value = false;
       emit("isOpenRegister");
     }, 800);
   } catch (error) {
     console.log(error);
-    // authStore.isLoginData();
+    authStore.isLoginData();
   }
 }
 function prevModal() {
-  // authStore.isLoginData();
+  authStore.isLoginData();
   emit("isOpenRegister");
 }
 
