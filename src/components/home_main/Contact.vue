@@ -24,7 +24,7 @@
           v-maska="'(##) ###-##-##'"
           class="mt-3"
         />
-        <FormInput
+        <Textarea
           v-model="dataContact.comment"
           :error="$v.comment.$error"
           type="string"
@@ -49,6 +49,7 @@ import { computed, reactive } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonTemp from "../buttons/ButtonFillVue.vue";
 import contact from "../../assets/svg/contact.svg";
+import Textarea from "../input/Textarera.vue"
 import { useVuelidate } from "@vuelidate/core"; 
 import { required, minLength } from "@vuelidate/validators";
 import { useToast } from "vue-toastification";
