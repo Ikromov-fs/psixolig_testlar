@@ -72,13 +72,10 @@
           v-for="item in testList"
           :key="item?.id"
           @click="startTest(item?.test.id)"
-          class="flex items-center justify-between py-5 px-10 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer"
+          class="flex items-center justify-between py-5 px-8 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer gap-3"
         >
-          <div class="flex items-center gap-3">
-<!--             <i class="fa-solid fa-circle-question text-2xl"></i>-->
-            <h1 class="text-[18px]">{{ item?.test.title }}</h1>
-          </div>
-          <div class="flex items-center gap-3 flex-shrink-0">
+           <h1 class="text-[18px]">{{ item?.test.title }}</h1>
+          <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
             <p>{{ item?.score }} %</p>
           </div>
