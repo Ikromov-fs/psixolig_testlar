@@ -59,7 +59,7 @@ const dataLogin = reactive({
 const roles = computed(() => {
   return {
     phone: { required },
-    password: { required, minLength: minLength(6) },
+    password: { required, minLength: minLength(8) },
   };
 });
 const $Vlogin = useVuelidate(roles, dataLogin);
