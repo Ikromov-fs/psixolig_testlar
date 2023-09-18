@@ -21,8 +21,8 @@
         >
           <Router-Link
             v-for="item in dataTests"
-            :key="item?.ID"
-            :to="`tests/${item?.ID}`"
+            :key="item?.id"
+            :to="`tests/${item?.id}`"
             class="flex items-center justify-center gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
           >
             <h1 class="text-[18px]">
@@ -51,7 +51,7 @@ async function getTests() {
   isLoading.value = true;
   try {
     const tests = await axios.get("category/get/all");
-    dataTests.value = tests.data;
+    dataTests.value = tests.data;    
   } catch (error) {
     console.log(error);
   } finally {

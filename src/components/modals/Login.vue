@@ -15,17 +15,23 @@
       v-maska="'(##) ###-##-##'"
       label="Tel nomer"
     />
-      <Transition name="fade">
-        <FormInput v-if="!isForget"
-          v-model="dataLogin.password"
-          :error="$Vlogin.password.$error"
-          type="password"
-          placeholder="parol"
-          label="Parol"
-          class="mt-3"
-        />
-      </Transition>
-      <p class="text-sm cursor-pointer mt-1 flex justify-end" @click="forgetPassword">Parolni unutdingizmi!</p>
+    <Transition name="fade">
+      <FormInput
+        v-if="!isForget"
+        v-model="dataLogin.password"
+        :error="$Vlogin.password.$error"
+        type="password"
+        placeholder="parol"
+        label="Parol"
+        class="mt-3"
+      />
+    </Transition>
+    <p
+      class="text-sm cursor-pointer mt-1 flex justify-end"
+      @click="forgetPassword"
+    >
+      Parolni unutdingizmi!
+    </p>
     <div class="mt-4" @click="submitLoginBtn">
       <ButtonFillVue color="#d56603">
         <button class="py-2">Jo'natish</button>
@@ -60,77 +66,71 @@ const $Vlogin = useVuelidate(roles, dataLogin);
 
 // forget password
 
-const isForget = ref(false)
-function  forgetPassword(){
-    isForget.value =  true
+const isForget = ref(false);
+function forgetPassword() {
+  isForget.value = true;
 }
 
 // set with Back end
 const submitLoginBtn = async () => {
   $Vlogin.value.$validate();
 
-    // shunchaki validatsiyani aylanib o'tish uchun
-    if(isForget.value){
-        dataLogin.password = "admin123"
-    }
+  // shunchaki validatsiyani aylanib o'tish uchun
+  if (isForget.value) {
+    dataLogin.password = "admin123";
+  }
   if (!$Vlogin.value.$error) {
-      const phone =
-          "+998" +
-          dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
-      if(isForget.value){
-          console.log("is forget")
-          try {
-            await store.forgetPassword(phone)
-          }
-          catch (err){
-              console.log(err)
-          }
-          finally {
-              (dataLogin.password = ""), (dataLogin.phone = "");
-              setTimeout(()=>{
-                  isForget.value = false
-              },1000)
-              $Vlogin.value.$reset();
-          }
+    const phone =
+      "+998" +
+      dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
+    if (isForget.value) {
+      console.log("is forget");
+      try {
+        await store.forgetPassword(phone);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        (dataLogin.password = ""), (dataLogin.phone = "");
+        setTimeout(() => {
+          isForget.value = false;
+        }, 1000);
+        $Vlogin.value.$reset();
       }
+    } else {
+      try {
+        const options = {
+          phoneNumber: phone,
+          password: dataLogin.password,
+        };
 
-      else{
-        try {
-          const options = {
-            phoneNumber: phone,
-            password: dataLogin.password,
-          };
-
-          const user = await store.useLoginToken(options);
-              if (user) {
-                  localStorage.setItem("phone", phone);
-              }
-              store?.getToken();
-              emit("openLoginModal");
-          }
-         catch (error) {
-          console.log(error);
-        } finally {
-          (dataLogin.password = ""), (dataLogin.phone = "");
-          isForget.value = false
-          $Vlogin.value.$reset();
+        const user = await store.useLoginToken(options);
+        if (user) {
+          localStorage.setItem("phone", phone);
         }
+        store?.getToken();
+        emit("openLoginModal");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        (dataLogin.password = ""), (dataLogin.phone = "");
+        isForget.value = false;
+        $Vlogin.value.$reset();
       }
+    }
   }
 };
 
 const emit = defineEmits(["openLoginModal"]);
 </script>
 <style scoped>
-
 .fade-enter-active,
 .fade-leave-active {
-    transition:  0.5s ease;
+  transition: 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-    opacity: 0;
-    transform: translateY(-40px);
+  opacity: 0;
+  transform: translateY(-40px);
 }
 </style>
