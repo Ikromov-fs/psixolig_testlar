@@ -11,9 +11,19 @@
     @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8" v-if="isLoading">
-      <BlockPreloader v-for="item in 8" :key="testChild" :loading="isLoading" width="100%" height="90px" border-radius="6px"></BlockPreloader>
-      </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8"
+      v-if="isLoading"
+    >
+      <BlockPreloader
+        v-for="item in 8"
+        :key="testChild"
+        :loading="isLoading"
+        width="100%"
+        height="90px"
+        border-radius="6px"
+      ></BlockPreloader>
+    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8" v-else>
       <div
         v-for="item in testChild"
@@ -56,17 +66,16 @@ const id = route.params.id;
 
 const openAssentModal = ref(false);
 const testChild = ref();
-const isLoading = ref(false)
+const isLoading = ref(false);
 async function getAllCategoryChild() {
-    isLoading.value = true
+  isLoading.value = true;
   try {
-    const childCategory = await axios.get(`/test/get/all-by-category-id/${id}`);
+    const childCategory = await axios.get(`/test/get/all/${id}`);
     testChild.value = childCategory.data;
   } catch (error) {
     console.log(error);
-  }
-  finally {
-      isLoading.value = false
+  } finally {
+    isLoading.value = false;
   }
 }
 
@@ -76,38 +85,43 @@ onMounted(() => {
 
 async function testIfAssent(idMadal: Number) {
   const phone = localStorage.getItem("phone");
-  try {
-    const data = {
-      testId: `${idMadal}`,
-      phone: phone,
-    };
-    const isMoney = await axios.post(`/payment/is-sotvogan`, data);
-    if (isMoney?.data?.isSotvogan === false) {
-      try {
-        const phone = localStorage.getItem("phone");
-        openAssentModal.value = true;
-        const dataTest = await axios.get(`/test/get/${idMadal}`);
-        idDataTest.description = dataTest.data.description;
-        idDataTest.price = dataTest.data.price;
-        idDataTest.solvedCount = dataTest.data.solvedCount;
-        idDataTest.title = dataTest.data.title;
-        idDataTest.id = dataTest.data.id;
-        const data = {
-          testId: idDataTest.id,
-          phone: `${phone}`,
-          amount: idDataTest.price,
-          callback: `http://localhost:3000/tests/${id}`,
-        };
-        const buy = await axios.post(`/payment/generate-link`, data);
-        idDataTest.href = buy.data;
-      } catch (error) {
-        console.log(error);
+  let token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const data = {
+        testId: `${idMadal}`,
+        phone: phone,
+      };
+      const isMoney = await axios.post(`/payment/is-sotvogan`, data);
+      if (isMoney?.data?.isSotvogan === false) {
+        try {
+          const phone = localStorage.getItem("phone");
+          openAssentModal.value = true;
+          const dataTest = await axios.get(`/test/get/${idMadal}`);
+          idDataTest.description = dataTest.data.description;
+          idDataTest.price = dataTest.data.price;
+          idDataTest.solvedCount = dataTest.data.solvedCount;
+          idDataTest.title = dataTest.data.title;
+          idDataTest.id = dataTest.data.id;
+          const data = {
+            testId: idDataTest.id,
+            phone: `${phone}`,
+            amount: idDataTest.price,
+            callback: `http://localhost:3000/tests/${id}`,
+          };
+          const buy = await axios.post(`/payment/generate-link`, data);
+          idDataTest.href = buy.data;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        router.push(`/tester?id=${idMadal}&index=1`);
       }
-    } else {
-      router.push(`/tester?id=${idMadal}&index=1`);
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
+  } else {
+    toast.error("Ro'yxatdan o'ting !");
   }
 }
 </script>
