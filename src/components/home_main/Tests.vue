@@ -4,7 +4,7 @@
   >
     <div data-aos="fade-up" class="relative">
       <img :src="style" alt="style" class="absolute top-[-50px ] sx:hidden mmd:block" />
-      <img :src="style2" alt="style" class="absolute right-0 bottom-[-80px] sx:hidden mmd:block" />
+      <img :src="style2" alt="style" class="absolute right-0 bottom-[-80px] sx:hidden mmd:block h-[200px]" />
       <div class="container mx-auto">
         <div class="flex justify-center font-[500] gap-1 text-lg">
           <span class="text-[#fff]">02</span>

@@ -2,22 +2,33 @@
   <div class="pb-20 mt-2">
     <div data-aos="fade-up">
       <div class="container mx-auto">
-          <div class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 mt-8" v-if="isLoading">
-              <BlockPreloader v-for="item in 9" :key="item" :loading="isLoading" width="100%" height="90px" border-radius="6px"></BlockPreloader>
-          </div>
-        <div v-else
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 mt-8"
+          v-if="isLoading"
+        >
+          <BlockPreloader
+            v-for="item in 9"
+            :key="item"
+            :loading="isLoading"
+            width="100%"
+            height="90px"
+            border-radius="6px"
+          ></BlockPreloader>
+        </div>
+        <div
+          v-else
           class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 relative"
         >
-          <div
+          <Router-Link
             v-for="item in dataTests"
-            :key="item?.ID"
-            @click="goSingle(item?.ID)"
+            :key="item?.id"
+            :to="`tests/${item?.id}`"
             class="flex items-center justify-center gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
           >
             <h1 class="text-[18px]">
               {{ item?.name }}
             </h1>
-          </div>
+          </Router-Link>
         </div>
       </div>
     </div>
@@ -32,30 +43,19 @@ import { useToast } from "vue-toastification";
 import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 const router = useRouter();
 const toast = useToast();
-const token = localStorage.getItem("token");
 // get metod tests
 const dataTests = ref();
 
-const isLoading = ref(false)
+const isLoading = ref(false);
 async function getTests() {
-    isLoading.value = true
+  isLoading.value = true;
   try {
     const tests = await axios.get("category/get/all");
-    dataTests.value = tests.data;
-    console.log(tests);
+    dataTests.value = tests.data;    
   } catch (error) {
     console.log(error);
-  }
-  finally {
-      isLoading.value = false
-  }
-}
-
-function goSingle(item: any) {
-  if (token) {
-    router.push(`tests/${item}`);
-  } else {
-    toast.error("Testlarga o'tish uchun ro'yxatdan o'ting !");
+  } finally {
+    isLoading.value = false;
   }
 }
 
