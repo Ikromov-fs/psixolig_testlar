@@ -184,13 +184,18 @@
     <div v-else>
       <div class="text-center flex justify-between min-h-[55vh] flex-col my-20">
         <div class="font-medium text-2xl">Testni yakunladingiz !</div>
-        <div class="grid !grid-cols-5">
-          <div v-for="item in 5" class="my-2">
-            <p>10 %</p>
-            <span>Lorem, ipsum dolor.</span>
+        <div
+          class="flex justify-center sx:gap-5 mmd:gap-20 flex-wrap items-center"
+        >
+          <div v-for="item in itemRezult" class="my-2">
+            <p>{{ item?.percent }} %</p>
+            <span>{{ item?.key }} </span>
           </div>
         </div>
         <div>
+          <p class="text-2xl font-bold animate__animated animate__rubberBand">
+            {{ key }}
+          </p>
           <p
             class="my-4 font-semibold text-3xl mb-6 animate__animated animate__bounce animate__backInDown"
           >
@@ -377,17 +382,21 @@ async function solveTest(index: number) {
 const statusTest = ref(false);
 const testResult = ref(null);
 const testFeedback = ref("");
-
+const itemRezult = ref();
+const key = ref();
 const forResult = ref(false);
 function finishTest() {
   axios
     .post(`/process/finish-test?testId=${route.query.id}`)
     .then((res) => {
       console.log(res);
-      if (res.data.oldResult !== null) {
+      if (res.data.oldResult && res.data.newResult === null) {
         testResult.value = res.data.oldResult.percent;
         testFeedback.value = res.data.oldResult.description;
-      } else {
+      } else if (res.data.newResult && res.data.oldResult === null) {
+        testResult.value = res.data.newResult.percent;
+        itemRezult.value = res.data.newResult.newResultItems;
+        key.value = res.data.newResult.key;
       }
       statusTest.value = true;
     })
