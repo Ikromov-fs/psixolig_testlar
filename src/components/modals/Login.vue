@@ -90,10 +90,10 @@ const submitLoginBtn = async () => {
       } catch (err) {
         console.log(err);
       } finally {
-        (dataLogin.password = ""), (dataLogin.phone = "");
-        setTimeout(() => {
-          isForget.value = false;
-        }, 1000);
+        dataLogin.password = "";
+        // setTimeout(() => {
+        isForget.value = false;
+        // }, 1000);
         $Vlogin.value.$reset();
       }
     } else {

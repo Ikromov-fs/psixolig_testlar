@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="mt-2" v-if="statusTest">
+    <!-- <pre>{{ testQuestions }}</pre> -->
+    <div class="mt-2" v-if="!statusTest">
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
@@ -17,14 +18,12 @@
               />
               <div class="flex flex-col gap-2" v-else>
                 <img
-                  v-if="testQuestions?.questionDTO?.image"
-                  :src="testQuestions?.questionDTO?.image.url"
+                  v-if="testQuestions?.image"
+                  :src="testQuestions?.image.url"
                   alt="test images"
                   class="max-h-[130px] object-contain w-full"
                 />
-                <p v-if="testQuestions?.questionDTO?.title">
-                  {{ testQuestions?.questionDTO?.title }}.
-                </p>
+                <p v-if="testQuestions?.title">{{ testQuestions?.title }}.</p>
               </div>
             </div>
             <!--  single choice section-->
@@ -40,12 +39,11 @@
             <div v-else>
               <div
                 class="mt-3 flex flex-col gap-3"
-                v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
+                v-if="testQuestions?.questionType == 'CHECKBOX'"
               >
                 <div
                   class="w-full py-3 px-2 border cursor-pointer relative"
-                  v-for="(item, index) in testQuestions?.questionDTO
-                    ?.answerDTOList"
+                  v-for="(item, index) in testQuestions?.answerDTOList"
                 >
                   <label
                     :for="`test${index + 1}`"
@@ -55,7 +53,7 @@
                     <TypeRadio
                       :input-id="`test${index + 1}`"
                       :value="item.id"
-                      v-model="testQuestions.answers[0]"
+                      v-model="testQuestions.answers"
                       @isChange="changeRadioInput = true"
                     />
                     <img
@@ -74,12 +72,11 @@
             <div v-if="!isLoading">
               <div
                 class="mt-3 flex flex-col gap-3"
-                v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
+                v-if="testQuestions?.questionType == 'MULTIPLE_CHOICE'"
               >
                 <div
                   class="w-full py-3 px-2 border cursor-pointer relative"
-                  v-for="(item, index) in testQuestions?.questionDTO
-                    ?.answerDTOList"
+                  v-for="(item, index) in testQuestions?.answerDTOList"
                 >
                   <label
                     :for="`test${index + 1}`"
@@ -88,9 +85,9 @@
                   <div class="flex gap-3">
                     <TypeCheckbox
                       :input-id="`test${index + 1}`"
-                      @changeVal="(e) => (item.correct = e)"
+                      @changeVal="(e) => (item.selected = e)"
                       @isChange="changeCheckboxInput = true"
-                      :value="item.correct"
+                      :value="item.selected"
                     />
                     <img
                       v-if="item?.image?.url"
@@ -107,13 +104,13 @@
             <div v-if="!isLoading">
               <div
                 class="mt-3 flex flex-col gap-3"
-                v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
+                v-if="testQuestions?.questionType == 'CLOSE_QUESTIONS'"
               >
                 <div class="w-full py-3 px-2 border cursor-pointer relative">
                   <FormInput
                     label="Javobingizni yozing"
                     placeholder="Javobingizni kiriting..."
-                    v-model="testQuestions.closeAnswer"
+                    v-model="testQuestions.correctCloseAnswer"
                   />
                 </div>
               </div>
@@ -271,20 +268,20 @@ function fetchAxios(obj) {
 
 async function setAnswerTest() {
   const obj = {
-    questionID: testQuestions.value.questionDTO?.id,
+    questionID: testQuestions.value?.id,
     closeAnswer: null,
     answers: <boolean[]>[],
   };
 
-  if (testQuestions.value?.questionDTO?.testType == "CHECKBOX") {
+  if (testQuestions.value?.questionType == "CHECKBOX") {
     obj.answers = [+testQuestions.value.answers];
     if (changeRadioInput.value) {
       fetchAxios(obj);
     }
-  } else if (testQuestions.value?.questionDTO?.testType == "MULTIPLE_CHOICE") {
+  } else if (testQuestions.value?.questionType == "MULTIPLE_CHOICE") {
     let changeArr = <boolean[]>[];
-    testQuestions.value?.questionDTO?.answerDTOList.forEach((el) => {
-      if (el.correct) {
+    testQuestions.value?.answerDTOList.forEach((el) => {
+      if (el.selected) {
         changeArr.push(el.id);
       }
     });
@@ -292,9 +289,9 @@ async function setAnswerTest() {
     if (changeCheckboxInput.value) {
       fetchAxios(obj);
     }
-  } else if (testQuestions.value?.questionDTO?.testType == "CLOSE_QUESTIONS") {
-    obj.closeAnswer = testQuestions.value?.closeAnswer;
-    if (testQuestions.value.closeAnswer) {
+  } else if (testQuestions.value?.questionType == "CLOSE_QUESTIONS") {
+    obj.closeAnswer = testQuestions.value?.correctCloseAnswer;
+    if (testQuestions.value.correctCloseAnswer) {
       fetchAxios(obj);
     }
   }
@@ -313,14 +310,11 @@ async function solveTest(index: number) {
     .get(`question/get-quiz?test-id=${route.query.id}&index=${index}`)
     .then((res) => {
       testQuestions.value = res.data;
-      // if(res.data.questionDTO.testType == "CHECKBOX"){
-      //     if(testQuestions.value.answers.length == 0){
-      //         testQuestions.value.answers = null
-      //     }
-      //     else{
-      //         testQuestions.value.answers = testQuestions.value.answers[0]
-      //     }
-      // }
+      if (res.data.questionType == "CHECKBOX") {
+        let changed =
+          res.data.answerDTOList.find((el) => el.selected == true).id || null;
+        testQuestions.value.answers = changed ? changed : null;
+      }
     })
     .catch((err) => {
       console.log(err);
