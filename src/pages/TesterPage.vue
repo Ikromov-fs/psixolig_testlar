@@ -148,18 +148,32 @@
         <SButton variant="danger" @click="finishTest">Testni yakunlash</SButton>
       </div>
     </div>
-    <div v-else class="w-full h-[70vh] flex justify-center items-center">
-      <div class="text-center">
-        <p class="font-medium text-2xl"> Testni yakunladingiz !</p>
-        <p class="my-4 font-semibold text-3xl mb-6 animate__animated animate__fadeInDownBig">{{ testResult }} %</p>
-        <p class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px] animate__animated animate__zoomIn">
-          {{ testFeedback }}
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus
-          sequi sapiente architecto totam error. Natus quo voluptate officia
-          eaque, explicabo hic consequatur placeat, perspiciatis corrupti
-          temporibus aut qui adipisci vel iure ipsum rerum fugit nisi omnis eum?
-        </p>
-        <div class="mx-auto mmd:w-[50%] animate__animated animate__flipInX">
+    <div v-else>
+      <div class="text-center flex justify-between min-h-[55vh] flex-col my-20">
+        <div class="font-medium text-2xl">Testni yakunladingiz !</div>
+        <div class="grid !grid-cols-5">
+          <div v-for="item in 5" class="my-2">
+            <p>10 %</p>
+            <span>Lorem, ipsum dolor.</span>
+          </div>
+        </div>
+        <div>
+          <p
+            class="my-4 font-semibold text-3xl mb-6 animate__animated animate__bounce animate__backInDown"
+          >
+            {{ testResult }} %
+          </p>
+          <div class="scroll-pl-6 snap-y">
+            <p
+              class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px] sx:leading-[20px] mmd:leading-8"
+            >
+              {{ testFeedback }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="mx-auto mmd:w-[50%] animate__animated animate__bounce animate__jello"
+        >
           <ButtonFillVue>
             <router-link class="py-3 font-medium" to="/tests"
               >Testlar bo'limiga qaytish</router-link
@@ -330,13 +344,18 @@ async function solveTest(index: number) {
 const statusTest = ref(false);
 const testResult = ref(null);
 const testFeedback = ref("");
+
+const forResult = ref(false);
 function finishTest() {
   axios
-    .post(`process/finish-test?testId=${route.query.id}`)
+    .post(`/process/finish-test?testId=${route.query.id}`)
     .then((res) => {
       console.log(res);
-      testResult.value = res.data.score;
-      testFeedback.value = res.data.feedback;
+      if (res.data.oldResult !== null) {
+        testResult.value = res.data.oldResult.percent;
+        testFeedback.value = res.data.oldResult.description;
+      } else {
+      }
       statusTest.value = true;
     })
     .catch((err) => {
