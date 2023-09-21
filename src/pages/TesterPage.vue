@@ -115,6 +115,39 @@
                 </div>
               </div>
             </div>
+
+            <!-- categoty choice section -->
+            <div v-if="!isLoading">
+              <div
+                class="mt-3 flex flex-col gap-3"
+                v-if="testQuestions?.questionType == 'CATEGORICAL_CHECKBOX'"
+              >
+                <div
+                  class="w-full py-3 px-2 border cursor-pointer relative"
+                  v-for="(item, index) in testQuestions?.answerDTOList"
+                >
+                  <label
+                    :for="`test${index + 1}`"
+                    class="absolute w-full h-full cursor-pointer"
+                  ></label>
+                  <div class="flex gap-3">
+                    <TypeRadio
+                      :input-id="`test${index + 1}`"
+                      :value="item.id"
+                      v-model="testQuestions.answers"
+                      @isChange="changeRadioInput = true"
+                    />
+                    <img
+                      v-if="item?.image"
+                      :src="item?.image?.url"
+                      alt="test images"
+                      class="w-[70px] h-[70px] object-cover"
+                    />
+                    <p v-if="item?.text">{{ item?.text }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="flex gap-3 justify-end mt-5">
             <SButton
