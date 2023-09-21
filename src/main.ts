@@ -1,32 +1,31 @@
-import { createApp } from "vue";
-
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-
-import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-
-import App from "./App.vue";
 import "@/styles/index.css";
-
-import router from "./router";
+import "animate.css";
 import "./plugins/axios";
-// maska
-import Maska from "maska";
+import "aos/dist/aos.css";
+
+import { createApp } from "vue";
 
 // AOS
 import AOS from "aos";
-import "aos/dist/aos.css";
-
+// maska
+import Maska from "maska";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import Toast from "vue-toastification";
 // auto count
 import Vue3Autocounter from "vue3-autocounter";
+
+// Slider
+import VueSplide from "@splidejs/vue-splide";
+
+import App from "./App.vue";
+import router from "./router";
 
 // pina
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
-// Slider
-import VueSplide from "@splidejs/vue-splide";
 const app = createApp(App);
 app.component("vue3-autocounter", Vue3Autocounter);
 AOS.init();

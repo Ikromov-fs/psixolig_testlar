@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <div class="mt-2" v-if="!statusTest">
-
+    <div class="mt-2" v-if="statusTest">
       <div class="flex items-center gap-3 pt-2">
         <i class="fa-solid fa-circle-question text-2xl"></i>
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
@@ -10,7 +9,12 @@
         <div class="border md:col-span-8 flex flex-col justify-between p-4">
           <div>
             <div class="flex gap-2">
-                <BlockPreloader v-if="isLoading" :loading="isLoading" width="100%" height="120px"/>
+              <BlockPreloader
+                v-if="isLoading"
+                :loading="isLoading"
+                width="100%"
+                height="120px"
+              />
               <div class="flex flex-col gap-2" v-else>
                 <img
                   v-if="testQuestions?.questionDTO?.image"
@@ -24,90 +28,95 @@
               </div>
             </div>
             <!--  single choice section-->
-              <div class="flex flex-col gap-4 mt-4" v-if="isLoading">
-                  <BlockPreloader :loading="isLoading" v-for="i in 4" :key="i" width="100%" height="50px"/>
-              </div>
+            <div class="flex flex-col gap-4 mt-4" v-if="isLoading">
+              <BlockPreloader
+                :loading="isLoading"
+                v-for="i in 4"
+                :key="i"
+                width="100%"
+                height="50px"
+              />
+            </div>
             <div v-else>
+              <div
+                class="mt-3 flex flex-col gap-3"
+                v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
+              >
                 <div
-                        class="mt-3 flex flex-col gap-3"
-                        v-if="testQuestions?.questionDTO?.testType == 'CHECKBOX'"
+                  class="w-full py-3 px-2 border cursor-pointer relative"
+                  v-for="(item, index) in testQuestions?.questionDTO
+                    ?.answerDTOList"
                 >
-
-                    <div
-                            class="w-full py-3 px-2 border cursor-pointer relative"
-                            v-for="(item, index) in testQuestions?.questionDTO
-                  ?.answerDTOList"
-                    >
-                        <label
-                                :for="`test${index + 1}`"
-                                class="absolute w-full h-full cursor-pointer"
-                        ></label>
-                        <div class="flex gap-3">
-                            <TypeRadio
-                                    :input-id="`test${index + 1}`"
-                                    :value="item.id"
-                                    v-model="testQuestions.answers[0]"
-                                    @isChange="changeRadioInput = true"
-                            />
-                            <img
-                                    v-if="item?.image"
-                                    :src="item?.image?.url"
-                                    alt="test images"
-                                    class="w-[70px] h-[70px] object-cover"
-                            />
-                            <p v-if="item?.text">{{ item?.text }}</p>
-                        </div>
-                    </div>
+                  <label
+                    :for="`test${index + 1}`"
+                    class="absolute w-full h-full cursor-pointer"
+                  ></label>
+                  <div class="flex gap-3">
+                    <TypeRadio
+                      :input-id="`test${index + 1}`"
+                      :value="item.id"
+                      v-model="testQuestions.answers[0]"
+                      @isChange="changeRadioInput = true"
+                    />
+                    <img
+                      v-if="item?.image"
+                      :src="item?.image?.url"
+                      alt="test images"
+                      class="w-[70px] h-[70px] object-cover"
+                    />
+                    <p v-if="item?.text">{{ item?.text }}</p>
+                  </div>
                 </div>
+              </div>
             </div>
             <!--  multiple choice section-->
 
             <div v-if="!isLoading">
+              <div
+                class="mt-3 flex flex-col gap-3"
+                v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
+              >
                 <div
-                        class="mt-3 flex flex-col gap-3"
-                        v-if="testQuestions?.questionDTO?.testType == 'MULTIPLE_CHOICE'"
+                  class="w-full py-3 px-2 border cursor-pointer relative"
+                  v-for="(item, index) in testQuestions?.questionDTO
+                    ?.answerDTOList"
                 >
-                    <div
-                            class="w-full py-3 px-2 border cursor-pointer relative"
-                            v-for="(item, index) in testQuestions?.questionDTO
-                  ?.answerDTOList"
-                    >
-                        <label
-                                :for="`test${index + 1}`"
-                                class="absolute w-full h-full cursor-pointer"
-                        ></label>
-                        <div class="flex gap-3">
-                            <TypeCheckbox
-                                    :input-id="`test${index + 1}`"
-                                    @changeVal="(e) => (item.correct = e)"
-                                    @isChange="changeCheckboxInput = true"
-                                    :value="item.correct"
-                            />
-                            <img
-                                    v-if="item?.image?.url"
-                                    :src="item?.image?.url"
-                                    alt="test images"
-                                    class="w-[70px] h-[70px] object-cover"
-                            />
-                            <p v-if="item?.text">{{ item?.text }}</p>
-                        </div>
-                    </div>
+                  <label
+                    :for="`test${index + 1}`"
+                    class="absolute w-full h-full cursor-pointer"
+                  ></label>
+                  <div class="flex gap-3">
+                    <TypeCheckbox
+                      :input-id="`test${index + 1}`"
+                      @changeVal="(e) => (item.correct = e)"
+                      @isChange="changeCheckboxInput = true"
+                      :value="item.correct"
+                    />
+                    <img
+                      v-if="item?.image?.url"
+                      :src="item?.image?.url"
+                      alt="test images"
+                      class="w-[70px] h-[70px] object-cover"
+                    />
+                    <p v-if="item?.text">{{ item?.text }}</p>
+                  </div>
                 </div>
+              </div>
             </div>
             <!--  write choice section-->
             <div v-if="!isLoading">
-                <div
-                        class="mt-3 flex flex-col gap-3"
-                        v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
-                >
-                    <div class="w-full py-3 px-2 border cursor-pointer relative">
-                        <FormInput
-                                label="Javobingizni yozing"
-                                placeholder="Javobingizni kiriting..."
-                                v-model="testQuestions.closeAnswer"
-                        />
-                    </div>
+              <div
+                class="mt-3 flex flex-col gap-3"
+                v-if="testQuestions?.questionDTO?.testType == 'CLOSE_QUESTIONS'"
+              >
+                <div class="w-full py-3 px-2 border cursor-pointer relative">
+                  <FormInput
+                    label="Javobingizni yozing"
+                    placeholder="Javobingizni kiriting..."
+                    v-model="testQuestions.closeAnswer"
+                  />
                 </div>
+              </div>
             </div>
           </div>
           <div class="flex gap-3 justify-end mt-5">
@@ -144,12 +153,16 @@
     </div>
     <div v-else class="w-full h-[70vh] flex justify-center items-center">
       <div class="text-center">
-        <p class="font-medium text-2xl">Testni yakunladingiz!</p>
-        <p class="my-4 font-semibold text-3xl mb-6">{{ testResult }} %</p>
-        <p class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px]">
+        <p class="font-medium text-2xl"> Testni yakunladingiz !</p>
+        <p class="my-4 font-semibold text-3xl mb-6 animate__animated animate__fadeInDownBig">{{ testResult }} %</p>
+        <p class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px] animate__animated animate__zoomIn">
           {{ testFeedback }}
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus
+          sequi sapiente architecto totam error. Natus quo voluptate officia
+          eaque, explicabo hic consequatur placeat, perspiciatis corrupti
+          temporibus aut qui adipisci vel iure ipsum rerum fugit nisi omnis eum?
         </p>
-        <div class="mmd:w-[50%] mx-auto">
+        <div class="mx-auto mmd:w-[50%] animate__animated animate__flipInX">
           <ButtonFillVue>
             <router-link class="py-3 font-medium" to="/tests"
               >Testlar bo'limiga qaytish</router-link
@@ -291,11 +304,11 @@ async function setAnswerTest() {
 
 const index = ref(route.query.index);
 
-const isLoading = ref(false)
-const isLoadOption = ref(false)
+const isLoading = ref(false);
+const isLoadOption = ref(false);
 async function solveTest(index: number) {
-    isLoading.value = true
-    isLoadOption.value = true
+  isLoading.value = true;
+  isLoadOption.value = true;
   axios
     .get(`question/get-quiz?test-id=${route.query.id}&index=${index}`)
     .then((res) => {
@@ -311,12 +324,13 @@ async function solveTest(index: number) {
     })
     .catch((err) => {
       console.log(err);
-    }).finally(()=>{
-        isLoading.value = false
-      setTimeout(()=>{
-          isLoadOption.value = false
-      },1000)
-  })
+    })
+    .finally(() => {
+      isLoading.value = false;
+      setTimeout(() => {
+        isLoadOption.value = false;
+      }, 1000);
+    });
 }
 
 const statusTest = ref(false);
