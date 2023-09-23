@@ -3,7 +3,7 @@
     <div data-aos="fade-up">
       <div class="container mx-auto">
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10 mt-8"
+          class="grid grid-cols-1 sm:grid-cols-2 mmd:grid-cols-3 gap-7 sm:gap-10"
           v-if="isLoading"
         >
           <BlockPreloader
@@ -23,9 +23,9 @@
             v-for="item in dataTests"
             :key="item?.id"
             :to="`tests/${item?.id}`"
-            class="flex items-center justify-center gap-3 px-10 h-full bg-[#333] text-white p-2 mt-10 box-w rounded-md cursor-pointer"
+            class="flex items-center justify-center gap-3 px-10 h-full bg-[#2F4F4F] text-white border-[1.5px] hover:bg-[#fafcf5] duration-200 hover:text-black hover:border-solid hover:border-[1.5px] p-2 mt-10 rounded-md cursor-pointer animate__animated animate__bounce animate__zoomIn"
           >
-            <h1 class="text-[18px]">
+            <h1 class="mmd:text-[18px] font-medium">
               {{ item?.name }}
             </h1>
           </Router-Link>
@@ -51,7 +51,7 @@ async function getTests() {
   isLoading.value = true;
   try {
     const tests = await axios.get("category/get/all");
-    dataTests.value = tests.data;    
+    dataTests.value = tests.data;
   } catch (error) {
     console.log(error);
   } finally {
@@ -63,16 +63,4 @@ onMounted(() => {
   getTests();
 });
 </script>
-<style scoped>
-.box-w {
-  transition: all 0.2s linear;
-  box-shadow: 0 0 15px #f0f0f0;
-  transform: scale(0.98);
-}
-
-.box-w:hover {
-  box-shadow: 0 0 20px #f0f0f0;
-  transition: all 0.2s linear;
-  transform: scale(0.99);
-}
-</style>
+<style scoped></style>

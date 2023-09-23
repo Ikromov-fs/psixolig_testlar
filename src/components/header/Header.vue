@@ -1,15 +1,15 @@
 <template>
-  <div class="bg-[#363636] rounded-bl-[20px] rounded-br-[20px]">
+  <div class="bg-[#008B8B] rounded-bl-[20px] rounded-br-[20px]">
     <div
-      class="container mx-auto text-white flex justify-between items-center py-8"
+      class="container mx-auto text-[#fafcf5] font-medium flex justify-between items-center py-8"
     >
       <div class="cursor-pointer">
         <router-link to="/"
-          ><img :src="logo" alt="logo" class="max-w-[40px] object-cover"
+          ><img :src="logo" alt="logo" class="max-w-[45px] object-cover"
         /></router-link>
       </div>
       <ul
-        class="hidden gap-5 items-center mmd:text-[15px] text-[13px] mmd:flex"
+        class="hidden gap-5 items-center mmd:text-[18px] text-[13px] mmd:flex"
       >
         <li class="cursor-pointer relative navItem">
           <router-link to="/tests">Testlar</router-link>
@@ -69,7 +69,7 @@
       "
     >
       <ul
-        class="flex flex-col min-h-[100vh] relative gap-5 pt-20 items-center text-white sx:text-base mmd:text-[15px] text-[13px]"
+        class="flex flex-col min-h-[100vh] relative gap-5 justify-center items-center  text-white sx:text-base mmd:text-[15px] text-[13px]"
       >
         <li @click="isOpenBurger" class="absolute right-7 top-7">
           <i :class="isBurger ? 'fa-solid fa-xmark text-2xl' : ''"></i>
@@ -156,7 +156,7 @@ onMounted(() => {
   height: 3px;
   width: 100%;
   left: 0;
-  top: 22px;
+  top: 25px;
   background: #fdf001;
   border-radius: 2px;
   transition: 0.2s;

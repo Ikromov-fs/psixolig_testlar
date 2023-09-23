@@ -16,14 +16,18 @@
         class="flex flex-col sx:justify-center mmd:justify-start text-center"
       >
         <div v-if="isImage">
-            <BlockPreloader width="180px" height="180px" border-radius="50%" :loading="isLoadImages">
-
-          <img
-            :src="data?.image?.url"
-            alt="user image"
-            class="w-[180px] h-[180px] rounded-[50%] object-cover"
-          />
-            </BlockPreloader>
+          <BlockPreloader
+            width="180px"
+            height="180px"
+            border-radius="50%"
+            :loading="isLoadImages"
+          >
+            <img
+              :src="data?.image?.url"
+              alt="user image"
+              class="w-[180px] h-[180px] rounded-[50%] object-cover"
+            />
+          </BlockPreloader>
         </div>
         <div v-if="!isImage">
           <UploadImage
@@ -64,17 +68,24 @@
       <h1 class="flex justify-center text-[22px] font-[500] mb-5">
         Sotib olgan testlarim !
       </h1>
-        <div class="grid grid-cols-1 mb-3 gap-3 " v-if="isLoadTest">
-        <BlockPreloader :loading="isLoadTest" v-for="item in 4" :key="item" width="100%" height="90px" border-radius="6px"/>
-        </div>
+      <div class="grid grid-cols-1 mb-3 gap-3" v-if="isLoadTest">
+        <BlockPreloader
+          :loading="isLoadTest"
+          v-for="item in 4"
+          :key="item"
+          width="100%"
+          height="90px"
+          border-radius="6px"
+        />
+      </div>
       <div v-else class="grid grid-cols-1 mb-3 gap-3 relative">
         <div
           v-for="item in testList"
           :key="item?.id"
           @click="startTest(item?.test.id)"
-          class="flex items-center justify-between py-5 px-8 h-full bg-[#1F2E35] text-white box-w rounded-md cursor-pointer gap-3"
+          class="flex items-center justify-between py-5 px-8 h-full bg-[#2F4F4F] text-white box-w rounded-md cursor-pointer gap-3"
         >
-           <h1 class="text-[18px]">{{ item?.test.title }}</h1>
+          <h1 class="text-[18px]">{{ item?.test.title }}</h1>
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
             <p>{{ item?.score }} %</p>
@@ -109,7 +120,7 @@ function imageValu(e: any) {
     .then((res: any) => {
       setTimeout(() => {
         postImage(res.data.id);
-        getProfile()
+        getProfile();
       }, 100);
     })
     .catch(() => {
@@ -127,7 +138,7 @@ async function postImage(item: any) {
     };
     const image = await axios.post(`/user/update`, datas);
     imageValue.value = image.data;
-    await getProfile()
+    await getProfile();
     isImage.value = true;
   } catch (error) {
     console.log(error);
@@ -147,33 +158,33 @@ async function getProfile() {
   }
 }
 
-const testList = ref([])
-const isLoadTest = ref(false)
-function fetchTestList(){
-    isLoadTest.value = true
-    axios.get('history/get-all-my-histories').then((res)=>{
-        console.log(res.data,"list test")
-        testList.value = res.data
-    }).catch((err)=>{
-        console.log(err)
-    }).finally(()=>{
-        isLoadTest.value = false
+const testList = ref([]);
+const isLoadTest = ref(false);
+function fetchTestList() {
+  isLoadTest.value = true;
+  axios
+    .get("history/get-all-my-histories")
+    .then((res) => {
+      console.log(res.data, "list test");
+      testList.value = res.data;
     })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      isLoadTest.value = false;
+    });
 }
 
-const isLoadImages = ref(false)
+const isLoadImages = ref(false);
 onMounted(() => {
   getProfile();
-  fetchTestList()
-
-    isLoadImages.value = true
-    setTimeout(()=>{
-        isLoadImages.value = false
-    },2000)
-
+  fetchTestList();
+  isLoadImages.value = true;
+  setTimeout(() => {
+    isLoadImages.value = false;
+  }, 2000);
 });
-
-
 
 function startTest(id: number) {
   console.log(id);

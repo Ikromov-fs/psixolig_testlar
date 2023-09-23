@@ -3,11 +3,11 @@
     <!-- <pre>{{ testQuestions }}</pre> -->
     <div class="mt-2" v-if="!statusTest">
       <div class="flex items-center gap-3 pt-2">
-        <i class="fa-solid fa-circle-question text-2xl"></i>
+        <!-- <i class="fa-solid fa-circle-question text-2xl"></i> -->
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 mt-5 mb-2 gap-6">
-        <div class="border md:col-span-8 flex flex-col justify-between p-4">
+        <div class="border md:col-span-8 flex rounded-md flex-col justify-between p-4">
           <div>
             <div class="flex gap-2">
               <BlockPreloader
@@ -166,7 +166,7 @@
             </SButton>
           </div>
         </div>
-        <div class="border md:col-span-4 p-4">
+        <div class="border md:col-span-4 p-4 rounded-md">
           <div class="flex flex-wrap gap-2">
             <TestIndex
               v-for="(item, index) in testIndex"
@@ -183,7 +183,7 @@
     </div>
     <div v-else>
       <div class="text-center flex justify-between min-h-[55vh] flex-col my-20">
-        <div class="font-medium text-2xl">Testni yakunladingiz !</div>
+        <div class="font-medium text-2xl">Test yakunladi !</div>
         <div
           class="flex justify-center sx:gap-5 mmd:gap-20 flex-wrap items-center"
         >

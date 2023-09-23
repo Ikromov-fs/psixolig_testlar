@@ -11,6 +11,9 @@
     @closeModal="(e:any) => (openAssentModal = e)"
   />
   <div class="container">
+    <h1 class="flex justify-center mt-5 text-2xl font-medium sx:text-[22px]">
+      Siz va oilangiz uchun !
+    </h1>
     <div
       class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 my-8"
       v-if="isLoading"
@@ -29,14 +32,20 @@
         v-for="item in testChild"
         :key="item?.id"
         @click="testIfAssent(item?.id)"
-        class="flex items-center justify-between gap-3 px-10 h-full bg-[#333] text-white p-2 py-5 box-w rounded-md cursor-pointer"
+        class="flex items-center justify-between cursor-pointer gap-3 px-8 h-full bg-[#2F4F4F] hover:bg-[#fafcf5] hover:text-black duration-200 text-white font-medium border-[1.5px] border-solid p-2 py-5 rounded-md animate__animated animate__flipInX"
       >
         <div class="flex items-center gap-3">
-          <i class="fa-solid fa-circle-question text-2xl"></i>
-          <h1 class="sx:text-[16px] mmd:text-[18px]">{{ item?.title }}</h1>
+          <i class="fa-solid fa-dollar-sign"></i>
+          <h1
+            class="sx:text-[16px] mmd:text-[18px] animate__animated animate__flash"
+          >
+            {{ item?.title }}
+          </h1>
         </div>
-        <div class="flex items-center gap-3">
-          <p v-if="!item?.sotvogan">{{ item?.price }} sum</p>
+        <div class="grid grid-cols-1">
+          <p v-if="!item?.sotvogan">
+            {{ item?.price }}<span class="ml-1">sum</span>
+          </p>
           <i v-else class="fa-solid fa-check text-xl"></i>
         </div>
       </div>
@@ -125,17 +134,3 @@ async function testIfAssent(idMadal: Number) {
   }
 }
 </script>
-
-<style scoped>
-.box-w {
-  transition: all 0.2s linear;
-  box-shadow: 0px 0px 15px #fff;
-  transform: scale(0.98);
-}
-
-.box-w:hover {
-  box-shadow: 0px 0px 20px #fff;
-  transition: all 0.2s linear;
-  transform: scale(0.99);
-}
-</style>

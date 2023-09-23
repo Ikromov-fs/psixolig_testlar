@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#f6c899] pb-20 pt-8 rounded-xl sm:rounded-none sm:rounded-tl-[50px] sm:rounded-br-[50px] mx-2"
+    class="bg-[#f6c899] pb-20 pt-8 rounded-xl sm:rounded-none sm:rounded-tl-[20px] sm:rounded-br-[20px]"
   >
     <div data-aos="fade-up" class="relative">
       <img :src="style" alt="style" class="absolute top-[-50px ] sx:hidden mmd:block" />
@@ -15,7 +15,7 @@
           <div
             v-for="item in dataTests"
             :key="item?.id"
-            class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] sx:py-0 mmd:p-2 mt-5 box-w rounded-bl-[18px] rounded-tr-[18px] rounded-[2px] cursor-pointer"
+            class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] sx:py-0 mmd:p-2 mt-5 box-w rounded-bl-[10px] rounded-tr-[10px] rounded-[2px] cursor-pointer"
           >
              <i
               class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"

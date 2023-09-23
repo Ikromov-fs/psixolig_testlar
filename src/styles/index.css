@@ -10,7 +10,8 @@ html {
   font-family: "Jost", sans-serif;
 }
 body {
-  background-color: #fafcf5;
+  /* background-color: #fafcf5; */
+  background-color: #fff;
   overflow-x: hidden;
   scroll-behavior: smooth;
   position: relative;

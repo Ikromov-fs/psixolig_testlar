@@ -11,7 +11,7 @@
           <li class="my-2">Test nomi: {{ title }}</li>
           <!-- <li>{{ solvedCount }}</li> -->
           <li class="my-2">Narxi: {{ price ? price : 0 }} sum</li>
-          <li class="my-2">Test haqida: {{ description }}</li>
+          <!-- <li class="my-2">Test haqida: {{ description }}</li> -->
         </ul>
         <div v-if="!isBuy" class="grid grid-cols-2 gap-3 mt-4">
           <a :href="props?.href">
