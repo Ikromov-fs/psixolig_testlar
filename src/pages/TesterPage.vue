@@ -202,7 +202,7 @@
             class="my-4 font-semibold text-3xl mb-6 animate__animated animate__bounce animate__backInDown"
           >
             {{ testResult }} <span v-if="!itemRezult">%</span
-            ><span v-else >ball</span>
+            ><span v-else>ball</span>
           </p>
           <div class="scroll-pl-6 snap-y">
             <p
@@ -349,6 +349,11 @@ async function setAnswerTest() {
     if (testQuestions.value.correctCloseAnswer) {
       fetchAxios(obj);
     }
+  } else if (testQuestions.value?.questionType == "CATEGORICAL_CHECKBOX") {
+    obj.answers = [+testQuestions.value.answers];
+    if (changeRadioInput.value) {
+      fetchAxios(obj);
+    }
   }
 }
 
@@ -365,7 +370,10 @@ async function solveTest(index: number) {
     .get(`question/get-quiz?test-id=${route.query.id}&index=${index}`)
     .then((res) => {
       testQuestions.value = res.data;
-      if (res.data.questionType == "CHECKBOX") {
+      if (
+        res.data.questionType == "CHECKBOX" ||
+        res.data.questionType == "CATEGORICAL_CHECKBOX"
+      ) {
         let changed =
           res.data.answerDTOList.find((el) => el.selected == true).id || null;
         testQuestions.value.answers = changed ? changed : null;
