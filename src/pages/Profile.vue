@@ -66,7 +66,7 @@
     </div>
     <div class="sx:mt-20 mmd:mt-0">
       <h1 class="flex justify-center text-[22px] font-[500] mb-5">
-        Sotib olgan testlarim !
+        Yechgan testlarim !
       </h1>
       <div class="grid grid-cols-1 mb-3 gap-3" v-if="isLoadTest">
         <BlockPreloader

@@ -7,7 +7,9 @@
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 mt-5 mb-2 gap-6">
-        <div class="border md:col-span-8 flex rounded-md flex-col justify-between p-4">
+        <div
+          class="border md:col-span-8 flex rounded-md flex-col justify-between p-4"
+        >
           <div>
             <div class="flex gap-2">
               <BlockPreloader
@@ -188,7 +190,7 @@
           class="flex justify-center sx:gap-5 mmd:gap-20 flex-wrap items-center"
         >
           <div v-for="item in itemRezult" class="my-2">
-            <p>{{ item?.percent }} %</p>
+            <p>{{ item?.score }} ball</p>
             <span>{{ item?.key }} </span>
           </div>
         </div>
@@ -199,7 +201,8 @@
           <p
             class="my-4 font-semibold text-3xl mb-6 animate__animated animate__bounce animate__backInDown"
           >
-            {{ testResult }} %
+            {{ testResult }} <span v-if="!itemRezult">%</span
+            ><span v-else >ball</span>
           </p>
           <div class="scroll-pl-6 snap-y">
             <p
@@ -394,8 +397,9 @@ function finishTest() {
         testResult.value = res.data.oldResult.percent;
         testFeedback.value = res.data.oldResult.description;
       } else if (res.data.newResult && res.data.oldResult === null) {
-        testResult.value = res.data.newResult.percent;
         itemRezult.value = res.data.newResult.newResultItems;
+        testResult.value = res.data.newResult.score;
+        testFeedback.value = res.data.newResult.description;
         key.value = res.data.newResult.key;
       }
       statusTest.value = true;
