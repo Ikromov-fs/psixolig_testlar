@@ -80,12 +80,12 @@
       </div>
       <div v-else class="grid grid-cols-1 mb-3 gap-3 relative">
         <div
-          v-for="item in testList"
+          v-for="item in data?.results"
           :key="item?.id"
-          @click="startTest(item?.test.id)"
+          @click="startTest(item?.testId)"
           class="flex items-center justify-between py-5 px-8 h-full bg-[#2F4F4F] text-white box-w rounded-md cursor-pointer gap-3"
         >
-          <h1 class="text-[18px]">{{ item?.test.title }}</h1>
+          <h1 class="text-[18px]">{{ item?.testName }}</h1>
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
             <p>{{ item?.score }} %</p>
@@ -157,29 +157,29 @@ async function getProfile() {
     console.log(error);
   }
 }
+const isLoadTest = ref(false);
 
 const testList = ref([]);
-const isLoadTest = ref(false);
-function fetchTestList() {
-  isLoadTest.value = true;
-  axios
-    .get("history/get-all-my-histories")
-    .then((res) => {
-      console.log(res.data, "list test");
-      testList.value = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      isLoadTest.value = false;
-    });
-}
+// function fetchTestList() {
+//   isLoadTest.value = true;
+//   axios
+//     .get("history/get-all-my-histories")
+//     .then((res) => {
+//       console.log(res.data, "list test");
+//       testList.value = res.data;
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     })
+//     .finally(() => {
+//       isLoadTest.value = false;
+//     });
+// }
 
 const isLoadImages = ref(false);
 onMounted(() => {
   getProfile();
-  fetchTestList();
+  // fetchTestList();
   isLoadImages.value = true;
   setTimeout(() => {
     isLoadImages.value = false;

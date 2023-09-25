@@ -25,7 +25,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import SButton from "../buttons/SButton.vue";
