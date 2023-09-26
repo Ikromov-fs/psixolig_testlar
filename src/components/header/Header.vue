@@ -9,7 +9,7 @@
         /></router-link>
       </div>
       <ul
-        class="hidden gap-5 items-center mmd:text-[18px] text-[13px] mmd:flex"
+        class="hidden gap-5 items-center md:text-[15px] lg:text-[18px] text-[13px] mmd:flex"
       >
         <li class="cursor-pointer relative navItem">
           <router-link to="/tests">Testlar</router-link>
@@ -64,7 +64,7 @@
     <div
       :class="
         isBurger
-          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#1F2E35]'
+          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#008B8B]'
           : 'fixed top-0 left-0 z-50 w-[100%] h-full transition-all duration-500 transform -translate-x-full shadow-lg'
       "
     >

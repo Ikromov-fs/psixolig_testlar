@@ -59,7 +59,7 @@ const dataLogin = reactive({
 const roles = computed(() => {
   return {
     phone: { required },
-    password: { required, minLength: minLength(8) },
+    password: { required, minLength: minLength(6) },
   };
 });
 const $Vlogin = useVuelidate(roles, dataLogin);
@@ -84,16 +84,13 @@ const submitLoginBtn = async () => {
       "+998" +
       dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
     if (isForget.value) {
-      console.log("is forget");
       try {
         await store.forgetPassword(phone);
       } catch (err) {
         console.log(err);
       } finally {
         dataLogin.password = "";
-        // setTimeout(() => {
         isForget.value = false;
-        // }, 1000);
         $Vlogin.value.$reset();
       }
     } else {
@@ -102,7 +99,6 @@ const submitLoginBtn = async () => {
           phoneNumber: phone,
           password: dataLogin.password,
         };
-
         const user = await store.useLoginToken(options);
         if (user) {
           localStorage.setItem("phone", phone);

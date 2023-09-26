@@ -206,7 +206,7 @@
           </p>
           <div class="scroll-pl-6 snap-y">
             <p
-              class="my-4 text-3xl mb-6 sx:text-[16px] mmd:text-[22px] sx:leading-[20px] mmd:leading-8"
+              class="my-4 font-serif text-3xl mb-6 sx:text-[16px] mmd:text-[22px] sx:leading-[20px] mmd:leading-8"
             >
               {{ testFeedback }}
             </p>

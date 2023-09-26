@@ -20,7 +20,7 @@
           :error="$v.phoneNumber.$error"
           type="string"
           label="Tel nomer"
-          placeholder="tel nomer"
+          placeholder="Tel nomer"
           v-maska="'(##) ###-##-##'"
           class="mt-3"
         />
@@ -29,7 +29,7 @@
           :error="$v.comment.$error"
           type="string"
           label="Tavsifi"
-          placeholder="tavsifi"
+          placeholder="Tavsifi"
           class="mt-3"
         />
         <div @click="contactBtn">

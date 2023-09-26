@@ -46,11 +46,6 @@
           <p class="opacity-[0.5]">Telefon nomer:</p>
 
           <h1 class="mt-2">{{ data?.username }}</h1>
-          <!-- <div>
-            <i
-              class="fa-solid fa-pen cursor-pointer text-[blue] absolute right-1 top-2/3"
-            ></i>
-          </div> -->
         </div>
         <div class="flex gap-20 text-left mt-5">
           <div>
@@ -88,7 +83,10 @@
           <h1 class="text-[18px]">{{ item?.testName }}</h1>
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
-            <p>{{ item?.score }} %</p>
+            <p>
+              {{ item?.score }} <span v-if="item?.testType">%</span
+              ><span v-else>ball</span>
+            </p>
           </div>
         </div>
       </div>
