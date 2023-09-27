@@ -8,12 +8,6 @@
   >
     <div>
       <h1 class="flex justify-center text-xl font-[500]">Register</h1>
-      <!-- <img
-        v-if="true"
-        :src="loadingImg"
-        alt="loading"
-        class="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      /> -->
       <div class="mt-7">
         <FormInput
           v-model="inputRegisterData.fullName"

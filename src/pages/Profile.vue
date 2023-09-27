@@ -84,7 +84,7 @@
           <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-signal"></i>
             <p>
-              {{ item?.score }} <span v-if="item?.testType">%</span
+              {{ item?.score }} <span v-if="item?.testType === `OLD`">%</span
               ><span v-else>ball</span>
             </p>
           </div>

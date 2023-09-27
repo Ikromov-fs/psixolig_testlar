@@ -3,8 +3,16 @@
     class="bg-[#f6c899] pb-20 pt-8 rounded-xl sm:rounded-none sm:rounded-tl-[20px] sm:rounded-br-[20px]"
   >
     <div data-aos="fade-up" class="relative">
-      <img :src="style" alt="style" class="absolute top-[-50px ] sx:hidden mmd:block" />
-      <img :src="style2" alt="style" class="absolute right-0 bottom-[-80px] sx:hidden mmd:block h-[200px]" />
+      <img
+        :src="style"
+        alt="style"
+        class="absolute top-[-50px ] sx:hidden mmd:block"
+      />
+      <img
+        :src="style2"
+        alt="style"
+        class="absolute right-0 bottom-[-80px] sx:hidden mmd:block h-[200px]"
+      />
       <div class="container mx-auto">
         <div class="flex justify-center font-[500] gap-1 text-lg">
           <span class="text-[#fff]">02</span>
@@ -12,16 +20,19 @@
           <span class="text-[#000]">Top testlar</span>
         </div>
         <div class="grid mmd:grid-cols-3 sx:gap-4 mmd:gap-10 relative">
-          <div
+          <router-link
             v-for="item in dataTests"
             :key="item?.id"
-            class="relative flex items-center text-left px-10 h-full bg-[#fafcf5] sx:py-0 mmd:p-2 mt-5 box-w rounded-bl-[10px] rounded-tr-[10px] rounded-[2px] cursor-pointer"
+            :to="`tests/${item?.categoryId}`"
+            class="relative flex items-center text-left min-h-[40px] max-h-[70px] h-full bg-[#fafcf5] sx:py-0 sx:px-2 mmd:p-2 mt-5 box-w rounded-bl-[10px] rounded-tr-[10px] rounded-[2px] cursor-pointer"
           >
-             <i
+            <i
               class="fa-solid fa-arrow-up-short-wide absolute text-[20px] top-3 right-3"
             ></i>
-            <h1 class="sx:text-[15px] mmd:text-[17px] mr-8">{{ item?.title }}</h1>
-          </div>
+            <h1 class="sx:text-[15px] mmd:text-[17px] mr-8">
+              {{ item?.title }}
+            </h1>
+          </router-link>
         </div>
       </div>
     </div>

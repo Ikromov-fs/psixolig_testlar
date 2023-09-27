@@ -15,17 +15,41 @@
       v-maska="'(##) ###-##-##'"
       label="Tel nomer"
     />
-    <Transition name="fade">
+    <FormInput
+      v-model="dataLogin.password"
+      :error="$Vlogin.password.$error"
+      type="password"
+      :placeholder="isForget ? 'yangi parol' : 'parol'"
+      :label="isForget ? 'Yangi parol' : 'Parol'"
+      class="mt-3"
+    />
+    <div>
       <FormInput
-        v-if="!isForget"
-        v-model="dataLogin.password"
-        :error="$Vlogin.password.$error"
+        v-if="isForget"
+        v-model="dataLogin.confirm_password"
+        :error="$Vlogin.confirm_password.$error"
         type="password"
-        placeholder="parol"
-        label="Parol"
+        placeholder="parolni takrorlang"
+        label="Parolni takrorlang"
         class="mt-3"
       />
-    </Transition>
+      <div class="mt-5">
+        <CodeInput
+          v-if="forCode"
+          @change="(e:any) => (codeSend = e)"
+          :required="true"
+          :fields="6"
+          :fieldWidth="40"
+          :fieldHeight="40"
+        />
+        <Timer
+          v-if="forCode"
+          @endTime="forCode = true"
+          ref="codeNext"
+          class="mt-5 text-xl flex justify-center"
+        />
+      </div>
+    </div>
     <p
       class="text-sm cursor-pointer mt-1 flex justify-end"
       @click="forgetPassword"
@@ -43,23 +67,30 @@
 import { reactive, computed, ref } from "vue";
 import FormInput from "../form/FormInput.vue";
 import ButtonFillVue from "../buttons/ButtonFillVue.vue";
+import CodeInput from "../form/CodeInput.vue";
+import Timer from "../form/Timer.vue";
+import axios from "../../plugins/axios.js";
 // Validatsiya form Inputs
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, maxLength } from "@vuelidate/validators";
 
 import { useToast } from "vue-toastification";
-const toast = useToast();
-
 import { useAuth } from "@/store/auth.js";
+
+const toast = useToast();
+const codeSend = ref();
 const store = useAuth();
+const forCode = ref(false);
 const dataLogin = reactive({
   phone: "",
   password: "",
+  confirm_password: "",
 });
 const roles = computed(() => {
   return {
     phone: { required },
-    password: { required, minLength: minLength(6) },
+    password: { required, minLength: minLength(8) },
+    confirm_password: { required, minLength: minLength(8) },
   };
 });
 const $Vlogin = useVuelidate(roles, dataLogin);
@@ -76,22 +107,42 @@ const submitLoginBtn = async () => {
   $Vlogin.value.$validate();
 
   // shunchaki validatsiyani aylanib o'tish uchun
-  if (isForget.value) {
-    dataLogin.password = "admin123";
+  if (!isForget.value) {
+    dataLogin.confirm_password = "admin123";
   }
   if (!$Vlogin.value.$error) {
     const phone =
       "+998" +
       dataLogin.phone.replaceAll("-", "").replace("(", "").replace(") ", "");
     if (isForget.value) {
-      try {
-        await store.forgetPassword(phone);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        dataLogin.password = "";
-        isForget.value = false;
-        $Vlogin.value.$reset();
+      console.log("ishladi");
+      if (forCode.value) {
+        try {
+          const data = {
+            phone: phone,
+            password: dataLogin.password,
+            confirm_password: dataLogin.confirm_password,
+            code: codeSend.value,
+          };
+          const forgerPassword = await axios.post(
+            `/user/forgot_password`,
+            data
+          );
+          emit("openLoginModal");
+          toast.success("Parol tiklandi, qaytadan login qiling !");
+        } catch (error) {
+          emit("openLoginModal");
+          toast.success("Parolni tiklashda xatolik !");
+          console.log(error);
+        }
+      } else {
+        try {
+          await store.forgetPassword(phone);
+          forCode.value = true;
+        } catch (err) {
+          forCode.value = false;
+          console.log(err);
+        }
       }
     } else {
       try {
