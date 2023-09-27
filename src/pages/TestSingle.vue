@@ -116,8 +116,7 @@ async function testIfAssent(idMadal: Number) {
             testId: idDataTest.id,
             phone: `${phone}`,
             amount: idDataTest.price,
-            callback: `http://psixologiktestlar.uz/tests/${id}`,
-            // https://psixologiktestlar.uz/tests/id
+            callback: `https://psixologiktestlar.uz/tests/${id}`,
           };
           const buy = await axios.post(`/payment/generate-link`, data);
           idDataTest.href = buy.data;
