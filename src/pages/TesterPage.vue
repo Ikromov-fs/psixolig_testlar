@@ -419,6 +419,8 @@ function finishTest() {
 
 onMounted(() => {
   solveTest(Number(index.value));
-  fetchTestQuestionAll();
+  setTimeout(() => {
+    fetchTestQuestionAll();
+  }, 1000);
 });
 </script>
