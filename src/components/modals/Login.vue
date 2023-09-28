@@ -51,6 +51,7 @@
       </div>
     </div>
     <p
+      v-if="!isForget"
       class="text-sm cursor-pointer mt-1 flex justify-end"
       @click="forgetPassword"
     >
