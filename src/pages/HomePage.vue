@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="my-5 px-2">
-        <Slider />
+      <Slider />
     </div>
     <Tests />
     <Winnered id="winnered" />
@@ -19,6 +19,4 @@ import Partner from "@/components/home_main/Partner.vue";
 import Contact from "@/components/home_main/Contact.vue";
 import About from "@/components/home_main/About.vue";
 import WhatPsixolig from "@/components/home_main/WhatPsixolig.vue";
-import {onMounted} from "vue";
-
 </script>

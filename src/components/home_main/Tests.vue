@@ -43,6 +43,9 @@ import { ref, onMounted } from "vue";
 import style from "@/assets/image/style_psix.png";
 import style2 from "@/assets/image/style2.png";
 import axios from "@/plugins/axios.js";
+import { useAuth } from "@/store/auth.js";
+
+const authStore = useAuth();
 const dataTests = ref();
 async function topTests() {
   try {
@@ -50,6 +53,9 @@ async function topTests() {
     dataTests.value = tests.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status === 401 || error.response.status === 500) {
+      authStore.refreshToken();
+    }
   }
 }
 
