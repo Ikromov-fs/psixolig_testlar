@@ -41,8 +41,9 @@ watch(
 
 onMounted(() => {
   checkToken();
+
   setTimeout(() => {
     checkToken();
-  }, 100);
+  }, 1000);
 });
 </script>

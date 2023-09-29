@@ -46,6 +46,10 @@ import { onMounted, ref } from "vue";
 import axios from "@/plugins/axios.js";
 import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
 
+import { useAuth } from "@/store/auth.js";
+
+const authStore = useAuth();
+
 let slides = ref([]);
 const isLoading = ref(false);
 function getNews() {
@@ -58,6 +62,9 @@ function getNews() {
     })
     .catch((err) => {
       console.log(err);
+      if (err.response.status === 401 || err.response.status === 500) {
+        authStore.refreshToken();
+      }
     })
     .finally(() => {
       setTimeout(() => {
