@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-[#AFEEEE] py-5 mmd:pb-10">
+  <div class="bg-[#363636] py-5 mmd:pb-10">
     <div
-      class="container grid sx:grid-cols-1 ss:grid-cols-2 mmd:grid-cols-4 sx:text-center gap-5 mmd:text-left text-black font-[600]"
+      class="container grid sx:grid-cols-1 ss:grid-cols-2 mmd:grid-cols-4 sx:text-center gap-5 mmd:text-left text-[#fff] font-[600]"
     >
       <ul>
         <li>

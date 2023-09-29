@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-[#AFEEEE] rounded-bl-[20px] rounded-br-[20px]">
+  <div class="bg-[#363636] rounded-bl-[20px] rounded-br-[20px]">
     <div
-      class="container mx-auto text-[#000] font-medium flex justify-between items-center py-8"
+      class="container mx-auto text-[#fff] font-medium flex justify-between items-center py-8"
     >
       <div class="cursor-pointer">
         <router-link to="/"
@@ -68,7 +68,7 @@
     <div
       :class="
         isBurger
-          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#008B8B]'
+          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#363636]'
           : 'fixed top-0 left-0 z-50 w-[100%] h-full transition-all duration-500 transform -translate-x-full shadow-lg'
       "
     >
