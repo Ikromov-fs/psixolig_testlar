@@ -36,7 +36,7 @@ onMounted(() => {
 const data = ref();
 </script>
 <template>
-  <div class="py-10 bg-[#fff5ee]">
+  <div class="py-10 bg-[#ffff]">
     <div class="flex justify-center gap-1 text-lg sx:mb-5">
       <span class="text-[#333]">03</span>
       <span class="text-[#333]">|</span>

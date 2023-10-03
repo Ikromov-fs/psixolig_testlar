@@ -1,21 +1,11 @@
 <template>
-  <div class="bg-[#085344]">
+  <div class="bg-[#fff5ee]">
     <div data-aos="zoom-in-up">
-      <!-- <img
-        :src="style2"
-        alt="style"
-        class="absolute left-20 top-1 sx:hidden mmd:block"
-      />
-      <img
-        :src="style6"
-        alt="style"
-        class="absolute right-20 bottom-0 sx:hidden mmd:block"
-      /> -->
       <div class="container mx-auto py-10">
         <div class="flex justify-center gap-1 text-lg">
-          <span class="text-[#fff]">04</span>
-          <span class="text-[#fff]">|</span>
-          <span class="text-[#fdf001]">Hamkorlar</span>
+          <span class="text-[#d56603]">04</span>
+          <span class="text-[#d56603]">|</span>
+          <span class="text-[#000]">Hamkorlar</span>
         </div>
         <div
           class="grid sx:grid-cols-1 ss:grid-cols-2 lg:!grid-cols-3 xxl:!grid-cols-4 sx:gap-0 mmd:gap-5 relative"
@@ -65,7 +55,7 @@ onMounted(() => {
 <style scoped>
 .box-w {
   transition: all 0.2s linear;
-  box-shadow: 0px 0px 5px #333;
+  box-shadow: 1px 2px 8px #000;
   transform: scale(0.98);
 }
 .box-w:hover {
