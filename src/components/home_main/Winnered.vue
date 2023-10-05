@@ -36,7 +36,7 @@ onMounted(() => {
 const data = ref();
 </script>
 <template>
-  <div class="py-10 bg-[#fff5ee]">
+  <div class="py-10 bg-[#ffff]">
     <div class="flex justify-center gap-1 text-lg sx:mb-5">
       <span class="text-[#333]">03</span>
       <span class="text-[#333]">|</span>
@@ -61,7 +61,7 @@ const data = ref();
           v-for="item in data"
           :breakpoints="thumbsResponsiveBreakpoints"
           :key="item.id"
-          class="bg-[#fff] md:mx-3 rounded-[8px] hover:bg-[#f9b234] cursor-pointer time overflow-hidden relative"
+          class="bg-[#fff] md:mx-3 rounded-[8px] hover:bg-[#fff5ee] cursor-pointer time overflow-hidden relative"
         >
           <div class="ag-courses-item_bg"></div>
           <div class="flex p-5">
@@ -110,7 +110,7 @@ const data = ref();
   z-index: 1;
   -webkit-transition: all 0.8s ease;
   transition-timing-function: ease-in-out;
-
+  background-color: #fff5ee;
   -o-transition: all 0.8s ease;
   transition: all 0.8s ease;
 }

@@ -33,7 +33,7 @@
           class="mt-3"
         />
         <div @click="contactBtn">
-          <ButtonTemp>
+          <ButtonTemp color="#d56600">
             <button class="py-2">Jo'natish</button>
           </ButtonTemp>
         </div>

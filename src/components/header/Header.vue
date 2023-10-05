@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-[#008B8B] rounded-bl-[20px] rounded-br-[20px]">
+  <div class="bg-[#363636] rounded-bl-[20px] rounded-br-[20px]">
     <div
-      class="container mx-auto text-[#fafcf5] font-medium flex justify-between items-center py-8"
+      class="container mx-auto text-[#fff] font-medium flex justify-between items-center py-8"
     >
       <div class="cursor-pointer">
         <router-link to="/"
@@ -36,8 +36,8 @@
           <a href="#contact">Kontakt</a>
         </li>
         <li>|</li>
-        <li v-if="store.isToken" @click="getStore" class="relative navItem">
-          <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
+        <li v-if="store.isToken" @click="getStore" class="relative cursor-pointer" >
+          <img :src="avatar" alt="avatar" class="w-[26px]" />
         </li>
         <li
           v-if="!store.isToken"
@@ -57,22 +57,30 @@
         </li>
       </ul>
       <!-- Burger -->
-      <div @click="isOpenBurger" class="mmd:hidden block">
-        <i :class="isBurger ? '' : 'fa-solid fa-bars text-2xl'"></i>
+      <div @click="isOpenBurger" class="mmd:hidden block cursor-pointer">
+        <img
+          :src="burger"
+          alt="Burger"
+          :class="isBurger ? '' : 'w-[30px] duration-200'"
+        />
       </div>
     </div>
     <div
       :class="
         isBurger
-          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#008B8B]'
+          ? 'top-0 fixed left-0 inline-block w-[100%] transition-all duration-500 bg-[#363636]'
           : 'fixed top-0 left-0 z-50 w-[100%] h-full transition-all duration-500 transform -translate-x-full shadow-lg'
       "
     >
       <ul
-        class="flex flex-col min-h-[100vh] relative gap-5 justify-center items-center  text-white sx:text-base mmd:text-[15px] text-[13px]"
+        class="flex flex-col min-h-[100vh] relative gap-5 justify-center items-center text-white sx:text-base mmd:text-[15px] text-[13px]"
       >
-        <li @click="isOpenBurger" class="absolute right-7 top-7">
-          <i :class="isBurger ? 'fa-solid fa-xmark text-2xl' : ''"></i>
+        <li @click="isOpenBurger" class="absolute right-7 top-7 cursor-pointer">
+          <img
+            :src="xlg"
+            alt="exit"
+            :class="isBurger ? 'w-[26px] font-bold' : ''"
+          />
         </li>
         <li class="cursor-pointer relative navItem">
           <router-link to="/tests"
@@ -89,7 +97,7 @@
           <a href="#contact">Kontakt</a>
         </li>
         <li v-if="store.isToken" @click="getStore" class="relative navItem">
-          <i class="fa-solid fa-user cursor-pointer text-[21px]"></i>
+          <img :src="avatar" alt="avatar" class="w-[26px]" />
         </li>
         <li
           v-if="!store.isToken"
@@ -117,6 +125,9 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "@/store/auth.js";
 import logo from "@/assets/image/psix-logo.png";
+import burger from "@/assets/svg/burger.svg";
+import xlg from "@/assets/svg/x-lg.svg";
+import avatar from "@/assets/svg/avatar.svg";
 const store = useAuth();
 const router = useRouter();
 

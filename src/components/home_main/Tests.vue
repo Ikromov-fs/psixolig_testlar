@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#f6c899] pb-20 pt-8 rounded-xl sm:rounded-none sm:rounded-tl-[20px] sm:rounded-br-[20px]"
+    class="bg-[#fff5ee] pb-20 pt-8 rounded-xl sm:rounded-none sm:rounded-tl-[20px] sm:rounded-br-[20px]"
   >
     <div data-aos="fade-up" class="relative">
       <img
@@ -15,8 +15,8 @@
       />
       <div class="container mx-auto">
         <div class="flex justify-center font-[500] gap-1 text-lg">
-          <span class="text-[#fff]">02</span>
-          <span class="text-[#fff]">|</span>
+          <span class="text-[#d56603]">02</span>
+          <span class="text-[#d56603]">|</span>
           <span class="text-[#000]">Top testlar</span>
         </div>
         <div class="grid mmd:grid-cols-3 sx:gap-4 mmd:gap-10 relative">
@@ -65,13 +65,14 @@ onMounted(() => {
 <style scoped>
 .box-w {
   transition: all 0.2s linear;
-  box-shadow: 0px 0px 15px #363636;
+  box-shadow: 0px 0px 5px #250200;
   transform: scale(0.98);
 }
 .box-w:hover {
-  box-shadow: 0px 0px 20px #fff;
+  box-shadow: 0px 0px 15px #fff;
   transition: all 0.2s linear;
   transform: scale(0.99);
+  font-weight: 500;
   background: #fff;
 }
 </style>
