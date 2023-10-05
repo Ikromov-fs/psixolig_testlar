@@ -18,7 +18,7 @@ export const useAuth = defineStore("user", {
         this.isLogin = true;
       } catch (error) {
         if(error.request.status === 409){
-        toast.error("Bu raqam avval ro'yxatdan o'tgan");
+        toast.error("Bu raqam orqali avval ro'yxatdan o'tilgan");
         }else{
         toast.error("Xatolik mavjud !");
         }
