@@ -255,7 +255,6 @@ async function fetchTestQuestionAll() {
   axios
     .get(`process/questionsResults/${route.query.id}`)
     .then((res) => {
-      console.log(res);
       testIndex.value = res.data;
       totalTest.value = res.data.length;
     })

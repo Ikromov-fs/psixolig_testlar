@@ -188,7 +188,6 @@ async function confirmation(e:any) {
       emit("isOpenRegister");
     }, 800);
   } catch (error) {
-    console.log(error);
     authStore.isLoginData();
   }
 }

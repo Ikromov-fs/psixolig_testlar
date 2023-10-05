@@ -20,12 +20,10 @@ const authStore = useAuth();
 function checkToken() {
   const token = localStorage.getItem("refreshToken");
   if (token) {
-    console.log("run 1");
     authStore.refreshToken();
   }
   setInterval(() => {
     if (token) {
-      console.log("run 2");
       authStore.refreshToken();
     }
   }, 28 * 60 * 1000);
@@ -34,7 +32,6 @@ function checkToken() {
 watch(
   () => authStore.isToken,
   (newVal) => {
-    console.log("watch ");
     checkToken();
   }
 );

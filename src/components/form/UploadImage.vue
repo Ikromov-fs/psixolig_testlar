@@ -202,7 +202,6 @@ const handleFile = (event: any) => {
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (e) => {
       image.url = e.target?.result;
-      console.log(image.file, "inside enit");
       // emit("getBase64", e.target?.result);
       emit("getBase64", image.file);
     };

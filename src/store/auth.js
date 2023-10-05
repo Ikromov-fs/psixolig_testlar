@@ -17,8 +17,11 @@ export const useAuth = defineStore("user", {
         this.userData = user.data;
         this.isLogin = true;
       } catch (error) {
-        console.log(error);
+        if(error.request.status === 409){
+        toast.error("Bu raqam avval ro'yxatdan o'tgan");
+        }else{
         toast.error("Xatolik mavjud !");
+        }
       }
     },
 
@@ -32,7 +35,6 @@ export const useAuth = defineStore("user", {
         this.isToken = true;
         toast.success("Tizimga kirdingiz !");
       } catch (error) {
-        console.log(error);
         toast.error("Xatolik mavjud !");
       }
     },
@@ -70,7 +72,6 @@ export const useAuth = defineStore("user", {
         });
         localStorage.setItem("token", newToken.data.accessToken);
       } catch (err) {
-        console.log(err.response.status, "err");
         if (err.response.status === 401 || err.response.status === 500) {
           this.logOut();
           window.location.reload();

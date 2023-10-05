@@ -185,7 +185,6 @@ onMounted(() => {
 });
 
 function startTest(id: number) {
-  console.log(id);
   router.push(`/tester?id=${id}&index=1`);
 }
 function exit() {

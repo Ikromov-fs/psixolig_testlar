@@ -57,11 +57,9 @@ function getNews() {
   axios
     .get("news/get-all")
     .then((res) => {
-      console.log(res.data);
       slides.value = res.data;
     })
     .catch((err) => {
-      console.log(err);
       if (err.response.status === 401 || err.response.status === 500) {
         authStore.refreshToken();
       }

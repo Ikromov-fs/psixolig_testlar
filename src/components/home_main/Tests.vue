@@ -52,7 +52,6 @@ async function topTests() {
     const tests = await axios.get(`/test/get/bestsellers`);
     dataTests.value = tests.data;
   } catch (error) {
-    console.log(error);
     if (error.response.status === 401 || error.response.status === 500) {
       authStore.refreshToken();
     }
