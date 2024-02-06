@@ -39,14 +39,14 @@
           <router-link to="/tests">Bolalar uchun</router-link>
         </li>
         <li class="hover:text-[#fdf001] cursor-pointer">
-          <router-link to="/tests">Ayyollar uchun</router-link>
+          <router-link to="/tests">Ayollar uchun</router-link>
         </li>
         <li class="hover:text-[#fdf001] cursor-pointer">
           <router-link to="/tests">O'smirlar uchun</router-link>
         </li>
       </ul>
       <ul class="flex flex-col gap-1">
-        <li class="text-[19px]">Bog'lanish</li>
+        <!-- <li class="text-[19px]">Bog'lanish</li>
         <li class="hover:text-[#fdf001] cursor-pointer">
           <i class="fa-solid fa-phone mr-2 text-[18px]"></i>
           <a href="tel:903334141">(90) 333-41-41</a>
@@ -56,7 +56,7 @@
           <a target="_blank" href="https://t.me/psixolog_rozaliya_admin">
             psixolog_rozaliya admini</a
           >
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>
