@@ -2,9 +2,28 @@
   <div class="container">
     <!-- <pre>{{ testQuestions }}</pre> -->
     <div class="mt-2" v-if="!statusTest">
-      <div class="flex items-center gap-3 pt-2">
-        <!-- <i class="fa-solid fa-circle-question text-2xl"></i> -->
+      <div class="flex items-center gap-3 pt-2 ">
+         <i class="fa-solid fa-circle-question text-2xl"></i>
         <h2 class="font-medium text-xl">Psixologik testlar</h2>
+      </div>
+      <div>
+<!--        <pre>{{readMoreData}}</pre>-->
+        <div class="flex flex-col gap-1 cursor-pointer transition duration-500" >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2" @click="readMore">
+              <p>Test yechish tartibi</p>
+              <i class="fa-solid fa-caret-right rotate-[90deg] transition duration-500" :class="isReadMore ? 'rotate-[270deg]' : 'rotate-[90deg]'"></i>
+            </div>
+            <a v-if="readMoreData?.link" :href="readMoreData.link" target="_blank" class="flex-shrink-0 transition duration-300 hover:text-blue-800 ">Video qo'llanma</a>
+          </div>
+          <div class="flex  gap-3 h-[25px] transition-height duration-500 test-description" :class="isReadMore ? '!h-[100px] overflow-y-scroll' : 'overflow-hidden '">
+            <p class="flex-grow-1">{{
+                readMoreData?.description
+              }}</p>
+
+          </div>
+        </div>
+
       </div>
       <div class="grid grid-cols-1 md:grid-cols-12 mt-5 mb-2 gap-6">
         <div
@@ -251,6 +270,20 @@ const testIndex = ref([]);
 const changeRadioInput = ref(false);
 const changeCheckboxInput = ref(false);
 
+// read more
+const isReadMore = ref(false)
+function readMore(){
+  isReadMore.value = !isReadMore.value
+}
+const readMoreData = ref([])
+function fetchReadMore (){
+  axios.get(`test/get-description/${route.query.id}`).then((res)=>{
+    console.log(res,"read more")
+    readMoreData.value = res.data
+  })
+}
+// read more
+
 async function fetchTestQuestionAll() {
   axios
     .get(`process/questionsResults/${route.query.id}`)
@@ -418,8 +451,15 @@ function finishTest() {
 
 onMounted(() => {
   solveTest(Number(index.value));
+  fetchReadMore()
   setTimeout(() => {
     fetchTestQuestionAll();
   }, 1000);
 });
 </script>
+
+<style scoped>
+.test-description::-webkit-scrollbar{
+  display: none;
+}
+</style>

@@ -21,7 +21,7 @@
         <li class="cursor-pointer hover:text-[#fdf001]">
           <i class="fa-brands fa-instagram mr-2"></i>
           <a target="_blank" href="https://www.instagram.com/psixolog_rozaliya/"
-            >Instagiram</a
+            >Instagram</a
           >
         </li>
         <li class="cursor-pointer hover:text-[#fdf001]">
@@ -46,17 +46,17 @@
         </li>
       </ul>
       <ul class="flex flex-col gap-1">
-        <!-- <li class="text-[19px]">Bog'lanish</li>
-        <li class="hover:text-[#fdf001] cursor-pointer">
-          <i class="fa-solid fa-phone mr-2 text-[18px]"></i>
-          <a href="tel:903334141">(90) 333-41-41</a>
-        </li>
-        <li class="hover:text-[#fdf001] cursor-pointer">
+         <li class="text-[19px]">Bog'lanish</li>
+<!--        <li class="hover:text-[#fdf001] cursor-pointer">-->
+<!--          <i class="fa-solid fa-phone mr-2 text-[18px]"></i>-->
+<!--          <a href="tel:903334141">(90) 333-41-41</a>-->
+<!--        </li>-->
+        <li class="hover:text-[#fdf001] cursor-pointer mt-1">
           <i class="fa-solid fa-headset mr-2 text-[18px]"></i>
-          <a target="_blank" href="https://t.me/psixolog_rozaliya_admin">
+          <a target="_blank" href="https://t.me/psixologik_test_admin">
             psixolog_rozaliya admini</a
           >
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>
