@@ -16,7 +16,7 @@
         <li class="text-[19px]">Bizni kuzating !</li>
         <li class="cursor-pointer hover:text-[#fdf001]">
           <i class="fa-brands fa-telegram mr-2"></i>
-          <a target="_blank" href="https://t.me/psixolog_rozaliya">Telegram</a>
+          <a target="_blank" href="https://t.me/ilmiy_psixologik_testlar">Telegram</a>
         </li>
         <li class="cursor-pointer hover:text-[#fdf001]">
           <i class="fa-brands fa-instagram mr-2"></i>
@@ -54,7 +54,7 @@
         <li class="hover:text-[#fdf001] cursor-pointer mt-1">
           <i class="fa-solid fa-headset mr-2 text-[18px]"></i>
           <a target="_blank" href="https://t.me/psixologik_test_admin">
-            psixolog_rozaliya admini</a
+            psixologik_test_admin </a
           >
         </li>
       </ul>
