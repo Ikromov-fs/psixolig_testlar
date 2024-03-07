@@ -107,6 +107,9 @@ const codeNext = ref();
 const authStore = useAuth();
 import { useVuelidate } from "@vuelidate/core";
 import { minLength, maxLength, required, sameAs } from "@vuelidate/validators";
+import {useOpenRegisterModal} from "@/store/openRegisterModal";
+
+const openRegisterModalStore = useOpenRegisterModal()
 
 const inputRegisterData = reactive({
   fullName: "",
@@ -186,6 +189,7 @@ async function confirmation(e:any) {
       authStore.getToken();
       resendCode.value = false;
       emit("isOpenRegister");
+      openRegisterModalStore.closeRegisterModal()
     }, 800);
   } catch (error) {
     authStore.isLoginData();
@@ -194,6 +198,7 @@ async function confirmation(e:any) {
 function prevModal() {
   authStore.isLoginData();
   emit("isOpenRegister");
+  openRegisterModalStore.closeRegisterModal()
 }
 
 async function resedCode() {

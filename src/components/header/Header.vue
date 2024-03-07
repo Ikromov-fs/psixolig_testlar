@@ -108,7 +108,7 @@
         </li>
         <li
           v-if="!store.isToken"
-          @click="isRegister = true"
+          @click="actionOpenRegister"
           class="cursor-pointer relative border-solid border-white rounded-md pr-4 pl-2 py-2 border-[1px] registr"
         >
           <i class="fa-solid fa-arrow-right-to-bracket mx-2 iconAn"></i>
@@ -137,7 +137,14 @@ const isRegister = ref(false);
 
 // Login
 import Login from "../modals/Login.vue";
+import {useOpenRegisterModal} from "@/store/openRegisterModal.js";
 const isLoginOpen = ref(false);
+const openRegisterModalStore = useOpenRegisterModal()
+
+function actionOpenRegister(){
+  isRegister.value = true
+  openRegisterModalStore.isOpen = true
+}
 
 // Burger
 const isBurger = ref(false);

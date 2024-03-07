@@ -60,6 +60,8 @@ import PaymeModal from "@/components/modals/PaymeModal.vue";
 import { useToast } from "vue-toastification";
 import axios from "@/plugins/axios.js";
 import BlockPreloader from "@/components/blockPreloader/BlockPreloader.vue";
+import {useOpenRegisterModal} from "@/store/openRegisterModal";
+const openRegisterModalStore = useOpenRegisterModal()
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
@@ -131,6 +133,7 @@ async function testIfAssent(idMadal: Number) {
     }
   } else {
     toast.error("Ro'yxatdan o'ting !");
+    openRegisterModalStore.openRegisterModal()
   }
 }
 </script>
