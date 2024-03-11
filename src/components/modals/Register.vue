@@ -33,6 +33,7 @@
           label="Parol"
           class="my-4"
         />
+        <p v-if="$v.password.$error" class="text-[red] mt-[-12px]">Parol kamida 8 belgidan iborat bo'lishi kerak</p>
         <FormInput
           v-model="inputRegisterData.confirmPassword"
           type="password"
@@ -122,7 +123,7 @@ const inputRegisterData = reactive({
 
 const rules = computed(() => {
   return {
-    fullName: { required, minLength: minLength(4), maxLength: maxLength(50) },
+    fullName: { required, maxLength: maxLength(50) },
     password: { required, minLength: minLength(8) },
     confirmPassword: {
       required,
